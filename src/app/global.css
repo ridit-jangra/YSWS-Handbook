@@ -225,6 +225,13 @@ a[data-card]:focus {
   box-shadow: none;
 }
 
+/* home page: red glow from the bottom */
+.hc-rising-glow {
+  background:
+    radial-gradient(ellipse 90% 70% at 50% 100%, color-mix(in srgb, var(--red) 50%, transparent), transparent 75%),
+    linear-gradient(to top, color-mix(in srgb, var(--red) 18%, transparent), transparent 70%);
+}
+
 /* .pill and .outline-badge */
 .hc-pill {
   border-radius: var(--radii-circle);
