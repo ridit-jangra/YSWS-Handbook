@@ -1,0 +1,120 @@
+/*
+ * Shooz themes. Every color on every page comes from these variables.
+ * Each theme is scoped to [data-theme="theme-N"] on <html> or any element.
+ *
+ * Core tokens (every theme defines all of them):
+ *   --bg          page background
+ *   --surface     cards, panels, FAQ items
+ *   --text        body text (AA against --bg and --surface)
+ *   --muted       secondary text (AA against --bg and --surface)
+ *   --accent      primary accent: CTA fills, key highlights
+ *   --on-accent   text/icons placed on --accent
+ *   --accent-2    secondary accent
+ *   --on-accent-2 text/icons placed on --accent-2
+ *   --border      outlines and rules
+ *   --shadow      color for hard or soft shadows
+ * Extra tokens are theme-specific decoration (illustration fills, glows).
+ */
+
+/* 1. Doodle Lace: playful, hand-drawn, sticker-book */
+[data-theme="theme-1"] {
+  --bg: #fff3b8;
+  --surface: #ffffff;
+  --text: #1d1a4a;
+  --muted: #4b4683;
+  --accent: #ff4f8b;
+  --on-accent: #1d1a4a;
+  --accent-2: #38b6ff;
+  --on-accent-2: #1d1a4a;
+  --border: #1d1a4a;
+  --shadow: #1d1a4a;
+
+  --doodle-sole: #ffffff;
+  --doodle-mint: #7be0b0;
+  --doodle-grid: rgba(29, 26, 74, 0.08);
+
+  --font-display: "Chewy", system-ui, cursive;
+  --font-body: "Nunito", system-ui, sans-serif;
+}
+
+/* 2. Pixel Kicks: retro arcade, 8-bit sprites */
+[data-theme="theme-2"] {
+  --bg: #1a0f33;
+  --surface: #2b1b55;
+  --text: #f5f0ff;
+  --muted: #bdb2e0;
+  --accent: #ffd23f;
+  --on-accent: #1a0f33;
+  --accent-2: #3ee6c1;
+  --on-accent-2: #1a0f33;
+  --border: #6c4fc4;
+  --shadow: #0c061c;
+
+  --pixel-red: #ff5470;
+  --pixel-white: #f5f0ff;
+  --pixel-floor: #3a2670;
+  --pixel-floor-alt: #32205f;
+  --scanline: rgba(0, 0, 0, 0.18);
+
+  --font-display: "Press Start 2P", ui-monospace, monospace;
+  --font-body: "Pixelify Sans", ui-monospace, monospace;
+}
+
+/* 3. Drop Day: bold streetwear, shoebox labels, giant type */
+[data-theme="theme-3"] {
+  --bg: #ff7a1a;
+  --surface: #fff1e3;
+  --text: #150a00;
+  --muted: #4d2300;
+  --accent: #150a00;
+  --on-accent: #ff7a1a;
+  --accent-2: #ffffff;
+  --on-accent-2: #150a00;
+  --border: #150a00;
+  --shadow: #150a00;
+
+  --box-fold: #e8650a;
+  --tissue: rgba(255, 255, 255, 0.35);
+
+  --font-display: "Anton", Impact, sans-serif;
+  --font-body: "Archivo", system-ui, sans-serif;
+}
+
+/* 4. Cloud Step: dreamy, soft, floating */
+[data-theme="theme-4"] {
+  --bg: #eeedff;
+  --surface: #ffffff;
+  --text: #2a2350;
+  --muted: #5a5486;
+  --accent: #5b48d9;
+  --on-accent: #ffffff;
+  --accent-2: #ff9ec7;
+  --on-accent-2: #2a2350;
+  --border: #d6d3f5;
+  --shadow: rgba(91, 72, 217, 0.18);
+
+  --blob-1: #c9c1ff;
+  --blob-2: #ffc7de;
+  --blob-3: #bfe7ff;
+  --glass: rgba(255, 255, 255, 0.72);
+
+  --font-display: "Fraunces", Georgia, serif;
+  --font-body: "Nunito Sans", system-ui, sans-serif;
+}
+
+/* Comparison index: neutral chrome so the theme previews stand out */
+[data-theme="index"] {
+  --bg: #f2f2f5;
+  --surface: #ffffff;
+  --text: #17171c;
+  --muted: #55555f;
+  --accent: #ec3750; /* Hack Club red */
+  --on-accent: #ffffff;
+  --accent-2: #338eda;
+  --on-accent-2: #ffffff;
+  --border: #d9d9e0;
+  --shadow: rgba(23, 23, 28, 0.12);
+
+  --font-display: "Archivo", system-ui, sans-serif;
+  --font-body: "Archivo", system-ui, sans-serif;
+}

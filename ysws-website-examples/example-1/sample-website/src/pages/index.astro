@@ -1,0 +1,246 @@
+---
+import Base from "../layouts/Base.astro";
+
+const themes = [
+  {
+    id: "theme-1",
+    href: "/landing-1",
+    name: "Doodle Lace",
+    mood: "Playful and hand-drawn",
+    vibe: "A sticker book on graph paper. A wobbly pink sneaker hops in, and every card sits a little crooked.",
+    fonts: "Chewy + Nunito",
+  },
+  {
+    id: "theme-2",
+    href: "/landing-2",
+    name: "Pixel Kicks",
+    mood: "Retro and pixel",
+    vibe: "An arcade start screen. A 20-block hours bar fills up, an 8-bit sneaker stands on a tiled floor, and the steps are levels on a map.",
+    fonts: "Press Start 2P + Pixelify Sans",
+  },
+  {
+    id: "theme-3",
+    href: "/landing-3",
+    name: "Drop Day",
+    mood: "Bold and editorial",
+    vibe: "Sneaker-drop streetwear. A shoebox-orange page, huge condensed type, and a box-end label with a barcode as the hero.",
+    fonts: "Anton + Archivo",
+  },
+  {
+    id: "theme-4",
+    href: "/landing-4",
+    name: "Cloud Step",
+    mood: "Dreamy and soft",
+    vibe: "Pastel sky blobs drift behind frosted-glass cards while a trail of footprints walks up to a soft italic wordmark.",
+    fonts: "Fraunces + Nunito Sans",
+  },
+];
+
+const swatches = ["bg", "surface", "text", "muted", "accent", "accent-2", "border"];
+---
+
+<Base
+  title="Shooz theme prototypes"
+  theme="index"
+  fonts="Archivo:wght@400;600;800&family=Chewy&family=Nunito:wght@400;800&family=Press+Start+2P&family=Pixelify+Sans:wght@400;600&family=Anton&family=Fraunces:ital,opsz,wght,SOFT@1,9..144,500,100&family=Nunito+Sans:wght@400;800"
+>
+  <main class="wrap">
+    <header class="intro">
+      <h1>Shooz theme prototypes</h1>
+      <p>
+        Four directions for the Shooz landing page. They share the same copy and sections (hero, what is this, how it works, FAQ),
+        so you can compare them on design alone. Open each one, try it on your phone, and pick the one that feels most like Shooz.
+      </p>
+    </header>
+
+    <ul class="grid">
+      {
+        themes.map((t, i) => (
+          <li>
+            <a class="card" href={t.href} data-theme={t.id}>
+              <div class="preview">
+                <span class="preview-word">Shooz</span>
+                <span class="preview-btn">Start building</span>
+              </div>
+              <div class="meta">
+                <p class="num">Landing {i + 1}</p>
+                <h2>{t.name}</h2>
+                <p class="mood">{t.mood}</p>
+                <p class="vibe">{t.vibe}</p>
+                <p class="fonts">{t.fonts}</p>
+                <ul class="swatches" aria-label={`${t.name} palette`}>
+                  {swatches.map((s) => (
+                    <li style={`--sw: var(--${s})`} title={`--${s}`} />
+                  ))}
+                </ul>
+              </div>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </main>
+</Base>
+
+<style>
+  .wrap {
+    width: min(1180px, 100% - 2rem);
+    margin-inline: auto;
+    padding-block: 3.5rem 4rem;
+  }
+
+  .intro h1 {
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+  }
+
+  .intro h1::after {
+    content: "";
+    display: block;
+    width: 3rem;
+    height: 6px;
+    margin-top: 0.75rem;
+    background: var(--accent);
+    border-radius: 3px;
+  }
+
+  .intro p {
+    margin-top: 1rem;
+    max-width: 62ch;
+    color: var(--muted);
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.5rem;
+    margin: 2.5rem 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  /* Each card carries its own data-theme, so every color below resolves to that theme. */
+  .card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
+    background: var(--surface);
+    color: var(--text);
+    border: 2px solid var(--border);
+    border-radius: 18px;
+    text-decoration: none;
+    transition: translate 0.15s, box-shadow 0.15s;
+  }
+
+  .card:hover {
+    translate: 0 -3px;
+    box-shadow: 0 14px 30px -12px var(--shadow);
+  }
+
+  .preview {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    min-height: 170px;
+    padding: 1.5rem;
+    background: var(--bg);
+  }
+
+  .preview-word {
+    font-family: var(--font-display);
+    font-size: clamp(2.6rem, 6vw, 4rem);
+    line-height: 1;
+  }
+
+  [data-theme="theme-2"] .preview-word {
+    font-size: clamp(1.6rem, 4vw, 2.4rem);
+    color: var(--accent);
+  }
+
+  [data-theme="theme-3"] .preview-word {
+    text-transform: uppercase;
+  }
+
+  [data-theme="theme-4"] .preview-word {
+    font-style: italic;
+    font-variation-settings: "SOFT" 100;
+  }
+
+  .preview-btn {
+    padding: 0.55rem 1rem;
+    background: var(--accent);
+    color: var(--on-accent);
+    border-radius: 999px;
+    font-family: var(--font-body);
+    font-weight: 800;
+    font-size: 0.9rem;
+  }
+
+  .meta {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    flex: 1;
+    padding: 1.25rem 1.5rem 1.5rem;
+    border-top: 2px solid var(--border);
+    font-family: var(--font-body);
+  }
+
+  .num,
+  .mood,
+  .fonts {
+    color: var(--muted);
+    font-size: 0.92rem;
+  }
+
+  .meta h2 {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: 1.9rem;
+    line-height: 1.1;
+  }
+
+  [data-theme="theme-2"] .meta h2 {
+    font-size: 1.1rem;
+    line-height: 1.5;
+  }
+
+  [data-theme="theme-4"] .meta h2 {
+    font-weight: 500;
+  }
+
+  .mood {
+    font-weight: 800;
+  }
+
+  .vibe {
+    margin-top: 0.25rem;
+  }
+
+  .swatches {
+    display: flex;
+    gap: 0.4rem;
+    margin: auto 0 0;
+    padding: 0.75rem 0 0;
+    list-style: none;
+  }
+
+  .swatches li {
+    width: 1.75rem;
+    height: 1.75rem;
+    border-radius: 50%;
+    background: var(--sw);
+    border: 2px solid var(--text);
+  }
+
+  @media (max-width: 760px) {
+    .grid {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+</style>

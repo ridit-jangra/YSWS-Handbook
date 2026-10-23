@@ -1,0 +1,84 @@
+/*
+ * Mobile Friendly themes. Every color and font on the landing pages comes
+ * from these variables, scoped to [data-theme="concept-N"] on <html>.
+ *
+ * Shared token names (each concept defines all of them):
+ *   --bg / --on-bg         page background and the text that sits on it
+ *   --paper / --ink        main reading surface and its body text
+ *   --muted                secondary text on --paper (AA)
+ *   --accent / --on-accent primary accent (CTA fill) and text on it
+ *   --accent-2             secondary accent, decoration only
+ *   --font-display / --font-body / --font-hand
+ * Anything else is decoration specific to that concept's world.
+ *
+ * Contrast (WCAG 2.x, measured):
+ *   concept-1  ink/paper 9.1, on-bg/bg 6.9, muted/paper 5.5, white/pin 5.0
+ *   concept-2  ink/paper 17.4, on-bg/bg 8.0, muted/paper 8.2, ink/pink 8.8
+ *   concept-3  ink/paper 12.2, muted/paper 6.0, white/trail 5.8,
+ *              water-ink/water 4.7 (contour brown 4.4: large text only)
+ */
+
+/* 1. Alterations: a tailor's cutting table. The site is a garment that's
+      too big in the shoulders, and you take it in. */
+[data-theme="concept-1"] {
+  --bg: #1f5c46;          /* self-healing cutting mat */
+  --on-bg: #f4f1e6;       /* tailor's chalk, used for text on the mat */
+  --mat-line: #3e8467;    /* mat grid */
+  --paper: #d8b783;       /* kraft pattern paper */
+  --ink: #1b1a17;
+  --muted: #4a3d2a;
+  --accent: #d62839;      /* pin heads */
+  --on-accent: #ffffff;
+  --accent-2: #f2c12e;    /* measuring tape */
+  --thread: #2a4d9b;      /* blue chalk and thread */
+  --tag: #fbf8f0;         /* clothing tag card */
+
+  --font-display: "Bowlby One", "Arial Black", sans-serif;
+  --font-body: "Atkinson Hyperlegible", system-ui, sans-serif;
+  --font-hand: "Caveat Brush", "Comic Sans MS", cursive;
+}
+
+/* 2. The Repair Counter: a mall phone-fix kiosk. Your site comes in cracked
+      and leaves with a repair ticket and a bag of accessories. */
+[data-theme="concept-2"] {
+  --bg: #1d4e9e;          /* magnetic repair mat */
+  --on-bg: #ffffff;
+  --mat-line: #2f64b9;
+  --paper: #fbfbf7;       /* thermal receipt paper */
+  --ink: #161616;
+  --muted: #4d4d4d;
+  --accent: #f59ab8;      /* anti-static bag pink */
+  --on-accent: #161616;
+  --accent-2: #ffd23f;    /* caution tape / sticky notes */
+  --pegboard: #e7eaee;
+  --peg-hole: #9aa3ad;
+  --steel: #a7b0ba;
+
+  --font-display: "Archivo", "Arial Narrow", sans-serif;
+  --font-body: "Archivo", system-ui, sans-serif;
+  --font-hand: "Courier Prime", "Courier New", monospace; /* receipts */
+  --font-marker: "Permanent Marker", "Comic Sans MS", cursive; /* sticky notes */
+}
+
+/* 3. Thumb Country: a topographic map of a phone screen, as seen by your
+      thumb. The bottom is base camp, the top-left corner is the summit. */
+[data-theme="concept-3"] {
+  --bg: #e4ebd3;          /* map paper */
+  --on-bg: #1f2a1c;
+  --paper: #e4ebd3;
+  --ink: #1f2a1c;
+  --muted: #4b5a43;
+  --accent: #c41f35;      /* trail red */
+  --on-accent: #ffffff;
+  --accent-2: #9a5b2e;    /* contour brown */
+  --forest: #c3dbab;
+  --water: #9cc4dc;
+  --water-ink: #1e4f73;
+  --reach-easy: #6baa4f;
+  --reach-stretch: #e9b949;
+  --reach-ow: #c41f35;
+
+  --font-display: "Spectral", Georgia, serif;
+  --font-body: "Overpass", system-ui, sans-serif;
+  --font-hand: "Kalam", "Comic Sans MS", cursive;
+}

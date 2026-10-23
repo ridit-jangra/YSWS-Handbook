@@ -1,0 +1,811 @@
+---
+import Base from "../layouts/Base.astro";
+
+const fonts =
+  "family=Spectral:ital,wght@0,400;0,700;1,500;1,700&family=Overpass:wght@400;600;800&family=Kalam:wght@400;700";
+
+// The map is drawn around your thumb. Its knuckle sits just off the bottom-right
+// corner, and every contour line is "how far your thumb has to travel".
+const A = { x: 930, y: 1010 };
+const EASY = 320;
+const STRETCH = 440;
+
+function contour(r: number) {
+  const pts: string[] = [];
+  for (let deg = 150; deg <= 360; deg += 3) {
+    const a = (deg * Math.PI) / 180;
+    const rr = r + 9 * Math.sin(5 * a + r / 37) + 5 * Math.sin(11 * a + r / 13);
+    pts.push(`${(A.x + rr * Math.cos(a)).toFixed(1)},${(A.y + rr * Math.sin(a)).toFixed(1)}`);
+  }
+  return `M${pts.join(" L")}`;
+}
+const contours = Array.from({ length: 22 }, (_, i) => 70 + i * 52);
+
+function at(r: number, deg: number) {
+  const a = (deg * Math.PI) / 180;
+  return { x: A.x + r * Math.cos(a), y: A.y + r * Math.sin(a) };
+}
+const labels = [
+  { text: "Easy Meadows", ...at(170, 222), size: 26 },
+  { text: "Stretch Ridge", ...at(380, 228), size: 28 },
+  { text: "The Far Reaches", ...at(520, 236), size: 30 },
+];
+
+const trail = [
+  {
+    name: "Trailhead",
+    elev: "0px",
+    body: "Pick your site. One you already made counts, so does a new one. It needs to be live and yours.",
+  },
+  {
+    name: "Survey camp",
+    elev: "360px",
+    body: "Open it on a real phone. Mark every spot your thumb can't reach, every word you have to pinch to read, every sideways scroll.",
+  },
+  {
+    name: "The climb",
+    elev: "720px",
+    body: "Fix it. Move the important stuff down where thumbs live, 44px taps, 16px text, layouts that stack. Hackatime logs your hours.",
+  },
+  {
+    name: "Summit photo",
+    elev: "1080px",
+    body: "Screen-record 30 seconds of you using it on your phone, one-handed. Rotate it once. No emulators up here.",
+  },
+  {
+    name: "Back down to the post office",
+    elev: "0px again",
+    body: "Submit the URL, repo and recording. A reviewer hikes it on their own phone, then we ship your gear.",
+  },
+];
+
+const register = [
+  {
+    q: "can i come if i've never written css??",
+    who: "Mira, 14",
+    a: "Yes. Anyone 13 to 18. You'll learn media queries on the trail.",
+  },
+  {
+    q: "my pixl site only works on desktop lol. does fixing it count",
+    who: "Dev, 16",
+    a: "That's exactly what this trail is for. Fixing an old site counts the same as a new one.",
+  },
+  {
+    q: "how do you decide if it's 'mobile friendly'",
+    who: "Aanya, 15, lost near a hamburger menu",
+    a: "At 360px wide: no sideways scroll, no pinch-zoom to read, 44px tap targets, main nav reachable with one thumb, and it survives rotating.",
+  },
+  {
+    q: "can i use react / tailwind / AI",
+    who: "Leo, 17",
+    a: "Any stack. AI can help, but your hours have to be you building, and the reviewer will ask what you changed.",
+  },
+  {
+    q: "what's in the supply cache exactly",
+    who: "Sam, 13",
+    a: "Cases, chargers, cables, power banks. The biggest ships can go for a phone grant. Tiers get set once a sponsor joins.",
+  },
+  {
+    q: "is this real or a concept",
+    who: "Noor, 16",
+    a: "It's a Hack Club YSWS draft. Every RSVP is a pin on the map that shows a sponsor people want it.",
+  },
+];
+---
+
+<Base
+  title="Mobile Friendly: Thumb Country"
+  description="A Hack Club YSWS. Map where your thumb can't reach on your website, fix it, and get phone gear."
+  theme="concept-3"
+  fonts={fonts}
+>
+  <main>
+    <section class="map" aria-labelledby="title">
+      <svg class="terrain" viewBox="0 0 1000 1000" preserveAspectRatio="xMaxYMax slice" aria-hidden="true">
+        <defs>
+          <filter id="ink">
+            <feTurbulence type="fractalNoise" baseFrequency="0.03" numOctaves="2" seed="7" />
+            <feDisplacementMap in="SourceGraphic" scale="5" />
+          </filter>
+          <pattern id="hatch" width="14" height="14" patternUnits="userSpaceOnUse" patternTransform="rotate(35)">
+            <path d="M0 7 H14" stroke="#c41f35" stroke-width="1.4" opacity="0.35" />
+          </pattern>
+        </defs>
+        <rect width="1000" height="1000" fill="url(#hatch)" />
+        <circle cx={A.x} cy={A.y} r={STRETCH} fill="#f3d98b" />
+        <circle cx={A.x} cy={A.y} r={EASY} fill="#c3dbab" />
+        <!-- a lake, for scenery and because every map needs one -->
+        <path d="M640 560 C690 520 770 540 760 600 C750 650 680 660 650 630 C620 610 615 580 640 560 Z" fill="#9cc4dc" stroke="#1e4f73" stroke-width="2" />
+        <g fill="none" stroke="#9a5b2e" stroke-linecap="round" filter="url(#ink)">
+          {contours.map((r, i) => <path d={contour(r)} stroke-width={i % 4 === 3 ? 2.6 : 1.1} opacity={i % 4 === 3 ? 0.9 : 0.55} />)}
+        </g>
+        <g font-family="Overpass, sans-serif" font-size="14" fill="#9a5b2e">
+          {[3, 7, 11, 15].map((i) => {
+            const p = at(contours[i], 196);
+            return <text x={p.x} y={p.y - 4}>{contours[i]}px</text>;
+          })}
+        </g>
+        <g font-family="Spectral, serif" font-style="italic" font-weight="700" fill="#1f2a1c" text-anchor="middle">
+          {labels.map((l) => <text x={l.x} y={l.y} font-size={l.size}>{l.text}</text>)}
+        </g>
+        <text x="700" y="602" font-family="Spectral, serif" font-style="italic" font-size="18" fill="#1e4f73" text-anchor="middle">Lake Scroll</text>
+        <!-- the dashed edges of reach -->
+        <circle cx={A.x} cy={A.y} r={EASY} fill="none" stroke="#3f7a2a" stroke-width="3" stroke-dasharray="10 8" />
+        <circle cx={A.x} cy={A.y} r={STRETCH} fill="none" stroke="#9a5b2e" stroke-width="3" stroke-dasharray="4 7" />
+
+        <!-- Signature moment: your thumb, reaching for wherever you point. -->
+        <!-- ARTIST: replace with a hand-drawn thumb (ink + watercolor) that matches the map style. -->
+        <g class="thumb" transform={`translate(${A.x} ${A.y}) rotate(-45)`}>
+          <g class="thumb-body">
+            <path d="M-52 40 C-60 -120 -48 -250 -10 -300 C10 -318 38 -300 46 -270 C60 -200 58 -90 56 40 Z" fill="#e3b08a" stroke="#1f2a1c" stroke-width="4" filter="url(#ink)" />
+            <path d="M-26 -250 C-24 -290 22 -296 28 -262 C30 -238 -22 -230 -26 -250 Z" fill="#f4d6c2" stroke="#1f2a1c" stroke-width="3" />
+            <path d="M-36 -120 C-14 -112 14 -112 34 -122 M-34 -104 C-10 -98 12 -98 30 -106" fill="none" stroke="#1f2a1c" stroke-width="2.5" opacity="0.6" />
+          </g>
+        </g>
+        <g class="tip" opacity="0">
+          <circle r="22" fill="none" stroke="#c41f35" stroke-width="3" />
+          <circle r="4" fill="#c41f35" />
+        </g>
+      </svg>
+
+      <!-- The summit: the top-left corner, where hamburger menus go to die. -->
+      <div class="summit">
+        <svg viewBox="0 0 60 40" aria-hidden="true"><path d="M2 38 L22 6 L32 20 L40 10 L58 38 Z" fill="#c41f35" stroke="#1f2a1c" stroke-width="2.5" /></svg>
+        <p><strong>Mt. Hamburger</strong> <span>elev. 1,140px from your thumb. Where your menu button lives right now.</span></p>
+      </div>
+
+      <p class="reach-readout" aria-live="polite"></p>
+
+      <div class="cartouche">
+        <p class="survey">Surveyed by Hack Club teens</p>
+        <h1 id="title">Mobile Friendly</h1>
+        <p class="lede">
+          A map of everywhere your thumb can't reach on your website. Move the good stuff down into the
+          meadows, and we'll ship you phone gear for the trip.
+        </p>
+        <p class="down-here">The RSVP button is down in the meadows, right by your thumb.</p>
+        <a class="rsvp" href="https://forms.hackclub.com/mobile-friendly">RSVP</a>
+        <a class="slack" href="https://hackclub.slack.com/archives/mobile-friendly">#mobile-friendly</a>
+      </div>
+    </section>
+
+    <section id="legend" class="legend-sec" aria-labelledby="legend-title">
+      <div class="legend">
+        <h2 id="legend-title">Legend</h2>
+        <ul>
+          <li><span class="sw sw-easy" aria-hidden="true"></span><span><b>Easy Meadows.</b> Where your thumb rests. Put your buttons here.</span></li>
+          <li><span class="sw sw-stretch" aria-hidden="true"></span><span><b>Stretch Ridge.</b> Reachable if you shuffle your grip.</span></li>
+          <li><span class="sw sw-far" aria-hidden="true"></span><span><b>The Far Reaches.</b> Two hands or a dropped phone.</span></li>
+          <li><span class="sw sw-contour" aria-hidden="true"></span><span><b>Contour.</b> Every 52px of thumb travel.</span></li>
+        </ul>
+      </div>
+      <div class="notes">
+        <h2 class="notes-title">What is this?</h2>
+        <p>
+          Mobile Friendly is a Hack Club You Ship, We Ship. You ship a website that actually works on a
+          phone, and we ship you accessories for that phone: cases, chargers, power banks, and for the
+          biggest ships, a phone grant.
+        </p>
+        <p>
+          Most YSWS sites are built on a laptop for a laptop. On a phone you end up switching to desktop
+          mode and climbing Mt. Hamburger with your thumb. This is the trip where phones come first.
+        </p>
+      </div>
+    </section>
+
+    <section id="trail" class="trail-sec" aria-labelledby="trail-title">
+      <h2 id="trail-title">The trail</h2>
+      <p class="trail-sub">Five waypoints. The climb is the long part. Bring water.</p>
+      <svg class="profile" viewBox="0 0 1000 220" preserveAspectRatio="none" aria-hidden="true">
+        <path d="M0 210 L0 200 C80 196 120 150 200 140 C300 130 340 100 400 80 C480 50 560 40 600 24 C660 10 720 30 800 120 C860 180 930 200 1000 200 L1000 210 Z" fill="#c3dbab" stroke="#1f2a1c" stroke-width="2" vector-effect="non-scaling-stroke" />
+        <path d="M0 200 C80 196 120 150 200 140 C300 130 340 100 400 80 C480 50 560 40 600 24 C660 10 720 30 800 120 C860 180 930 200 1000 200" fill="none" stroke="#c41f35" stroke-width="3" stroke-dasharray="9 7" vector-effect="non-scaling-stroke" />
+      </svg>
+      <div class="profile-marks" aria-hidden="true">
+        <span style="left:2%;top:86%">1</span>
+        <span style="left:20%;top:58%">2</span>
+        <span style="left:42%;top:28%">3</span>
+        <span style="left:61%;top:3%">4</span>
+        <span style="left:93%;top:84%">5</span>
+      </div>
+      <ol class="waypoints">
+        {
+          trail.map((t, i) => (
+            <li>
+              <span class="wp" aria-hidden="true">{i + 1}</span>
+              <div>
+                <h3>{t.name}</h3>
+                <p class="elev">elev. {t.elev}</p>
+                <p>{t.body}</p>
+              </div>
+            </li>
+          ))
+        }
+      </ol>
+    </section>
+
+    <section id="cache" class="cache-sec" aria-labelledby="cache-title">
+      <svg class="pack" viewBox="0 0 200 240" aria-hidden="true">
+        <g stroke="#1f2a1c" stroke-width="4" stroke-linejoin="round">
+          <path d="M70 40 C70 10 130 10 130 40" fill="none" />
+          <path d="M40 60 C40 40 160 40 160 60 L170 220 C170 232 30 232 30 220 Z" fill="#c41f35" />
+          <path d="M55 120 H145 V200 H55 Z" fill="#9a5b2e" />
+          <path d="M55 140 H145" />
+          <rect x="88" y="150" width="24" height="12" rx="3" fill="#e4ebd3" />
+        </g>
+      </svg>
+      <div class="packlist">
+        <h2 id="cache-title">Supply cache</h2>
+        <p class="pl-sub">What's waiting at the post office when your site passes.</p>
+        <ul>
+          <li><span class="cb" aria-hidden="true"></span>A case that fits your exact phone</li>
+          <li><span class="cb" aria-hidden="true"></span>A fast charger and a cable that isn't fraying</li>
+          <li><span class="cb" aria-hidden="true"></span>A power bank, for showing your site off on the bus</li>
+          <li class="big"><span class="cb" aria-hidden="true"></span>Phone grant, for the ships that cover a whole mountain range</li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="register" class="register-sec" aria-labelledby="register-title">
+      <h2 id="register-title">Trail register</h2>
+      <p class="reg-sub">Hikers leave questions. The ranger answers in pen. (This is our FAQ.)</p>
+      <div class="book">
+        {
+          register.map((r) => (
+            <article class="entry">
+              <p class="hiker">{r.q}</p>
+              <p class="who">signed {r.who}</p>
+              <p class="ranger">
+                <span class="r-tag">Ranger:</span> {r.a}
+              </p>
+            </article>
+          ))
+        }
+      </div>
+    </section>
+
+    <footer class="foot">
+      <p>Mobile Friendly is a Hack Club You Ship, We Ship draft. Ask anything in #mobile-friendly on the Hack Club Slack.</p>
+    </footer>
+  </main>
+
+  <!-- The nav lives at the bottom, in the meadows, where a thumb can actually reach it. -->
+  <nav class="thumbbar" aria-label="Sections">
+    <a href="#legend">What is this</a>
+    <a href="#trail">How it works</a>
+    <a href="#cache">Gear</a>
+    <a href="#register">FAQ</a>
+    <a class="tb-rsvp" href="https://forms.hackclub.com/mobile-friendly">RSVP</a>
+  </nav>
+</Base>
+
+<script define:vars={{ A, EASY, STRETCH }}>
+  const map = document.querySelector(".map");
+  const svg = map.querySelector(".terrain");
+  const thumb = svg.querySelector(".thumb");
+  const tip = svg.querySelector(".tip");
+  const readout = map.querySelector(".reach-readout");
+  const LEN = 300;
+  const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let idle = true;
+
+  function aim(x, y, showTip) {
+    const dx = x - A.x;
+    const dy = y - A.y;
+    const dist = Math.hypot(dx, dy);
+    const deg = (Math.atan2(dy, dx) * 180) / Math.PI + 90;
+    // Thumbs stretch a little, then they just don't.
+    const stretch = Math.min(Math.max(dist / LEN, 0.7), STRETCH / LEN);
+    thumb.setAttribute("transform", `translate(${A.x} ${A.y}) rotate(${deg}) scale(1 ${stretch.toFixed(3)})`);
+    if (!showTip) return;
+    tip.setAttribute("opacity", "1");
+    tip.setAttribute("transform", `translate(${x} ${y})`);
+    let zone = "far";
+    if (dist <= EASY) zone = "easy";
+    else if (dist <= STRETCH) zone = "stretch";
+    map.dataset.zone = zone;
+    readout.textContent =
+      zone === "easy"
+        ? "Easy Meadows. Your thumb's happy here."
+        : zone === "stretch"
+          ? "Stretch Ridge. Reachable, if you shift your grip."
+          : `Out of reach by ${Math.round(dist - STRETCH)}px. Ow.`;
+  }
+
+  function toSvg(e) {
+    const pt = new DOMPoint(e.clientX, e.clientY).matrixTransform(svg.getScreenCTM().inverse());
+    return pt;
+  }
+
+  map.addEventListener("pointermove", (e) => {
+    if (e.target.closest("a")) return;
+    idle = false;
+    const p = toSvg(e);
+    aim(p.x, p.y, true);
+  });
+  map.addEventListener("pointerdown", (e) => {
+    if (e.target.closest("a")) return;
+    idle = false;
+    const p = toSvg(e);
+    aim(p.x, p.y, true);
+  });
+  map.addEventListener("pointerleave", () => {
+    idle = true;
+    tip.setAttribute("opacity", "0");
+    readout.textContent = "";
+    delete map.dataset.zone;
+  });
+
+  // While nobody's pointing, the thumb idly sweeps its arc like it's scrolling.
+  if (!reduced) {
+    const t0 = performance.now();
+    const sweep = (t) => {
+      if (idle) {
+        const a = ((200 + 50 * (0.5 + 0.5 * Math.sin((t - t0) / 1400))) * Math.PI) / 180;
+        aim(A.x + 280 * Math.cos(a), A.y + 280 * Math.sin(a), false);
+      }
+      requestAnimationFrame(sweep);
+    };
+    requestAnimationFrame(sweep);
+  }
+</script>
+
+<style>
+  :global(body) {
+    background: var(--paper);
+    color: var(--ink);
+    font-size: 1.0625rem;
+    padding-bottom: 76px; /* room for the thumb bar */
+  }
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    font-style: italic;
+    line-height: 1.05;
+    margin: 0;
+  }
+
+  /* ---------- the map (hero) ---------- */
+  .map {
+    position: relative;
+    min-height: max(600px, calc(100svh - 76px));
+    overflow: hidden;
+    border-bottom: 3px solid var(--ink);
+    touch-action: pan-y;
+  }
+  .terrain {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    max-width: none;
+  }
+  .tip {
+    transition: opacity 0.2s;
+  }
+  .map[data-zone="easy"] .tip circle {
+    stroke: #3f7a2a;
+    fill: #3f7a2a;
+  }
+  .map[data-zone="stretch"] .tip circle {
+    stroke: #9a5b2e;
+    fill: #9a5b2e;
+  }
+  .map .tip circle:first-child {
+    fill: none;
+  }
+  .summit {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    display: flex;
+    gap: 0.6rem;
+    align-items: flex-start;
+    max-width: 19rem;
+    background: rgba(228, 235, 211, 0.9);
+    padding: 0.5rem 0.75rem;
+    border: 2px solid var(--ink);
+  }
+  .summit svg {
+    width: 44px;
+    flex: none;
+  }
+  .summit p {
+    margin: 0;
+    font-size: 0.9rem;
+    line-height: 1.35;
+  }
+  .summit strong {
+    display: block;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 1.25rem;
+    color: var(--accent);
+  }
+  .reach-readout {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    margin: 0;
+    font-family: var(--font-hand);
+    font-weight: 700;
+    font-size: 1.2rem;
+    max-width: 16rem;
+    text-align: right;
+  }
+  .reach-readout:empty {
+    display: none;
+  }
+  .reach-readout {
+    background: var(--paper);
+    padding: 0.2rem 0.6rem;
+    border: 2px solid var(--ink);
+  }
+  .cartouche {
+    position: absolute;
+    left: clamp(1rem, 5vw, 4rem);
+    bottom: clamp(1.5rem, 5vw, 3.5rem);
+    max-width: 32rem;
+    background: var(--paper);
+    border: 3px solid var(--ink);
+    outline: 1px solid var(--ink);
+    outline-offset: 5px;
+    padding: 1.25rem 1.5rem 1.4rem;
+  }
+  .survey {
+    margin: 0;
+    font-size: 0.95rem;
+    color: var(--muted);
+  }
+  .cartouche h1 {
+    font-size: clamp(2.8rem, 8vw, 5.6rem);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin: 0.1rem 0 0.6rem;
+  }
+  .lede {
+    margin: 0 0 1.1rem;
+    max-width: 40ch;
+  }
+  .down-here {
+    display: none;
+    margin: 0 0 0.6rem;
+    font-family: var(--font-hand);
+    font-weight: 700;
+    color: var(--accent);
+  }
+  .rsvp {
+    display: inline-flex;
+    align-items: center;
+    min-height: 48px;
+    padding: 0.6rem 1.6rem;
+    background: var(--accent);
+    color: var(--on-accent);
+    font-weight: 800;
+    text-decoration: none;
+    border-radius: 999px;
+    margin-right: 1rem;
+  }
+  .slack {
+    font-weight: 600;
+    display: inline-flex;
+    min-height: 44px;
+    align-items: center;
+  }
+  @media (max-width: 640px) {
+    .map {
+      min-height: max(640px, calc(100svh - 76px));
+    }
+    .summit {
+      max-width: calc(100% - 2rem);
+    }
+    .reach-readout {
+      top: auto;
+      bottom: 1rem;
+      right: 1rem;
+      font-size: 1rem;
+    }
+    .cartouche {
+      left: 1rem;
+      right: 1rem;
+      top: 8rem;
+      bottom: auto;
+      padding: 0.9rem 1.1rem 1rem;
+    }
+    .cartouche .rsvp {
+      display: none;
+    }
+    .down-here {
+      display: block;
+    }
+  }
+
+  section:not(.map) {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 4.5rem 1rem 0;
+  }
+
+  /* ---------- legend + what is this ---------- */
+  .legend-sec {
+    display: grid;
+    grid-template-columns: minmax(0, 20rem) minmax(0, 1fr);
+    gap: 2.5rem 4rem;
+    align-items: start;
+  }
+  .legend {
+    border: 3px solid var(--ink);
+    padding: 1rem 1.25rem 1.25rem;
+    background: #edf1e1;
+  }
+  .legend h2 {
+    font-size: 1.5rem;
+    border-bottom: 1px solid var(--ink);
+    padding-bottom: 0.4rem;
+    margin-bottom: 0.8rem;
+  }
+  .legend ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 0.7rem;
+    font-size: 0.98rem;
+  }
+  .legend li {
+    display: grid;
+    grid-template-columns: 2rem 1fr;
+    gap: 0.6rem;
+    align-items: start;
+  }
+  .sw {
+    height: 1.3rem;
+    border: 2px solid var(--ink);
+    margin-top: 0.1rem;
+  }
+  .sw-easy { background: var(--forest); }
+  .sw-stretch { background: #f3d98b; }
+  .sw-far {
+    background: repeating-linear-gradient(35deg, transparent 0 4px, rgba(196, 31, 53, 0.55) 4px 6px);
+  }
+  .sw-contour {
+    border: 0;
+    border-top: 3px solid var(--accent-2);
+    height: 0;
+    margin-top: 0.7rem;
+  }
+  .notes-title {
+    font-size: clamp(2.2rem, 6vw, 3.6rem);
+    margin-bottom: 1rem;
+  }
+  .notes p {
+    max-width: 62ch;
+    margin: 0 0 1rem;
+    font-size: 1.15rem;
+  }
+  @media (max-width: 760px) {
+    .legend-sec {
+      grid-template-columns: 1fr;
+    }
+    .notes {
+      order: -1;
+    }
+  }
+
+  /* ---------- trail ---------- */
+  .trail-sec h2,
+  .cache-sec h2,
+  .register-sec h2 {
+    font-size: clamp(2.2rem, 6vw, 3.6rem);
+  }
+  .trail-sub,
+  .reg-sub,
+  .pl-sub {
+    margin: 0.4rem 0 1.5rem;
+    color: var(--muted);
+  }
+  .profile {
+    width: 100%;
+    height: clamp(110px, 18vw, 200px);
+  }
+  .profile-marks {
+    position: relative;
+    height: 0;
+    top: calc(-1 * clamp(110px, 18vw, 200px));
+    height: clamp(110px, 18vw, 200px);
+    margin-bottom: calc(-1 * clamp(110px, 18vw, 200px));
+    pointer-events: none;
+  }
+  .profile-marks span,
+  .wp {
+    display: grid;
+    place-items: center;
+    width: 2rem;
+    height: 2rem;
+    background: var(--accent);
+    color: var(--on-accent);
+    font-weight: 800;
+    clip-path: polygon(50% 0, 100% 100%, 0 100%);
+    padding-top: 0.5rem;
+    font-size: 0.85rem;
+  }
+  .profile-marks span {
+    position: absolute;
+    transform: translate(-50%, -70%);
+  }
+  .waypoints {
+    list-style: none;
+    margin: 2rem 0 0;
+    padding: 0 0 0 0.5rem;
+    border-left: 3px dashed var(--accent);
+    display: grid;
+    gap: 2rem;
+  }
+  .waypoints li {
+    display: grid;
+    grid-template-columns: 2rem minmax(0, 1fr);
+    gap: 1rem;
+    margin-left: -1.6rem;
+  }
+  .waypoints li:nth-child(even) {
+    margin-left: clamp(-1.6rem, 12vw - 3rem, 8rem);
+  }
+  .waypoints h3 {
+    font-size: 1.6rem;
+  }
+  .elev {
+    margin: 0.1rem 0 0.4rem;
+    color: var(--accent-2);
+    font-weight: 600;
+    font-size: 0.95rem;
+  }
+  .waypoints p {
+    margin: 0;
+    max-width: 52ch;
+  }
+  .waypoints .elev {
+    margin-bottom: 0.4rem;
+  }
+
+  /* ---------- supply cache ---------- */
+  .cache-sec {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem 3rem;
+    align-items: center;
+  }
+  .pack {
+    width: clamp(120px, 20vw, 190px);
+    transform: rotate(-6deg);
+  }
+  .packlist {
+    flex: 1 1 20rem;
+    background:
+      repeating-linear-gradient(transparent 0 2.2rem, #b9c7a3 2.2rem calc(2.2rem + 1px)),
+      #f2f5ea;
+    border: 2px solid var(--ink);
+    padding: 1.25rem 1.5rem;
+    transform: rotate(0.8deg);
+  }
+  .packlist ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    font-family: var(--font-hand);
+    font-size: 1.25rem;
+    line-height: 2.2rem;
+  }
+  .packlist li {
+    display: flex;
+    gap: 0.7rem;
+    align-items: baseline;
+  }
+  .cb {
+    flex: none;
+    width: 1.1rem;
+    height: 1.1rem;
+    border: 2px solid var(--ink);
+    transform: translateY(0.15rem);
+  }
+  .packlist .big {
+    color: var(--accent);
+    font-weight: 700;
+  }
+
+  /* ---------- trail register (FAQ) ---------- */
+  .book {
+    columns: 2 22rem;
+    column-gap: 3.5rem;
+    column-rule: 2px solid var(--ink);
+    background: #f7f6ee;
+    border: 3px solid var(--ink);
+    padding: 1.5rem clamp(1rem, 4vw, 2.5rem);
+    box-shadow: 8px 8px 0 var(--accent-2);
+  }
+  .entry {
+    break-inside: avoid;
+    padding: 0.4rem 0 1.4rem;
+  }
+  .hiker {
+    margin: 0;
+    font-family: var(--font-hand);
+    font-size: 1.35rem;
+    line-height: 1.3;
+    color: var(--water-ink);
+  }
+  .who {
+    margin: 0.1rem 0 0.5rem;
+    font-family: var(--font-hand);
+    font-size: 0.95rem;
+    color: var(--muted);
+    text-align: right;
+  }
+  .ranger {
+    margin: 0;
+    padding-left: 0.8rem;
+    border-left: 3px solid var(--reach-easy);
+  }
+  .r-tag {
+    font-weight: 800;
+  }
+
+  .foot {
+    max-width: 1080px;
+    margin: 4rem auto 0;
+    padding: 1.5rem 1rem 2rem;
+    border-top: 1px solid var(--ink);
+    color: var(--muted);
+  }
+  .foot p {
+    margin: 0;
+  }
+
+  /* ---------- thumb bar ---------- */
+  .thumbbar {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 30;
+    display: flex;
+    justify-content: center;
+    gap: 0.25rem clamp(0.25rem, 2vw, 1.5rem);
+    padding: 0.5rem 0.75rem calc(0.5rem + env(safe-area-inset-bottom));
+    background: var(--paper);
+    border-top: 3px double var(--ink);
+    box-shadow: 0 -6px 16px rgba(31, 42, 28, 0.12);
+  }
+  .thumbbar a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 48px;
+    padding: 0 0.7rem;
+    font-weight: 600;
+    text-decoration: none;
+    border-radius: 8px;
+    white-space: nowrap;
+  }
+  .thumbbar a:hover {
+    background: var(--forest);
+  }
+  .thumbbar .tb-rsvp {
+    background: var(--accent);
+    color: var(--on-accent);
+    font-weight: 800;
+    padding: 0 1.2rem;
+  }
+  @media (max-width: 520px) {
+    .thumbbar {
+      justify-content: space-between;
+      gap: 0;
+      padding-inline: 0.4rem;
+    }
+    .thumbbar a {
+      padding: 0 0.45rem;
+      font-size: 0.9rem;
+    }
+    .thumbbar .tb-rsvp {
+      padding: 0 0.8rem;
+    }
+  }
+</style>

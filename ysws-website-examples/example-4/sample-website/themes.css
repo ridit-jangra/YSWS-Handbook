@@ -1,0 +1,76 @@
+/*
+  LOADOUT: three concept themes.
+  Each concept owns its palette + type under its own selector.
+  Contrast notes are body-text pairs, checked against WCAG AA (4.5:1).
+*/
+
+/* ---------- Concept 1: Seigerriss, the mine survey cross-section ---------- */
+[data-theme="concept-1"] {
+  --linen: #e9e0c7;        /* survey linen, page ground */
+  --linen-deep: #ddd2b3;   /* folded / shaded linen */
+  --ink: #26244a;          /* iron-gall indigo ink, body text (11.1:1 on linen) */
+  --ink-soft: #4a4770;     /* secondary text (6.6:1 on linen) */
+  --cinnabar: #a8321f;     /* red ink for workings + CTA (5.1:1 on linen) */
+  --coal: #3a332c;         /* coal seam band */
+  --sandstone: #c79a4f;    /* sandstone stratum */
+  --shale: #8f9a82;        /* shale stratum */
+  --patina: #2f6b63;       /* copper-ore vein */
+  --vein: #e4b33a;         /* coupon vein glow */
+
+  --font-display: "Old Standard TT", "Times New Roman", serif;
+  --font-body: "Literata", Georgia, serif;
+  --font-hand: "Reenie Beanie", "Comic Sans MS", cursive;
+
+  background: var(--linen);
+  color: var(--ink);
+}
+
+/* ---------- Concept 2: Die Kaue, the miners' chain hall ---------- */
+[data-theme="concept-2"] {
+  --tile: #d9e6dc;         /* glazed wall tile */
+  --grout: #b3c4b8;        /* grout lines */
+  --tile-dark: #2f5d4c;    /* dado tile band */
+  --enamel: #1d4b87;       /* enamel sign blue */
+  --enamel-cream: #f6f2e4; /* enamel lettering (7.8:1 on enamel) */
+  --steel: #555d64;        /* chain + hooks */
+  --rust: #9c4a26;         /* rust, punched stamps (5.1:1 on card) */
+  --signal: #f3c623;       /* German road-sign yellow */
+  --text: #17262e;         /* body text (12.0:1 on tile) */
+  --card: #f3ead0;         /* time-card stock */
+
+  --font-display: "Barlow Condensed", "Arial Narrow", sans-serif;
+  --font-body: "Barlow", Arial, sans-serif;
+
+  background: var(--tile);
+  color: var(--text);
+}
+
+/* ---------- Concept 3: Stollen, the drift lit by your headlamp ---------- */
+[data-theme="concept-3"] {
+  --rock: #1d1a16;         /* rock face, page ground */
+  --rock-2: #2b261f;       /* lit rock */
+  --timber: #6b4a2b;       /* pit props */
+  --chalk: #ece5d4;        /* chalk, body text (13.8:1 on rock) */
+  --chalk-dim: #b9b09c;    /* faded chalk, secondary (8.0:1 on rock) */
+  --lamp: #ffd27a;         /* headlamp beam */
+  --copper: #dd8a52;       /* copper glint */
+  --silver: #a3c0cf;       /* silver glint */
+  --canary: #f4d03f;       /* Pieps the canary */
+  --daylight: #cfe3ea;     /* tunnel exit sky */
+
+  --font-display: "Cabin Sketch", "Impact", sans-serif;
+  --font-body: "Shantell Sans", "Trebuchet MS", sans-serif;
+
+  background: var(--rock);
+  color: var(--chalk);
+}
+
+/* ---------- Index: the three survey samples laid side by side ---------- */
+[data-theme="index"] {
+  --ground: #c9c2b2;
+  --text: #1e1d1b;
+  --font-display: "Old Standard TT", serif;
+  --font-body: "Literata", Georgia, serif;
+  background: var(--ground);
+  color: var(--text);
+}

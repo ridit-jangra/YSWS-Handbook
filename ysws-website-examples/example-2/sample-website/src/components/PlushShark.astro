@@ -1,0 +1,60 @@
+---
+// Cartoon Blåhaj-style shark. Colors come from --shark-body, --shark-belly, --blush, --border.
+interface Props {
+  class?: string;
+}
+const { class: className } = Astro.props;
+---
+
+<svg class:list={["plush-shark", className]} viewBox="0 0 400 210" role="img" aria-label="A smiling plush shark">
+  <path class="tail" d="M58 112 L8 58 C22 96 22 128 8 172 Z" />
+  <path class="fin" d="M188 56 C196 24 216 10 244 6 C234 30 232 48 242 64 Z" />
+  <path class="body" d="M44 112 C64 62 172 42 272 60 C324 70 362 96 374 112 C362 132 322 152 262 157 C172 167 72 152 44 112 Z" />
+  <path class="belly" d="M92 128 C152 162 284 162 354 124 C336 146 274 160 212 160 C156 160 114 150 92 128 Z" />
+  <path class="fin" d="M218 142 C214 172 200 188 176 198 C196 172 196 158 196 146 Z" />
+  <ellipse class="blush" cx="304" cy="122" rx="12" ry="7" />
+  <circle class="eye" cx="318" cy="96" r="7" />
+  <path class="smile" d="M332 122 Q346 128 360 118" />
+  <path class="gill" d="M268 92 q-6 14 0 28 M282 90 q-6 14 0 28" />
+</svg>
+
+<style>
+  .plush-shark {
+    overflow: visible;
+  }
+
+  .body,
+  .tail,
+  .fin {
+    fill: var(--shark-body);
+    stroke: var(--border);
+    stroke-width: 5;
+    stroke-linejoin: round;
+  }
+
+  .belly {
+    fill: var(--shark-belly);
+  }
+
+  .blush {
+    fill: var(--blush);
+    opacity: 0.8;
+  }
+
+  .eye {
+    fill: var(--border);
+  }
+
+  .smile,
+  .gill {
+    fill: none;
+    stroke: var(--border);
+    stroke-width: 4;
+    stroke-linecap: round;
+  }
+
+  .gill {
+    stroke-width: 3;
+    opacity: 0.55;
+  }
+</style>

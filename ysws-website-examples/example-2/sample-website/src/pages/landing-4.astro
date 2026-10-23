@@ -1,0 +1,630 @@
+---
+import { ChevronDown, Sparkles } from "@lucide/astro";
+import Base from "../layouts/Base.astro";
+import { site, nav, what, steps, shop, faq } from "../data/shark";
+---
+
+<Base
+  title="You Shark, We Shark · Moon Tide"
+  theme="theme-4"
+  fonts="Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..600&family=DM+Sans:wght@400;500;700"
+>
+  <header class="hero">
+    <div class="tide" aria-hidden="true">
+      <span class="glow g1"></span>
+      <span class="glow g2"></span>
+      <span class="glow g3"></span>
+      <div class="caustics"></div>
+      <div class="plankton">
+        {Array.from({ length: 14 }, (_, i) => <span style={`--i: ${i}`}></span>)}
+      </div>
+      <svg class="ghost-shark" viewBox="0 0 300 110">
+        <path d="M16 56 L2 20 C20 34 30 46 40 50 C70 36 100 30 122 29 L140 4 L154 31 C204 35 252 45 296 58 C252 70 204 78 154 80 L142 104 L128 81 C98 80 68 74 40 64 C30 70 18 82 4 94 Z" />
+      </svg>
+    </div>
+
+    <nav class="topnav" aria-label="Main">
+      <a class="brand" href="#top">you shark, <em>we shark</em></a>
+      <ul>
+        {nav.map((n) => <li><a href={n.href}>{n.label}</a></li>)}
+      </ul>
+    </nav>
+
+    <div class="hero-inner" id="top">
+      <p class="kicker"><Sparkles size={16} aria-hidden="true" /> a Hack Club You Ship, We Ship</p>
+      <h1 class="wordmark">You shark,<br /><em>we shark.</em></h1>
+      <p class="punchline">{site.punchline}</p>
+      <div class="cta-row">
+        <a class="btn" href={site.signupUrl}>Dive in</a>
+        <a class="btn btn-soft" href="#how">How it works</a>
+      </div>
+    </div>
+
+    <a class="scroll-hint" href="#what" aria-label="Scroll to what this is">
+      <ChevronDown size={28} aria-hidden="true" />
+    </a>
+  </header>
+
+  <main>
+    <section id="what" class="section what">
+      <div class="glass what-card">
+        <h2>What is <em>You Shark, We Shark?</em></h2>
+        {what.body.map((p) => <p>{p}</p>)}
+      </div>
+      <ul class="ideas">
+        {
+          what.ideas.map((idea) => (
+            <li class="idea">
+              <span class="idea-kind">{idea.kind}</span>
+              <h3>{idea.title}</h3>
+              <p>{idea.text}</p>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+
+    <section id="how" class="section how">
+      <h2 class="center">How it <em>works</em></h2>
+      <p class="lede center">Build, ship, and let the tide bring sharks to your door.</p>
+      <ol class="current">
+        {
+          steps.map((s, i) => (
+            <li class="node">
+              <span class="node-dot" aria-hidden="true">{i + 1}</span>
+              <div class="glass node-card">
+                <h3>{s.title}</h3>
+                <p>{s.text}</p>
+              </div>
+            </li>
+          ))
+        }
+      </ol>
+    </section>
+
+    <section id="shop" class="section shop">
+      <h2 class="center">The Shark <em>Shop</em></h2>
+      <p class="lede center">1 approved hour = 1 shark tooth. Draft prices, final ones come from the sponsor.</p>
+      <ul class="chips">
+        {
+          shop.map((s) => (
+            <li class="chip">
+              {s.item}
+              <span class="chip-cost">{s.teeth} teeth</span>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+
+    <section id="faq" class="section faq">
+      <h2 class="center">Questions, <em>softly answered</em></h2>
+      <div class="faq-list">
+        {
+          faq.map((f) => (
+            <details class="glass">
+              <summary>
+                <span>{f.q}</span>
+                <ChevronDown class="faq-icon" size={22} aria-hidden="true" />
+              </summary>
+              <p>{f.a}</p>
+            </details>
+          ))
+        }
+      </div>
+    </section>
+
+    <section id="signup" class="section signup">
+      <div class="glass signup-card">
+        <h2>The water's <em>warm.</em></h2>
+        <a class="btn" href={site.signupUrl}>Dive in</a>
+        <a class="text-link" href={site.slackUrl}>Drift over to the Hack Club Slack</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>You Shark, We Shark is a <a href={site.hackClubUrl}>Hack Club</a> You Ship, We Ship program.</p>
+  </footer>
+</Base>
+
+<style>
+  .hero {
+    position: relative;
+    min-height: min(100svh, 900px);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    background: linear-gradient(180deg, var(--tide-top), var(--tide-bottom) 75%, var(--bg));
+  }
+
+  .tide {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    mask-image: linear-gradient(black 70%, transparent);
+  }
+
+  .glow {
+    position: absolute;
+    width: 46vmax;
+    height: 46vmax;
+    border-radius: 50%;
+    filter: blur(70px);
+    opacity: 0.5;
+    animation: float 18s ease-in-out infinite alternate;
+  }
+
+  .g1 { top: -15%; left: -10%; background: var(--glow-1); }
+  .g2 { bottom: -20%; right: -10%; background: var(--glow-2); animation-delay: -6s; }
+  .g3 { top: 30%; left: 45%; width: 26vmax; height: 26vmax; background: var(--glow-3); opacity: 0.25; animation-delay: -12s; }
+
+  .caustics {
+    position: absolute;
+    inset: -20%;
+    opacity: 0.12;
+    background:
+      repeating-radial-gradient(circle at 30% 20%, var(--accent-2) 0 2px, transparent 2px 38px),
+      repeating-radial-gradient(circle at 70% 60%, var(--accent) 0 1px, transparent 1px 46px);
+    animation: shimmer 24s linear infinite;
+  }
+
+  .plankton span {
+    position: absolute;
+    left: calc(var(--i) * 7.1% + 2%);
+    bottom: -10px;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: var(--accent-2);
+    box-shadow: 0 0 10px var(--accent-2);
+    animation: drift-up calc(12s + var(--i) * 0.9s) linear infinite;
+    animation-delay: calc(var(--i) * -1.7s);
+  }
+
+  .ghost-shark {
+    position: absolute;
+    top: 74%;
+    left: 0;
+    width: clamp(180px, 30vw, 380px);
+    opacity: 0.45;
+    filter: drop-shadow(0 0 22px var(--shark-glow));
+    animation: glide 38s ease-in-out -9s infinite;
+  }
+
+  .ghost-shark path {
+    fill: var(--surface);
+    stroke: var(--accent-2);
+    stroke-width: 1.5;
+  }
+
+  @keyframes float {
+    to { transform: translate(8vw, 6vh) scale(1.1); }
+  }
+
+  @keyframes shimmer {
+    to { transform: translate(6%, 4%) rotate(4deg); }
+  }
+
+  @keyframes drift-up {
+    from { transform: translateY(0); opacity: 0; }
+    20% { opacity: 1; }
+    to { transform: translateY(-100svh) translateX(30px); opacity: 0; }
+  }
+
+  @keyframes glide {
+    0% { transform: translate(-40vw, 0) rotate(-2deg); }
+    50% { transform: translate(60vw, -40px) rotate(2deg); }
+    50.01% { transform: translate(60vw, -40px) scaleX(-1); }
+    100% { transform: translate(-40vw, 0) scaleX(-1) rotate(-2deg); }
+  }
+
+  .topnav {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem 1.5rem;
+    width: min(1120px, calc(100% - 2rem));
+    margin: 1.25rem auto 0;
+    padding: 0.75rem 1.25rem;
+    background: color-mix(in srgb, var(--surface) 55%, transparent);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    backdrop-filter: blur(14px);
+  }
+
+  .brand {
+    font-family: var(--font-display);
+    font-size: 1.3rem;
+    text-decoration: none;
+  }
+
+  .brand em,
+  h1 em,
+  h2 em {
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  .topnav ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem 1.5rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    font-weight: 500;
+  }
+
+  .topnav ul a {
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+
+  .topnav ul a:hover {
+    color: var(--accent-2);
+  }
+
+  .hero-inner {
+    position: relative;
+    z-index: 2;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 4rem 1rem;
+    text-align: center;
+  }
+
+  .kicker {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    color: var(--accent-2);
+    font-weight: 500;
+    letter-spacing: 0.04em;
+  }
+
+  .wordmark {
+    margin-top: 1rem;
+    font-family: var(--font-display);
+    font-weight: 300;
+    font-size: clamp(3.2rem, 11vw, 8rem);
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+    text-shadow: 0 0 40px var(--shark-glow);
+  }
+
+  .punchline {
+    max-width: 34rem;
+    margin-top: 1.5rem;
+    font-size: clamp(1.1rem, 2.4vw, 1.3rem);
+    color: var(--muted);
+  }
+
+  .cta-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 2rem;
+  }
+
+  .btn {
+    display: inline-block;
+    padding: 0.9rem 2rem;
+    font-weight: 700;
+    color: var(--on-accent);
+    background: var(--accent);
+    border-radius: 999px;
+    box-shadow: 0 0 0 0 var(--accent), 0 10px 30px var(--shadow);
+    text-decoration: none;
+    transition: box-shadow 0.4s, transform 0.4s;
+  }
+
+  .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 0 6px color-mix(in srgb, var(--accent) 30%, transparent), 0 14px 40px var(--shadow);
+  }
+
+  .btn-soft {
+    color: var(--text);
+    background: color-mix(in srgb, var(--surface) 60%, transparent);
+    border: 1px solid var(--border);
+  }
+
+  .scroll-hint {
+    position: relative;
+    z-index: 2;
+    align-self: center;
+    margin-bottom: 1.5rem;
+    color: var(--muted);
+    animation: nudge 2.4s ease-in-out infinite;
+  }
+
+  @keyframes nudge {
+    50% { transform: translateY(8px); }
+  }
+
+  .glass {
+    background: color-mix(in srgb, var(--surface) 70%, transparent);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    backdrop-filter: blur(12px);
+  }
+
+  .section {
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: clamp(4rem, 9vw, 7rem) 1rem 0;
+  }
+
+  .section h2 {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: clamp(2.2rem, 6vw, 3.6rem);
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+  }
+
+  .center {
+    text-align: center;
+  }
+
+  .lede {
+    max-width: 36rem;
+    margin: 0.75rem auto 0;
+    color: var(--muted);
+  }
+
+  .what-card {
+    display: grid;
+    gap: 1rem;
+    max-width: 48rem;
+    margin: 0 auto;
+    padding: clamp(1.5rem, 5vw, 3rem);
+    font-size: 1.12rem;
+  }
+
+  .ideas {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+    gap: 1.25rem;
+    margin: 2.5rem 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .idea {
+    padding: 1.5rem;
+    border-radius: var(--radius);
+    background: linear-gradient(160deg, var(--surface), var(--bg));
+    border: 1px solid var(--border);
+    transition: border-color 0.4s, transform 0.4s;
+  }
+
+  .idea:hover {
+    border-color: var(--accent-2);
+    transform: translateY(-4px);
+  }
+
+  .idea-kind {
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent-2);
+  }
+
+  .idea h3 {
+    margin-top: 0.4rem;
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: 1.45rem;
+  }
+
+  .idea p {
+    margin-top: 0.4rem;
+    color: var(--muted);
+  }
+
+  .current {
+    position: relative;
+    display: grid;
+    gap: 3rem;
+    max-width: 52rem;
+    margin: 3rem auto 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .current::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    width: 2px;
+    translate: -50% 0;
+    background: linear-gradient(var(--accent), var(--accent-2), var(--glow-1));
+    box-shadow: 0 0 14px var(--accent-2);
+  }
+
+  .node {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr 64px 1fr;
+    align-items: center;
+  }
+
+  .node-dot {
+    grid-column: 2;
+    grid-row: 1;
+    justify-self: center;
+    display: grid;
+    place-items: center;
+    width: 48px;
+    height: 48px;
+    font-family: var(--font-display);
+    font-size: 1.3rem;
+    color: var(--on-accent-2);
+    background: var(--accent-2);
+    border-radius: 50%;
+    box-shadow: 0 0 0 8px var(--bg), 0 0 30px var(--accent-2);
+  }
+
+  .node-card {
+    grid-row: 1;
+    grid-column: 1;
+    padding: 1.5rem;
+  }
+
+  .node:nth-child(even) .node-card {
+    grid-column: 3;
+  }
+
+  .node-card h3 {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-style: italic;
+    font-size: 1.8rem;
+    color: var(--accent);
+  }
+
+  .node-card p {
+    margin-top: 0.4rem;
+  }
+
+  .chips {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.75rem;
+    max-width: 52rem;
+    margin: 2.5rem auto 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.6rem 0.75rem 0.6rem 1.25rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+  }
+
+  .chip-cost {
+    padding: 0.2rem 0.7rem;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--on-accent);
+    background: var(--accent);
+    border-radius: 999px;
+    white-space: nowrap;
+  }
+
+  .faq-list {
+    display: grid;
+    gap: 0.9rem;
+    max-width: 48rem;
+    margin: 2.5rem auto 0;
+  }
+
+  summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1.2rem 1.5rem;
+    font-family: var(--font-display);
+    font-size: 1.2rem;
+    cursor: pointer;
+    list-style: none;
+  }
+
+  summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq-icon {
+    flex-shrink: 0;
+    color: var(--accent-2);
+    transition: transform 0.4s;
+  }
+
+  details[open] .faq-icon {
+    transform: rotate(180deg);
+  }
+
+  details p {
+    padding: 0 1.5rem 1.4rem;
+    color: var(--muted);
+  }
+
+  .signup {
+    padding-bottom: 5rem;
+  }
+
+  .signup-card {
+    display: grid;
+    justify-items: center;
+    gap: 1.5rem;
+    padding: clamp(2rem, 6vw, 4rem) 1rem;
+    text-align: center;
+    background:
+      radial-gradient(circle at 50% 0%, color-mix(in srgb, var(--glow-1) 40%, transparent), transparent 70%),
+      color-mix(in srgb, var(--surface) 70%, transparent);
+  }
+
+  .text-link {
+    color: var(--accent-2);
+  }
+
+  .footer {
+    padding: 2rem 1rem;
+    text-align: center;
+    color: var(--muted);
+    font-size: 0.95rem;
+  }
+
+  @media (max-width: 720px) {
+    .topnav {
+      border-radius: var(--radius);
+    }
+
+    .topnav ul {
+      width: 100%;
+      font-size: 0.9rem;
+      gap: 0.25rem 1rem;
+    }
+
+    .current::before {
+      left: 24px;
+    }
+
+    .node {
+      grid-template-columns: 48px 1fr;
+      gap: 1rem;
+      align-items: start;
+    }
+
+    .node-dot {
+      grid-column: 1;
+    }
+
+    .node-card,
+    .node:nth-child(even) .node-card {
+      grid-column: 2;
+    }
+  }
+</style>

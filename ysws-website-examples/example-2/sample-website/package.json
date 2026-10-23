@@ -1,0 +1,14 @@
+{
+  "name": "you-shark-we-shark-sample-website",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview"
+  },
+  "dependencies": {
+    "@lucide/astro": "^1.61.0",
+    "astro": "^7.4.2"
+  }
+}

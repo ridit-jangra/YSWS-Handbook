@@ -1,0 +1,41 @@
+---
+// Pixel-art shark drawn from a character map: B body, S shade, W belly, E eye.
+interface Props {
+  class?: string;
+}
+const { class: className } = Astro.props;
+
+const sprite = [
+  "...........BB...........",
+  "..........BBB...........",
+  "B........BBBB...........",
+  "BB....BBBBBBBBBBBB......",
+  "BBB.BBBBBBBBBBBBBBBBB...",
+  ".BBBBBBBBBBBBBBBBBBEBBB.",
+  "..BBBBBBBBBBBBBBBBBBBBBB",
+  ".BBSSWWWWWWWWWWWWWWWWWW.",
+  "BB...SWWWWSSWWWWWWWWW...",
+  "B.........SS............",
+];
+const kinds: Record<string, string> = { B: "px-b", S: "px-s", W: "px-w", E: "px-e" };
+const pixels = sprite.flatMap((row, y) =>
+  [...row].flatMap((c, x) => (kinds[c] ? [{ x, y, k: kinds[c] }] : [])),
+);
+---
+
+<svg
+  class:list={["pixel-shark", className]}
+  viewBox={`0 0 ${sprite[0].length} ${sprite.length}`}
+  shape-rendering="crispEdges"
+  role="img"
+  aria-label="A pixel-art shark"
+>
+  {pixels.map((p) => <rect class={p.k} x={p.x} y={p.y} width="1" height="1" />)}
+</svg>
+
+<style>
+  .px-b { fill: var(--pixel-shark); }
+  .px-s { fill: var(--pixel-shade); }
+  .px-w { fill: var(--pixel-belly); }
+  .px-e { fill: var(--pixel-eye); }
+</style>

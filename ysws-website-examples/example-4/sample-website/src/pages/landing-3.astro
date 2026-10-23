@@ -1,0 +1,512 @@
+---
+import Base from "../layouts/Base.astro";
+
+const tracks = ["Tools", "Systems", "Compute", "Hardware"];
+
+const carts = [
+  { load: "your project", title: "Ship it", text: "Build something real in your track, put it online and send it up the line." },
+  { load: "review", title: "Get it checked", text: "A reviewer at the top looks it over. Honest, quick, no judges or winners." },
+  { load: "XP + ores", title: "Get paid twice", text: "XP never gets spent, it's how deep you've gone. Ores are cash for the shop." },
+  { load: "gear", title: "Spend it", text: "Ores buy gear. Your track's gear gets cheaper the more XP you have, for good." },
+];
+
+const board = [
+  { track: "Tools", items: [["Mechanical keyboard", 240, 204], ["Second monitor", 420, 357]] },
+  { track: "Systems", items: [["Mini PC (homelab)", 520, 442], ["Raspberry Pi 5", 160, 136]] },
+  { track: "Compute", items: [["GPU", 900, 765], ["Cloud GPU hours", 300, 255]] },
+  { track: "Hardware", items: [["Soldering station", 280, 238], ["3D printer", 860, 731]] },
+];
+
+const faq = [
+  { q: "Who can join?", a: "Anyone 18 or under. You need a Hack Club Slack account to submit." },
+  { q: "Do I have to pick one track?", a: "Yep, one. Your XP discount grows on that track's shop items, so pick the one you'll keep digging." },
+  { q: "Can I buy from other tracks?", a: "Sure, ores work anywhere. Just no XP discount outside your track. Full price. Boring, but legal." },
+  { q: "XP vs ores?", a: "Ores you spend. XP you keep forever. XP sets your discount and every 3 levels it strikes a permanent coupon." },
+  { q: "What if the shop doesn't have my thing?", a: "Request it right in the shop. If it helps you build bigger, we'll try to get it." },
+  { q: "Tell me about Germany.", a: "3-day hackathon, in person, in Germany. How you qualify and travel gets announced before launch. Pieps is coming too." },
+  { q: "Does it cost money?", a: "Nope. Free, like every Hack Club YSWS." },
+];
+
+// ore glints scattered in the rock, mostly in the margins
+const ores = [
+  [4, 9, "copper"], [93, 14, "silver"], [7, 22, "gold"], [90, 28, "copper"], [3, 37, "silver"], [95, 43, "gold"],
+  [6, 52, "copper"], [92, 58, "silver"], [4, 66, "gold"], [94, 72, "copper"], [8, 79, "silver"], [91, 85, "gold"],
+] as const;
+---
+
+<Base
+  title="LOADOUT, lamp on"
+  description="LOADOUT is a Hack Club YSWS: pick a track, ship projects, earn XP and ores, dig deeper for permanent discounts and coupons. Ends with a hackathon in Germany."
+  theme="concept-3"
+  fonts="family=Cabin+Sketch:wght@400;700&family=Shantell+Sans:ital,wght@0,400;0,600;1,400"
+>
+  <div class="dark" aria-hidden="true"></div>
+
+  <header class="mouth">
+    <nav class="chalk-nav" aria-label="Sections">
+      <a href="#board">What is this</a>
+      <a href="#line">How it works</a>
+      <a href="#prices">Shop</a>
+      <a href="#pieps">Ask Pieps</a>
+    </nav>
+
+    <div class="portal">
+      <svg class="portal-art" viewBox="0 0 900 640" aria-hidden="true">
+        <defs>
+          <filter id="rough"><feTurbulence type="fractalNoise" baseFrequency=".04" numOctaves="2" seed="7" /><feDisplacementMap in="SourceGraphic" scale="4" /></filter>
+          <radialGradient id="void" cx="50%" cy="70%" r="60%"><stop offset="0" stop-color="#0b0907" /><stop offset="1" stop-color="#16120e" /></radialGradient>
+        </defs>
+        <g filter="url(#rough)">
+          <!-- hillside -->
+          <path d="M-1200 330 C-600 300 -100 290 0 260 C140 200 260 150 450 130 C640 150 760 200 900 250 C1000 290 1500 300 2100 330 V700 H-1200 Z" fill="#2b261f" />
+          <path d="M-1200 330 C-600 300 -100 290 0 260 C140 200 260 150 450 130 C640 150 760 200 900 250 C1000 290 1500 300 2100 330" fill="none" stroke="#3d4a2e" stroke-width="18" stroke-linecap="round" />
+          <!-- stone arch: voussoirs -->
+          <path d="M170 640 V380 A280 280 0 0 1 730 380 V640 Z" fill="#5b5247" stroke="#1d1a16" stroke-width="5" />
+          <path d="M240 640 V390 A210 210 0 0 1 660 390 V640 Z" fill="url(#void)" stroke="#1d1a16" stroke-width="5" />
+          <g stroke="#1d1a16" stroke-width="4" fill="none">
+            <path d="M170 380 H240 M180 300 L250 330 M215 228 L275 275 M270 168 L310 228 M340 125 L362 195 M538 125 L516 195 M610 155 L586 220 M676 210 L628 262 M716 280 L652 320 M730 380 H660" />
+            <path d="M170 450 H240 M170 520 H240 M170 590 H240 M660 450 H730 M660 520 H730 M660 590 H730" />
+          </g>
+          <!-- keystone -->
+          <path d="M398 92 H502 L486 196 H414 Z" fill="#6c6255" stroke="#1d1a16" stroke-width="5" />
+          <!-- Schlägel und Eisen: crossed hammer and pick -->
+          <g transform="translate(450 132)" stroke="#ece5d4" stroke-width="5" stroke-linecap="round" fill="none">
+            <path d="M-22 22 L20 -20 M22 22 L-20 -20" />
+            <path d="M12 -30 L30 -12" stroke-width="9" />
+            <path d="M-30 -14 C-24 -26 -14 -32 -6 -32" stroke-width="6" />
+          </g>
+          <!-- rails into the dark -->
+          <path d="M330 640 L420 420 M570 640 L480 420" stroke="#8a8f94" stroke-width="5" />
+          <path d="M352 590 H548 M372 540 H528 M390 497 H510 M404 462 H496 M414 436 H486" stroke="#6b4a2b" stroke-width="7" />
+        </g>
+        <text x="450" y="76" text-anchor="middle" class="carved">GLÜCK AUF</text>
+      </svg>
+      <div class="portal-text">
+        <h1>LOADOUT</h1>
+        <p class="punch">Want better tools for bigger builds? Ship projects, mine XP and ores, and trade them for real gear. A Hack Club YSWS.</p>
+        <div class="ctas">
+          <a class="cta" href="#signup">Sign up for a shift</a>
+          <button class="lamp-toggle" type="button" aria-pressed="true">Lamp on</button>
+        </div>
+      </div>
+    </div>
+    <p class="scrawl hint">It's dark in there. Your cursor is your headlamp. Glints in the walls are ore: click them.</p>
+  </header>
+
+  <main class="drift">
+    <div class="ore-layer" aria-hidden="true">
+      {ores.map(([x, y, kind]) => (
+        <button class={`ore ore--${kind}`} style={`left:${x}%;top:${y}%`} tabindex="-1">
+          <svg viewBox="0 0 30 30"><path d="M4 22 L10 6 L16 18 L20 4 L27 20 L18 27 Z" /><path d="M10 6 L12 20 M20 4 L18 27" stroke="rgba(0,0,0,.35)" stroke-width="1.4" fill="none" /></svg>
+        </button>
+      ))}
+    </div>
+
+    <section class="timberset" id="board" aria-labelledby="board-h">
+      <div class="cap" aria-hidden="true"></div>
+      <div class="set-inner">
+        <span class="post" aria-hidden="true"></span>
+        <div class="slate">
+          <h2 id="board-h">What is this</h2>
+          <p>LOADOUT is a Hack Club YSWS for teens who build with real tools and want better ones.</p>
+          <p>You pick one track and ship projects in it. Each one pays out <strong>XP</strong> and <strong>ores</strong>. Ores buy gear in the shop. XP never gets spent: it's how deep you are, and the deeper you are, the cheaper your track's gear gets. Forever.</p>
+          <p>Every 3 levels you also strike a permanent coupon for the expensive stuff. Then everybody climbs out for a 3-day hackathon in Germany.</p>
+          <p class="sig">chalked by the night shift</p>
+        </div>
+        <span class="post" aria-hidden="true"></span>
+      </div>
+    </section>
+
+    <section class="line" id="line" aria-labelledby="line-h">
+      <h2 id="line-h">How it works</h2>
+      <p class="line-lead">Everything rides the same rail. First you pick which track your cart runs on.</p>
+
+      <figure class="switch">
+        <svg viewBox="0 0 800 300" role="img" aria-labelledby="switch-t">
+          <title id="switch-t">A rail switch: one line splits into four tracks named Tools, Systems, Compute and Hardware, which join again further down.</title>
+          <g fill="none" stroke="var(--chalk-dim)" stroke-width="4" stroke-linecap="round">
+            <path d="M400 0 V40" />
+            <path d="M400 40 C400 90 100 90 100 150 C100 210 400 210 400 260" />
+            <path d="M400 40 C400 90 300 90 300 150 C300 210 400 210 400 260" />
+            <path d="M400 40 C400 90 500 90 500 150 C500 210 400 210 400 260" />
+            <path d="M400 40 C400 90 700 90 700 150 C700 210 400 210 400 260" />
+            <path d="M400 260 V300" />
+          </g>
+          {tracks.map((t, i) => (
+            <g>
+              <rect x={[22, 222, 422, 622][i]} y="122" width="156" height="56" rx="6" fill="var(--rock-2)" stroke="var(--chalk)" stroke-width="2.5" />
+              <text x={[100, 300, 500, 700][i]} y="158" text-anchor="middle" class="track-label">{t}</text>
+            </g>
+          ))}
+        </svg>
+        <figcaption>One track per Kumpel. Tools, Systems, Compute or Hardware.</figcaption>
+      </figure>
+
+      <ol class="rail">
+        {carts.map((c) => (
+          <li class="cart-stop">
+            <svg class="cart" viewBox="0 0 140 90" aria-hidden="true">
+              <path d="M10 20 H130 L118 70 H22 Z" fill="#4a3a2a" stroke="var(--chalk)" stroke-width="3" stroke-linejoin="round" />
+              <path d="M18 40 H122" stroke="var(--chalk-dim)" stroke-width="2" />
+              <circle cx="40" cy="78" r="10" fill="var(--rock)" stroke="var(--chalk)" stroke-width="3" />
+              <circle cx="100" cy="78" r="10" fill="var(--rock)" stroke="var(--chalk)" stroke-width="3" />
+              <text x="70" y="60" text-anchor="middle" class="cart-load" textLength={c.load.length > 9 ? 96 : undefined}>{c.load}</text>
+            </svg>
+            <div>
+              <h3>{c.title}</h3>
+              <p>{c.text}</p>
+            </div>
+          </li>
+        ))}
+      </ol>
+
+      <div class="tally">
+        <h3>Every 3 levels: a coupon</h3>
+        <p>Miners counted in chalk tallies. Each mark is one XP level. Every third one gets circled. That circle is a permanent coupon for the expensive stuff.</p>
+        <svg viewBox="0 0 560 110" role="img" aria-labelledby="tally-t">
+          <title id="tally-t">Nine chalk tally marks for levels 1 to 9. Marks 3, 6 and 9 are circled as coupons.</title>
+          <g stroke="var(--chalk)" stroke-width="6" stroke-linecap="round" fill="none">
+            {[0, 1, 2, 3, 4, 5, 6, 7, 8].map((n) => (
+              <path d={`M${30 + n * 58 + (n % 2) * 3} 22 L${26 + n * 58} 88`} />
+            ))}
+          </g>
+          <g stroke="var(--lamp)" stroke-width="3.5" fill="none">
+            <ellipse cx="144" cy="55" rx="26" ry="46" transform="rotate(-6 144 55)" />
+            <ellipse cx="318" cy="55" rx="26" ry="46" transform="rotate(5 318 55)" />
+            <ellipse cx="492" cy="55" rx="26" ry="46" transform="rotate(-4 492 55)" />
+          </g>
+        </svg>
+      </div>
+    </section>
+
+    <section class="prices" id="prices" aria-labelledby="prices-h">
+      <div class="chalkboard">
+        <h2 id="prices-h">Today at the shop</h2>
+        <p class="board-note">Made-up numbers to show how it works. Real stock and prices at launch.</p>
+        <div class="columns">
+          {board.map((col) => (
+            <div class={`col${col.track === "Compute" ? " col--mine" : ""}`}>
+              <h3>{col.track}{col.track === "Compute" && <span class="yours">your track</span>}</h3>
+              <ul>
+                {col.items.map(([name, full, xp]) => (
+                  <li>
+                    <span>{name}</span>
+                    {col.track === "Compute" ? (
+                      <span class="price"><s>{full}</s> {xp} ores</span>
+                    ) : (
+                      <span class="price">{full} ores</span>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+        <p class="board-foot">Say your track is Compute and you've got some XP: only the Compute column gets cheaper. Buying from the others works, it's just full price. And if what you need isn't on the board, request it.</p>
+      </div>
+    </section>
+
+    <section class="pieps" id="pieps" aria-labelledby="pieps-h">
+      <div class="cage" aria-hidden="true">
+        <svg viewBox="0 0 160 200">
+          <path d="M80 6 V20" stroke="var(--chalk-dim)" stroke-width="3" />
+          <path d="M20 70 C20 26 140 26 140 70 V180 H20 Z" fill="none" stroke="var(--chalk-dim)" stroke-width="3" />
+          <path d="M40 40 V180 M60 30 V180 M80 26 V180 M100 30 V180 M120 40 V180" stroke="var(--chalk-dim)" stroke-width="1.6" />
+          <path d="M24 140 H136" stroke="var(--timber)" stroke-width="5" />
+          <g class="bird">
+            <ellipse cx="82" cy="116" rx="26" ry="20" fill="var(--canary)" />
+            <circle cx="102" cy="98" r="14" fill="var(--canary)" />
+            <path d="M114 96 L126 100 L114 104 Z" fill="#e58a2b" />
+            <circle cx="106" cy="94" r="2.6" fill="#1d1a16" />
+            <path d="M58 112 L40 104 L48 124 Z" fill="#e2b92e" />
+            <path d="M74 112 C82 104 94 112 90 124" fill="none" stroke="#c99f1c" stroke-width="3" />
+            <path d="M76 134 V142 M88 134 V142" stroke="#e58a2b" stroke-width="3" />
+          </g>
+        </svg>
+      </div>
+      <div class="chat">
+        <h2 id="pieps-h">Ask Pieps</h2>
+        <p class="chat-sub">Pieps is the mine canary. If Pieps is singing, the air's fine and questions get answered.</p>
+        <ol class="log" aria-live="polite">
+          <li class="msg msg--pieps">Pieps! Tap a question below and I'll answer it. I know everything except the hackathon city. Nobody tells the bird things.</li>
+        </ol>
+        <div class="chips" role="group" aria-label="Questions">
+          {faq.map((f, i) => (
+            <button class="chip" type="button" data-q={i}>{f.q}</button>
+          ))}
+        </div>
+        <template id="answers">
+          {faq.map((f, i) => (<p data-a={i}>{f.a}</p>))}
+        </template>
+      </div>
+    </section>
+  </main>
+
+  <section class="exit" aria-labelledby="exit-h">
+    <svg class="exit-arch" viewBox="0 0 1200 160" preserveAspectRatio="none" aria-hidden="true">
+      <path d="M0 160 C200 30 1000 30 1200 160 Z" fill="var(--daylight)" />
+    </svg>
+    <div class="exit-inner">
+      <h2 id="exit-h">Light at the end: Germany</h2>
+      <p>The tunnel comes out at a 3-day, in-person hackathon in Germany. Bring the gear you mined for, and build something bigger with everyone who was digging next to you.</p>
+      <a class="cta cta--day" id="signup" href="#top">Sign up for a shift</a>
+      <p class="footer-note">LOADOUT is a Hack Club YSWS. Hack Club is a nonprofit for teenagers who code. Glück auf!</p>
+    </div>
+  </section>
+
+  <div class="hud" aria-live="polite">
+    <p class="hud-title">Your lamp rack <span>(demo)</span></p>
+    <p class="hud-stats"><span>XP <b data-xp>0</b></span><span>Lvl <b data-lvl>1</b></span><span>Ores <b data-ores>0</b></span></p>
+    <p class="hud-coupon" data-coupon hidden></p>
+  </div>
+</Base>
+
+<style>
+  body {
+    line-height: 1.6; font-size: 1.04rem;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.03' numOctaves='4' seed='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .42 0 0 0 0 .36 0 0 0 0 .3 0 0 0 .3 0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  h1, h2, h3 { font-family: var(--font-display); font-weight: 700; line-height: 1.05; margin: 0; }
+  h2 { font-size: clamp(2.2rem, 5vw, 3.4rem); }
+
+  /* lamp: darkness everywhere except a warm circle round the cursor */
+  .dark {
+    position: fixed; inset: 0; z-index: 1; pointer-events: none; opacity: var(--depth, 0);
+    background:
+      radial-gradient(circle 240px at var(--x, 50%) var(--y, 45%), rgba(255,210,122,.12), transparent 70%),
+      radial-gradient(circle 260px at var(--x, 50%) var(--y, 45%), rgba(6,5,4,0) 0%, rgba(6,5,4,.35) 55%, rgba(6,5,4,.93) 100%);
+  }
+  .dark.is-off { background: rgba(6,5,4,.6); }
+  .mouth, .drift > section, .exit { position: relative; z-index: 2; }
+
+  /* ---------- tunnel mouth ---------- */
+  .mouth { padding: 18px 16px 40px; overflow: hidden; background: linear-gradient(#26313a 0, #2b261f 60%, rgba(43,38,31,0) 100%); }
+  .chalk-nav { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px 26px; font-family: var(--font-display); font-size: 1.3rem; }
+  .chalk-nav a { text-decoration: none; color: var(--chalk); }
+  .chalk-nav a:hover { color: var(--lamp); }
+  .portal { position: relative; max-width: 900px; margin: 6px auto 0; }
+  .portal-art { width: 100%; height: auto; overflow: visible; }
+  .carved { font-family: var(--font-display); font-weight: 700; font-size: 34px; fill: #ece5d4; letter-spacing: 6px; }
+  .portal-text {
+    position: absolute; left: 50%; top: 58%; transform: translate(-50%, -50%); width: min(400px, 46%); text-align: center;
+  }
+  h1 { font-size: clamp(2.6rem, 9vw, 5.6rem); color: var(--lamp); text-shadow: 0 0 24px rgba(255,210,122,.35); }
+  .punch { margin: 8px 0 16px; font-size: 1rem; }
+  .ctas { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
+  .cta {
+    display: inline-block; font-family: var(--font-display); font-weight: 700; font-size: 1.35rem; text-decoration: none;
+    background: var(--lamp); color: var(--rock); padding: 8px 20px; border-radius: 8px; box-shadow: 0 0 0 3px var(--rock), 0 0 0 5px var(--lamp);
+  }
+  .cta:hover { background: #fff0c4; }
+  .lamp-toggle {
+    font-family: var(--font-display); font-size: 1.2rem; background: transparent; color: var(--chalk); cursor: pointer;
+    border: 2px dashed var(--chalk-dim); border-radius: 8px; padding: 6px 14px;
+  }
+  .lamp-toggle[aria-pressed="false"] { color: var(--chalk-dim); }
+  .scrawl { font-family: var(--font-display); font-size: 1.35rem; text-align: center; color: var(--chalk-dim); max-width: 32em; margin: 18px auto 0; transform: rotate(-1deg); }
+
+  /* ---------- drift ---------- */
+  .drift { position: relative; padding: 40px 0 0; }
+  .ore-layer { position: absolute; inset: 0; z-index: 3; pointer-events: none; overflow: hidden; }
+  .ore {
+    position: absolute; width: 30px; height: 30px; padding: 0; background: none; border: 0; cursor: pointer; pointer-events: auto;
+    opacity: var(--glow, .08); transition: opacity .2s, transform .3s;
+  }
+  .ore svg { width: 100%; height: 100%; filter: drop-shadow(0 0 6px currentColor); }
+  .ore path:first-child { fill: currentColor; }
+  .ore--copper { color: var(--copper); } .ore--silver { color: var(--silver); } .ore--gold { color: var(--lamp); }
+  .ore.is-mined { transform: scale(0) rotate(90deg); pointer-events: none; }
+
+  .timberset { max-width: 900px; margin: 30px auto 0; padding: 0 16px; }
+  .cap {
+    height: 34px; border-radius: 6px; background: var(--timber);
+    background-image: repeating-linear-gradient(90deg, rgba(0,0,0,.18) 0 2px, transparent 2px 38px, rgba(255,255,255,.06) 38px 40px);
+    box-shadow: 0 6px 0 rgba(0,0,0,.4);
+  }
+  .set-inner { display: grid; grid-template-columns: 34px 1fr 34px; gap: 0; }
+  .post { background: var(--timber); background-image: repeating-linear-gradient(0deg, rgba(0,0,0,.2) 0 2px, transparent 2px 46px); }
+  .slate { background: #262a26; padding: 34px clamp(18px, 4vw, 44px) 30px; box-shadow: inset 0 0 40px rgba(0,0,0,.6); }
+  .slate h2 { margin-bottom: 10px; }
+  .slate strong { color: var(--lamp); }
+  .sig { font-family: var(--font-display); font-size: 1.3rem; text-align: right; color: var(--chalk-dim); margin-bottom: 0; }
+
+  .line { max-width: 900px; margin: 0 auto; padding: 110px 16px 40px; }
+  .line h2, .line-lead { text-align: center; }
+  .line-lead { color: var(--chalk-dim); margin: 8px auto 0; max-width: 32em; }
+  .switch { margin: 26px 0 0; }
+  .switch figcaption { text-align: center; font-family: var(--font-display); font-size: 1.3rem; color: var(--lamp); }
+  .track-label { font-family: var(--font-display); font-weight: 700; font-size: 24px; fill: var(--chalk); }
+
+  .rail { list-style: none; padding: 0 0 0 0; margin: 40px auto 0; max-width: 640px; position: relative; }
+  .rail::before { /* the rail line the carts sit on */
+    content: ""; position: absolute; left: 66px; top: 0; bottom: 0; width: 22px;
+    border-left: 4px solid #8a8f94; border-right: 4px solid #8a8f94;
+    background: repeating-linear-gradient(180deg, transparent 0 22px, var(--timber) 22px 30px);
+  }
+  .cart-stop { position: relative; display: grid; grid-template-columns: 154px 1fr; gap: 18px; align-items: center; padding: 18px 0; }
+  .cart { width: 140px; position: relative; z-index: 1; }
+  .cart-load { font-family: var(--font-display); font-weight: 700; font-size: 17px; fill: var(--lamp); }
+  .cart-stop h3 { font-size: 1.8rem; color: var(--lamp); }
+  .cart-stop p { margin: 4px 0 0; }
+
+  .tally { margin: 70px auto 0; max-width: 640px; text-align: center; }
+  .tally h3 { font-size: 2rem; }
+  .tally p { color: var(--chalk-dim); }
+  .tally svg { margin: 10px auto 0; max-width: 560px; width: 100%; }
+
+  .prices { padding: 100px 16px 40px; }
+  .chalkboard {
+    max-width: 960px; margin: 0 auto; background: #24302a; border: 16px solid var(--timber); border-radius: 4px;
+    padding: 30px clamp(16px, 4vw, 40px); box-shadow: inset 0 0 60px rgba(0,0,0,.5), 0 10px 0 rgba(0,0,0,.4);
+  }
+  .chalkboard h2 { text-align: center; }
+  .board-note { text-align: center; color: var(--chalk-dim); font-style: italic; margin: 6px 0 22px; }
+  .columns { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+  .col h3 { font-size: 1.7rem; border-bottom: 2px dashed var(--chalk-dim); padding-bottom: 4px; margin-bottom: 8px; }
+  .col ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 10px; }
+  .col li { display: grid; }
+  .price { font-family: var(--font-display); font-size: 1.25rem; color: var(--chalk-dim); }
+  .col--mine .price { color: var(--lamp); }
+  .col--mine s { color: var(--chalk-dim); }
+  .yours { display: block; font-size: 1rem; color: var(--lamp); }
+  .col--mine { outline: 3px solid var(--lamp); outline-offset: 8px; border-radius: 4px; }
+  .board-foot { margin: 26px 0 0; }
+
+  .pieps { max-width: 900px; margin: 0 auto; padding: 100px 16px 140px; display: grid; grid-template-columns: 180px 1fr; gap: 30px; align-items: start; }
+  .cage svg { width: 180px; }
+  .bird { transform-origin: 82px 140px; animation: hop 3s ease-in-out infinite; }
+  @keyframes hop { 0%, 80%, 100% { transform: none; } 85% { transform: translateY(-6px); } 90% { transform: none; } }
+  .chat-sub { color: var(--chalk-dim); margin-top: 6px; }
+  .log { list-style: none; padding: 0; margin: 20px 0; display: grid; gap: 10px; }
+  .log :global(.msg) { max-width: 34em; padding: 10px 16px; border-radius: 16px; }
+  .log :global(.msg--pieps) { background: var(--canary); color: #1d1a16; border-bottom-left-radius: 4px; justify-self: start; }
+  .log :global(.msg--you) { background: var(--rock-2); border: 2px solid var(--chalk-dim); border-bottom-right-radius: 4px; justify-self: end; }
+  .log :global(.msg--typing) { letter-spacing: 3px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chip {
+    font-family: var(--font-body); font-size: .95rem; color: var(--chalk); background: transparent; cursor: pointer;
+    border: 2px solid var(--chalk-dim); border-radius: 999px; padding: 6px 14px;
+  }
+  .chip:hover { border-color: var(--lamp); color: var(--lamp); }
+  .chip[disabled] { opacity: .45; cursor: default; }
+
+  /* ---------- daylight ---------- */
+  .exit { color: var(--rock); text-align: center; }
+  .exit-inner { background: linear-gradient(var(--daylight), #eef4e8); max-width: none; }
+  .exit-inner > * { max-width: 640px; margin-left: auto; margin-right: auto; }
+  .exit-arch { display: block; width: 100%; height: 120px; margin-bottom: -1px; }
+  .exit-inner { padding: 30px 16px 60px; }
+  .exit h2 { color: var(--rock); }
+  .cta--day { background: var(--rock); color: var(--lamp); box-shadow: 0 0 0 3px var(--daylight), 0 0 0 5px var(--rock); }
+  .cta--day:hover { background: #3a3128; }
+  .footer-note { margin-top: 40px; font-size: .95rem; }
+
+  .hud {
+    position: fixed; right: 12px; bottom: 12px; z-index: 5; background: rgba(29,26,22,.92); border: 2px solid var(--timber);
+    border-radius: 8px; padding: 8px 12px; font-size: .9rem; min-width: 190px;
+    opacity: var(--hud, 0); pointer-events: none; transition: opacity .3s;
+  }
+  .hud p { margin: 0; }
+  .hud-title { font-family: var(--font-display); font-size: 1.1rem; color: var(--lamp); }
+  .hud-title span { color: var(--chalk-dim); font-family: var(--font-body); font-size: .8rem; }
+  .hud-stats { display: flex; gap: 12px; }
+  .hud b { color: var(--lamp); }
+  .hud-coupon { color: var(--canary); font-weight: 600; margin-top: 4px !important; }
+  .hud-coupon[hidden] { display: none; }
+
+  @media (max-width: 760px) {
+    .portal-text { position: static; transform: none; width: auto; margin-top: -60px; }
+    .columns { grid-template-columns: 1fr 1fr; }
+    .pieps { grid-template-columns: 1fr; }
+    .cage svg { width: 110px; }
+    .set-inner { grid-template-columns: 14px 1fr 14px; }
+    .cart-stop { grid-template-columns: 100px 1fr; }
+    .cart { width: 96px; }
+    .rail::before { left: 40px; }
+    .track-label { font-size: 34px; }
+    .ore { width: 24px; height: 24px; }
+  }
+  @media (max-width: 420px) { .columns { grid-template-columns: 1fr; } }
+</style>
+
+<script>
+  const dark = document.querySelector<HTMLElement>(".dark")!;
+  const mouth = document.querySelector<HTMLElement>(".mouth")!;
+  const exit = document.querySelector<HTMLElement>(".exit")!;
+  const hud = document.querySelector<HTMLElement>(".hud")!;
+  const ores = [...document.querySelectorAll<HTMLButtonElement>(".ore")];
+  const toggle = document.querySelector<HTMLButtonElement>(".lamp-toggle")!;
+  let lamp = { x: window.innerWidth / 2, y: window.innerHeight * 0.45 };
+  let lampOn = true;
+
+  // darkness fades in as you walk past the portal, fades out at the exit
+  function frame() {
+    const intoTunnel = Math.min(Math.max(-mouth.getBoundingClientRect().bottom / 300 + 1.4, 0), 1);
+    const toDaylight = Math.min(Math.max((exit.getBoundingClientRect().top - window.innerHeight * 0.3) / 400, 0), 1);
+    const depth = Math.min(intoTunnel, toDaylight);
+    dark.style.setProperty("--depth", String(depth));
+    hud.style.setProperty("--hud", depth > 0.3 ? "1" : "0");
+    dark.style.setProperty("--x", `${lamp.x}px`);
+    dark.style.setProperty("--y", `${lamp.y}px`);
+    // ore glints brighten when the lamp is near them
+    for (const ore of ores) {
+      const r = ore.getBoundingClientRect();
+      const d = Math.hypot(r.left + r.width / 2 - lamp.x, r.top + r.height / 2 - lamp.y);
+      const glow = lampOn ? Math.max(0.08, 1 - d / 260) : 0.35;
+      ore.style.setProperty("--glow", glow.toFixed(2));
+    }
+  }
+  const tick = () => requestAnimationFrame(frame);
+  window.addEventListener("pointermove", (e) => { lamp = { x: e.clientX, y: e.clientY }; tick(); });
+  window.addEventListener("scroll", tick, { passive: true });
+  window.addEventListener("resize", tick);
+  tick();
+
+  toggle.addEventListener("click", () => {
+    lampOn = !lampOn;
+    toggle.setAttribute("aria-pressed", String(lampOn));
+    toggle.textContent = lampOn ? "Lamp on" : "Lamp off";
+    dark.classList.toggle("is-off", !lampOn);
+    tick();
+  });
+
+  // demo economy: each ore is 60 XP + 1 ore, 100 XP a level, a coupon every 3 levels
+  let xp = 0, mined = 0, coupons = 0;
+  const $ = (s: string) => document.querySelector<HTMLElement>(s)!;
+  ores.forEach((ore) => ore.addEventListener("click", () => {
+    ore.classList.add("is-mined");
+    xp += 60; mined += 1;
+    const lvl = 1 + Math.floor(xp / 100);
+    $("[data-xp]").textContent = String(xp);
+    $("[data-lvl]").textContent = String(lvl);
+    $("[data-ores]").textContent = String(mined);
+    const earned = Math.floor(lvl / 3);
+    if (earned > coupons) {
+      coupons = earned;
+      const c = $("[data-coupon]");
+      c.hidden = false;
+      c.textContent = `Level ${coupons * 3}: permanent coupon struck! (${coupons} total)`;
+    }
+  }));
+
+  // Pieps answers questions, with a short pause to "think"
+  const log = document.querySelector<HTMLOListElement>(".log")!;
+  const answers = document.querySelector<HTMLTemplateElement>("#answers")!.content;
+  const say = (cls: string, text: string) => {
+    const li = document.createElement("li");
+    li.className = `msg ${cls}`;
+    li.textContent = text;
+    log.append(li);
+    return li;
+  };
+  document.querySelectorAll<HTMLButtonElement>(".chip").forEach((chip) => {
+    chip.addEventListener("click", () => {
+      chip.disabled = true;
+      say("msg--you", chip.textContent!.trim());
+      const typing = say("msg--pieps msg--typing", "...");
+      const answer = answers.querySelector(`[data-a="${chip.dataset.q}"]`)!.textContent!;
+      const delay = window.matchMedia("(prefers-reduced-motion: reduce)").matches ? 0 : 650;
+      setTimeout(() => { typing.classList.remove("msg--typing"); typing.textContent = answer; }, delay);
+    });
+  });
+</script>

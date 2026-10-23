@@ -1,0 +1,606 @@
+---
+import { ChevronRight } from "@lucide/astro";
+import Base from "../layouts/Base.astro";
+import { site, nav, what, steps, faq } from "../data/shooz";
+
+// 24x13 sneaker sprite. k = outline, r = upper, w = white, y = heel tab, t = toe cap
+const sprite = [
+  "........kkkk............",
+  ".......kwwwwk...........",
+  "..kkkk.kwkwwk...........",
+  ".krrrrkkwwkwwk..........",
+  ".krrrrrrkwwkwwk.........",
+  ".kyrrrrrrkwwkwwkkk......",
+  ".kyyrrrrrrrrrrrrrrkkk...",
+  ".kyyrrrwwwwwrrrrrrrrrk..",
+  ".krrrwwrrrrrwwwrrrrtttk.",
+  ".krrrrrrrrrrrrrrrrrttttk",
+  "kwwwwwwwwwwwwwwwwwwwwwwk",
+  "kwkkwwkkwwkkwwkkwwkkwwwk",
+  ".kkkkkkkkkkkkkkkkkkkkkk.",
+];
+const pixels = sprite.flatMap((row, y) =>
+  [...row].flatMap((c, x) => (c === "." ? [] : [{ x, y, c }])),
+);
+const hours = Array.from({ length: 20 }, (_, i) => i);
+---
+
+<Base
+  title="Shooz · Pixel Kicks"
+  theme="theme-2"
+  fonts="Press+Start+2P&family=Pixelify+Sans:wght@400;600"
+>
+  <header class="top">
+    <a class="logo" href="#">Shooz</a>
+    <nav aria-label="Main">
+      <ul>
+        {nav.map((item) => <li><a href={item.href}>{item.label}</a></li>)}
+      </ul>
+    </nav>
+    <a class="hc" href="https://hackclub.com">Hack Club</a>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hud" aria-label="20 hours of building unlocks a $100 shoe grant">
+        <span class="hud-label" aria-hidden="true">Hours</span>
+        <div class="hud-bar" aria-hidden="true">
+          {hours.map((i) => <span style={`--i:${i}`} />)}
+        </div>
+        <span class="hud-coin" aria-hidden="true">$100</span>
+      </div>
+
+      <h1 class="wordmark">Shooz</h1>
+
+      <svg
+        class="sprite"
+        viewBox="0 0 24 13"
+        shape-rendering="crispEdges"
+        aria-hidden="true"
+      >
+        {pixels.map((p) => <rect class={`px-${p.c}`} x={p.x} y={p.y} width="1" height="1" />)}
+      </svg>
+      <div class="floor" aria-hidden="true"></div>
+
+      <p class="punch">{site.punchline}</p>
+      <a class="btn" href={site.signupUrl}>Start building</a>
+      <p class="hint">Software or CAD. Sneakers, trainers, or Crocs.</p>
+    </section>
+
+    <section id="what" class="what">
+      <div class="dialog">
+        <h2>{what.title}</h2>
+        {what.body.map((p) => <p>{p}</p>)}
+      </div>
+
+      <h3 class="inv-title">Things you could build</h3>
+      <ul class="inventory">
+        {
+          what.ideas.map((idea) => (
+            <li class="slot">
+              <span class:list={["tag", idea.kind === "CAD" ? "tag-cad" : "tag-sw"]}>{idea.kind}</span>
+              <h4>{idea.title}</h4>
+              <p>{idea.text}</p>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+
+    <section id="how" class="how">
+      <h2>How it works</h2>
+      <ol class="map">
+        {
+          steps.map((step, i) => (
+            <li class="level">
+              <span class="level-tile">{i + 1}</span>
+              <div>
+                <h3>{step.title}</h3>
+                <p>{step.text}</p>
+              </div>
+            </li>
+          ))
+        }
+      </ol>
+    </section>
+
+    <section id="faq" class="faq">
+      <h2>FAQ</h2>
+      <div class="menu">
+        {
+          faq.map((item) => (
+            <details>
+              <summary>
+                <ChevronRight class="cursor" size={20} stroke-width={3} aria-hidden="true" />
+                {item.q}
+              </summary>
+              <p>{item.a}</p>
+            </details>
+          ))
+        }
+      </div>
+    </section>
+
+    <section class="closer">
+      <p>Ready, player one?</p>
+      <a class="btn" href={site.signupUrl}>Start building</a>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <p>Shooz is a <a href="https://hackclub.com">Hack Club</a> You Ship, We Ship. Stuck? <a href={site.slackUrl}>Ask in #shooz</a>.</p>
+  </footer>
+</Base>
+
+<style>
+  :global(body) {
+    font-size: 1.15rem;
+    line-height: 1.55;
+  }
+
+  :global(body)::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    background: repeating-linear-gradient(
+      to bottom,
+      transparent 0 2px,
+      var(--scanline) 2px 4px
+    );
+    z-index: 10;
+  }
+
+  .top,
+  main > section,
+  .foot {
+    width: min(1080px, 100% - 2rem);
+    margin-inline: auto;
+  }
+
+  /* stepped pixel border used throughout */
+  .pixel-box,
+  .dialog,
+  .slot,
+  .level,
+  details,
+  .btn {
+    --b: 4px;
+    box-shadow:
+      0 calc(var(--b) * -1) 0 0 var(--border),
+      0 var(--b) 0 0 var(--border),
+      calc(var(--b) * -1) 0 0 0 var(--border),
+      var(--b) 0 0 0 var(--border),
+      calc(var(--b) * 2) calc(var(--b) * 2) 0 0 var(--shadow);
+  }
+
+  /* nav */
+  .top {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem 2rem;
+    padding-block: 1.5rem;
+  }
+
+  .logo,
+  .hc {
+    font-family: var(--font-display);
+    font-size: 1rem;
+    text-decoration: none;
+  }
+
+  .logo {
+    color: var(--accent);
+  }
+
+  .hc {
+    font-size: 0.7rem;
+    color: var(--pixel-red);
+  }
+
+  .top nav {
+    margin-left: auto;
+  }
+
+  .top ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem 1.5rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .top nav a {
+    text-decoration: none;
+    color: var(--muted);
+  }
+
+  .top nav a:hover {
+    color: var(--accent-2);
+  }
+
+  .top nav a::before {
+    content: "> ";
+    color: transparent;
+  }
+
+  .top nav a:hover::before {
+    color: var(--accent-2);
+  }
+
+  /* hero */
+  .hero {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding-block: 2rem 5rem;
+  }
+
+  .hud {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-family: var(--font-display);
+    font-size: 0.7rem;
+    color: var(--muted);
+  }
+
+  .hud-bar {
+    display: flex;
+    gap: 3px;
+    padding: 4px;
+    background: var(--shadow);
+    outline: 3px solid var(--border);
+  }
+
+  .hud-bar span {
+    width: clamp(6px, 1.6vw, 12px);
+    height: 16px;
+    background: var(--surface);
+    animation: fill 0.05s steps(1) both;
+    animation-delay: calc(0.3s + var(--i) * 0.07s);
+  }
+
+  @keyframes fill {
+    to { background: var(--accent-2); }
+  }
+
+  .hud-coin {
+    color: var(--accent);
+    animation: coin 0.6s steps(3) 1.8s both;
+  }
+
+  @keyframes coin {
+    0% { opacity: 0; translate: 0 8px; }
+    50% { opacity: 1; translate: 0 -10px; }
+    100% { opacity: 1; translate: 0 0; }
+  }
+
+  .wordmark {
+    margin-top: 2.5rem;
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: clamp(2.6rem, 11vw, 7rem);
+    line-height: 1;
+    color: var(--accent);
+    text-shadow:
+      0.06em 0.06em 0 var(--pixel-red),
+      0.12em 0.12em 0 var(--shadow);
+  }
+
+  .sprite {
+    width: min(360px, 80%);
+    margin-top: 2.5rem;
+    image-rendering: pixelated;
+  }
+
+  .px-k { fill: var(--shadow); }
+  .px-r { fill: var(--pixel-red); }
+  .px-w { fill: var(--pixel-white); }
+  .px-y { fill: var(--accent); }
+  .px-t { fill: var(--accent-2); }
+
+  .floor {
+    width: min(560px, 100%);
+    height: 24px;
+    background: repeating-linear-gradient(
+      90deg,
+      var(--pixel-floor) 0 24px,
+      var(--pixel-floor-alt) 24px 48px
+    );
+    border-top: 4px solid var(--border);
+  }
+
+  .punch {
+    margin-top: 2rem;
+    max-width: 30ch;
+    font-size: clamp(1.25rem, 2.6vw, 1.6rem);
+    font-weight: 600;
+    line-height: 1.35;
+  }
+
+  .btn {
+    display: inline-block;
+    margin-top: 2rem;
+    padding: 1rem 1.5rem;
+    background: var(--accent);
+    color: var(--on-accent);
+    font-family: var(--font-display);
+    font-size: 0.95rem;
+    line-height: 1.3;
+    text-decoration: none;
+  }
+
+  .btn:hover {
+    background: var(--accent-2);
+    color: var(--on-accent-2);
+  }
+
+  .btn:active {
+    translate: 4px 4px;
+  }
+
+  .hint {
+    margin-top: 1.5rem;
+    color: var(--muted);
+  }
+
+  /* shared section type */
+  main > section {
+    padding-block: 4.5rem;
+  }
+
+  h2 {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: clamp(1.3rem, 3.6vw, 2rem);
+    line-height: 1.35;
+    color: var(--accent);
+    margin-bottom: 1.5rem;
+  }
+
+  /* what */
+  .dialog {
+    padding: 1.75rem;
+    background: var(--surface);
+    margin: 4px;
+  }
+
+  .dialog p {
+    max-width: 60ch;
+  }
+
+  .dialog p + p {
+    margin-top: 1rem;
+  }
+
+  .inv-title {
+    margin-top: 3.5rem;
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: 0.85rem;
+    color: var(--muted);
+  }
+
+  .inventory {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.5rem;
+    margin: 1.25rem 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .slot {
+    margin: 4px;
+    padding: 1.1rem 1.2rem 1.3rem;
+    background: var(--surface);
+  }
+
+  .slot:hover {
+    background: var(--pixel-floor);
+  }
+
+  .tag {
+    display: inline-block;
+    padding: 0.15rem 0.5rem;
+    font-family: var(--font-display);
+    font-size: 0.6rem;
+  }
+
+  .tag-sw { background: var(--accent-2); color: var(--on-accent-2); }
+  .tag-cad { background: var(--pixel-red); color: var(--on-accent); }
+
+  .slot h4 {
+    margin: 0.75rem 0 0.25rem;
+    font-size: 1.2rem;
+    font-weight: 600;
+  }
+
+  .slot p {
+    color: var(--muted);
+  }
+
+  /* how: a level map */
+  .map {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 2.5rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .map::before {
+    content: "";
+    position: absolute;
+    top: 2.25rem;
+    left: 10%;
+    right: 10%;
+    height: 8px;
+    background: repeating-linear-gradient(
+      90deg,
+      var(--accent) 0 8px,
+      transparent 8px 20px
+    );
+  }
+
+  .level {
+    position: relative;
+    margin: 4px;
+    padding: 0 1.25rem 1.5rem;
+    background: var(--surface);
+  }
+
+  .level-tile {
+    display: grid;
+    place-items: center;
+    width: 4.5rem;
+    height: 4.5rem;
+    margin: -1.25rem auto 1rem;
+    background: var(--accent);
+    color: var(--on-accent);
+    font-family: var(--font-display);
+    font-size: 1.6rem;
+    box-shadow: 0 0 0 4px var(--shadow), 6px 6px 0 4px var(--shadow);
+  }
+
+  .level:nth-child(2) .level-tile { background: var(--accent-2); color: var(--on-accent-2); }
+  .level:nth-child(3) .level-tile { background: var(--pixel-red); color: var(--on-accent); }
+
+  .level h3 {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: 1rem;
+    line-height: 1.4;
+    text-align: center;
+    margin-bottom: 0.75rem;
+  }
+
+  .map {
+    padding-top: 1.5rem;
+  }
+
+  /* faq: a game menu */
+  .menu {
+    display: grid;
+    gap: 1.25rem;
+    max-width: 50rem;
+  }
+
+  details {
+    margin: 4px;
+    background: var(--surface);
+  }
+
+  summary {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem 1.25rem;
+    font-size: 1.2rem;
+    font-weight: 600;
+    cursor: pointer;
+    list-style: none;
+  }
+
+  summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .cursor {
+    flex: none;
+    color: var(--accent);
+    transition: rotate 0.15s steps(2);
+  }
+
+  details[open] .cursor {
+    rotate: 90deg;
+  }
+
+  summary:hover {
+    color: var(--accent);
+  }
+
+  details p {
+    padding: 0 1.25rem 1.25rem 3.25rem;
+    color: var(--muted);
+    max-width: 62ch;
+  }
+
+  /* closer + footer */
+  .closer {
+    text-align: center;
+  }
+
+  .closer p {
+    font-family: var(--font-display);
+    font-size: clamp(1.2rem, 4vw, 2rem);
+    line-height: 1.4;
+  }
+
+  .foot {
+    padding-block: 2rem 3rem;
+    border-top: 4px dashed var(--border);
+    color: var(--muted);
+  }
+
+  .foot a {
+    color: var(--accent-2);
+  }
+
+  @media (max-width: 860px) {
+    .inventory {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .map {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 3rem;
+    }
+
+    .map::before {
+      top: 0;
+      bottom: 0;
+      left: 50%;
+      right: auto;
+      width: 8px;
+      height: auto;
+      translate: -50% 0;
+      background: repeating-linear-gradient(
+        180deg,
+        var(--accent) 0 8px,
+        transparent 8px 20px
+      );
+    }
+  }
+
+  @media (max-width: 560px) {
+    .inventory {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .top nav {
+      order: 3;
+      width: 100%;
+      margin-left: 0;
+    }
+
+    .hc {
+      margin-left: auto;
+    }
+
+    .hud {
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .dialog {
+      padding: 1.25rem;
+    }
+  }
+</style>

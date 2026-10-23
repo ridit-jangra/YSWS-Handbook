@@ -1,0 +1,535 @@
+---
+import Base from "../layouts/Base.astro";
+
+const hooks = [
+  {
+    id: "tools", no: "0101", name: "Tools",
+    blurb: "Dev tools, CLIs, editor plugins, debuggers. Stuff that makes building other stuff faster.",
+    gear: ["Mechanical keyboard", "Second monitor", "IDE licences", "A really good chair"],
+  },
+  {
+    id: "systems", no: "0102", name: "Systems",
+    blurb: "Servers, networking, homelabs, OS internals. Anything that has to stay up while you sleep.",
+    gear: ["Mini PC for a homelab", "Managed switch", "Raspberry Pi 5", "NAS drives"],
+  },
+  {
+    id: "compute", no: "0103", name: "Compute",
+    blurb: "GPUs, ML, simulations, number crunching. Projects that make a fan spin up.",
+    gear: ["GPU", "Cloud GPU hours", "More RAM", "A bigger SSD"],
+  },
+  {
+    id: "hardware", no: "0104", name: "Hardware",
+    blurb: "PCBs, keyboards, robots, sensors. If it needs solder or a 3D printer, hang it here.",
+    gear: ["Soldering station", "Oscilloscope", "3D printer", "PCB fab credit"],
+  },
+];
+
+const shift = [
+  { time: "06:00", what: "Grab a hook", note: "Pick Tools, Systems, Compute or Hardware. One hook per Kumpel.", stamp: "EIN" },
+  { time: "06:05", what: "Build in your track", note: "Make something real. It should work for someone who isn't you.", stamp: "" },
+  { time: "13:40", what: "Ship it", note: "Put it online and submit it.", stamp: "SHIPPED" },
+  { time: "14:10", what: "Get reviewed", note: "A reviewer checks it. You get XP and ores.", stamp: "+XP +ORES" },
+  { time: "14:15", what: "Hit the tool counter", note: "Spend ores in the shop. Your hook's gear is discounted by your XP, permanently.", stamp: "AUS" },
+];
+
+const tokens = [
+  { tag: "Who?", q: "Who can join?", a: "Anyone 18 or under with a Hack Club Slack account." },
+  { tag: "1 hook", q: "Do I have to stick to one track?", a: "Yes, you pick one hook. Your XP discount builds up on that track's shop items, so pick the one you'll keep shipping in." },
+  { tag: "Other gear", q: "Can I buy from another track?", a: "Sure. Ores work everywhere, but outside your track there's no XP discount. Full price. Kind of boring." },
+  { tag: "XP / ores", q: "What's the difference between XP and ores?", a: "Ores are cash: you spend them, they're gone. XP stays forever and only goes up. It sets your discount and gets you a coupon every 3 levels." },
+  { tag: "Coupons", q: "Do coupons expire?", a: "No. Every 3 levels you get a permanent coupon. Use it on the expensive stuff." },
+  { tag: "Missing", q: "The shop doesn't have what I need.", a: "Request it in the shop. If it helps you build bigger things, we'll try to add it." },
+  { tag: "Germany", q: "How do I get to the hackathon?", a: "It's a 3-day, in-person hackathon in Germany. How you qualify and how travel works gets posted before launch." },
+  { tag: "Cost", q: "Does it cost anything?", a: "No. Free, like every Hack Club YSWS." },
+];
+---
+
+<Base
+  title="LOADOUT, the chain hall"
+  description="LOADOUT is a Hack Club YSWS. Grab a hook (Tools, Systems, Compute or Hardware), ship projects, earn XP and ores, and pull down better gear."
+  theme="concept-2"
+  fonts="family=Barlow+Condensed:wght@600;700;800&family=Barlow:ital,wght@0,400;0,600;1,400"
+>
+  <svg width="0" height="0" class="defs" aria-hidden="true">
+    <defs>
+      <symbol id="hook" viewBox="0 0 40 60">
+        <path d="M20 0 V24 C20 34 34 34 34 44 C34 56 8 58 6 44" fill="none" stroke="var(--steel)" stroke-width="5" stroke-linecap="round" />
+      </symbol>
+      <symbol id="basket" viewBox="0 0 120 90">
+        <path d="M10 18 H110 L100 86 H20 Z" fill="none" stroke="var(--steel)" stroke-width="4" stroke-linejoin="round" />
+        <path d="M14 40 H106 M17 62 H103 M35 18 L40 86 M60 18 V86 M85 18 L80 86" stroke="var(--steel)" stroke-width="2" />
+        <path d="M30 18 C30 -2 90 -2 90 18" fill="none" stroke="var(--steel)" stroke-width="4" />
+      </symbol>
+    </defs>
+  </svg>
+
+  <header class="hall">
+    <div class="beam">
+      <a class="beam-mark" href="#top">LOADOUT</a>
+      <nav aria-label="Sections">
+        <a href="#aushang">What is this</a>
+        <a href="#haken">Hooks</a>
+        <a href="#stempeluhr">How it works</a>
+        <a href="#markenbrett">FAQ</a>
+      </nav>
+    </div>
+
+    <div class="hero" id="top">
+      <div class="hang hang--a" aria-hidden="true" style="--len: 120px"><span class="chain"></span><svg class="hookimg"><use href="#hook" /></svg><svg class="stuff" viewBox="0 0 100 60"><path d="M14 46 C14 10 86 10 86 46 Z" fill="#f3c623" stroke="#17262e" stroke-width="4"/><path d="M6 46 H94" stroke="#17262e" stroke-width="6" stroke-linecap="round"/><circle cx="50" cy="26" r="7" fill="#f6f2e4" stroke="#17262e" stroke-width="3"/></svg><svg class="basketimg"><use href="#basket" /></svg></div>
+      <div class="hang hang--b" aria-hidden="true" style="--len: 40px"><span class="chain"></span><svg class="hookimg"><use href="#hook" /></svg><svg class="stuff" viewBox="0 0 100 60"><path d="M30 6 L50 14 L70 6 L92 22 L84 34 L74 28 V60 H26 V28 L16 34 L8 22 Z" fill="#e8712b" stroke="#17262e" stroke-width="4" stroke-linejoin="round"/><path d="M26 40 H74 M26 48 H74" stroke="#f6f2e4" stroke-width="4"/></svg><svg class="basketimg"><use href="#basket" /></svg></div>
+      <div class="hang hang--c" aria-hidden="true" style="--len: 180px"><span class="chain"></span><svg class="hookimg"><use href="#hook" /></svg></div>
+      <div class="hang hang--d" aria-hidden="true" style="--len: 70px"><span class="chain"></span><svg class="hookimg"><use href="#hook" /></svg><svg class="stuff" viewBox="0 0 100 60"><path d="M14 4 H38 V40 H52 V56 H14 Z M56 4 H80 V40 H94 V56 H56 Z" fill="#2b2f33" stroke="#17262e" stroke-width="3" stroke-linejoin="round"/></svg><svg class="basketimg"><use href="#basket" /></svg></div>
+      <div class="hang hang--e" aria-hidden="true" style="--len: 150px"><span class="chain"></span><svg class="hookimg"><use href="#hook" /></svg><svg class="stuff" viewBox="0 0 100 60"><rect x="34" y="10" width="32" height="44" rx="6" fill="#555d64" stroke="#17262e" stroke-width="4"/><circle cx="50" cy="28" r="9" fill="#f3c623" stroke="#17262e" stroke-width="3"/></svg><svg class="basketimg"><use href="#basket" /></svg></div>
+
+      <div class="sign-rig">
+        <span class="chain chain--l" aria-hidden="true"></span>
+        <span class="chain chain--r" aria-hidden="true"></span>
+        <div class="enamel">
+          <p class="enamel-greet">Glück auf!</p>
+          <h1>LOADOUT</h1>
+          <p class="enamel-by">a Hack Club YSWS</p>
+        </div>
+      </div>
+      <p class="plate">Want better tools for bigger builds? Ship projects, get paid in XP and ores, and pull better gear down off the ceiling.</p>
+      <a class="pushbutton" href="#haken">Grab a hook</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="wall" id="aushang" aria-labelledby="aushang-h">
+      <article class="notice">
+        <p class="notice-head">Notice to all Kumpels</p>
+        <h2 id="aushang-h">What this is</h2>
+        <p>LOADOUT is a Hack Club YSWS for teens who want to build bigger things and need better gear to do it.</p>
+        <p>You hang your stuff on one hook: <strong>Tools</strong>, <strong>Systems</strong>, <strong>Compute</strong> or <strong>Hardware</strong>. Every project you ship in that track pays out XP and ores. Ores buy gear from the shop. XP never gets spent. It just piles up and makes your track's gear permanently cheaper.</p>
+        <p>Every 3 levels you also get a permanent coupon for the expensive stuff. And at the end there's a 3-day hackathon in Germany, in person.</p>
+        <p class="notice-sign">The shift crew</p>
+      </article>
+      <div class="rules">
+        <p class="minisign minisign--white">One hook per Kumpel</p>
+        <p class="minisign minisign--blue">Ores get spent<br />XP stays</p>
+        <p class="minisign minisign--yellow">Buying off another hook: allowed, but boring</p>
+      </div>
+    </section>
+
+    <section class="hooks" id="haken" aria-labelledby="haken-h">
+      <div class="hooks-intro">
+        <h2 id="haken-h">Pull down a hook</h2>
+        <p>Each hook is a track, and each basket is that track's shop. Pull a chain to bring it down and see what's in it.</p>
+      </div>
+      <div class="ceiling" aria-hidden="true"></div>
+      <div class="rig" role="group" aria-label="Tracks">
+        {hooks.map((h, i) => (
+          <div class={`rig-col${i === 0 ? " is-down" : ""}`} data-hook={h.id}>
+            <span class="chain rig-chain" aria-hidden="true"></span>
+            <svg class="hookimg" aria-hidden="true"><use href="#hook" /></svg>
+            <div class="rig-load" aria-hidden="true">
+              <svg class="basketimg"><use href="#basket" /></svg>
+              <svg class={`gear gear--${h.id}`} viewBox="0 0 100 70">
+                {h.id === "tools" && (<g stroke="#17262e" stroke-width="3" stroke-linejoin="round"><path d="M18 60 L62 16 M54 8 c10 -6 22 4 16 14 l-8 -2 -4 4 2 8 c-10 6 -20 -6 -14 -16 z" fill="#f3c623" /><rect x="58" y="34" width="34" height="22" rx="3" fill="#1d4b87" /><path d="M64 40h4M72 40h4M80 40h4M64 48h20" stroke="#f6f2e4" /></g>)}
+                {h.id === "systems" && (<g stroke="#17262e" stroke-width="3"><rect x="14" y="18" width="72" height="16" fill="#555d64" /><rect x="14" y="38" width="72" height="16" fill="#555d64" /><circle cx="24" cy="26" r="3" fill="#7fd36b" /><circle cx="24" cy="46" r="3" fill="#f3c623" /><path d="M86 30 c14 4 14 24 0 28 c-12 4 -10 12 0 12" fill="none" stroke="#1d4b87" stroke-width="4" /></g>)}
+                {h.id === "compute" && (<g stroke="#17262e" stroke-width="3"><rect x="8" y="14" width="84" height="38" rx="4" fill="#2b2f33" /><circle cx="32" cy="33" r="13" fill="#555d64" /><circle cx="68" cy="33" r="13" fill="#555d64" /><path d="M32 22v22M21 33h22M68 22v22M57 33h22" stroke="#d9e6dc" stroke-width="2" /><path d="M16 52 v8 h40 v-8" fill="#f3c623" /></g>)}
+                {h.id === "hardware" && (<g stroke="#17262e" stroke-width="3"><rect x="10" y="20" width="56" height="40" fill="#2f5d4c" /><rect x="22" y="30" width="16" height="14" fill="#17262e" /><path d="M44 30h14M44 38h14M44 46h8" stroke="#f3c623" stroke-width="2" /><path d="M60 8 L92 40" stroke="#9c4a26" stroke-width="7" stroke-linecap="round" /><path d="M92 40 L98 50" stroke="#555d64" stroke-width="3" /></g>)}
+              </svg>
+            </div>
+            <p class="hook-plate"><span>{h.no}</span>{h.name}</p>
+            <button class="pull" type="button" aria-controls="counter" aria-pressed={i === 0 ? "true" : "false"} data-hook={h.id}>
+              <span class="pull-chain" aria-hidden="true"></span>
+              <span class="pull-handle">Pull<span class="sr-only"> {h.name}</span></span>
+            </button>
+          </div>
+        ))}
+      </div>
+
+      <div class="counter" id="counter" aria-live="polite">
+        {hooks.map((h, i) => (
+          <div class="counter-slip" data-slip={h.id} hidden={i !== 0}>
+            <p class="slip-no">Hook {h.no}</p>
+            <h3>{h.name}</h3>
+            <p>{h.blurb}</p>
+            <p class="slip-label">In the basket (example shop items):</p>
+            <ul>{h.gear.map((g) => <li>{g}</li>)}</ul>
+            <p class="slip-discount">Your XP discount applies to everything in this basket, permanently.</p>
+          </div>
+        ))}
+        <p class="counter-request">Need something that isn't hanging up here? Request it in the shop.</p>
+      </div>
+    </section>
+
+    <section class="clock" id="stempeluhr" aria-labelledby="clock-h">
+      <h2 id="clock-h">How a shift works</h2>
+      <div class="clock-body">
+        <div class="timeclock" aria-hidden="true">
+          <div class="clockface">
+            <span class="hand hand--h"></span><span class="hand hand--m"></span>
+          </div>
+          <p>Stempeluhr</p>
+          <div class="slot"></div>
+        </div>
+        <div class="timecard">
+          <div class="timecard-top">
+            <p>Time card <strong>Kumpel #____</strong></p>
+            <ol class="levels" aria-label="XP levels: every third level punches a coupon">
+              {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((n) => (
+                <li class={n % 3 === 0 ? "coupon-hole" : ""}><span>{n}</span>{n % 3 === 0 && <em>coupon</em>}</li>
+              ))}
+            </ol>
+          </div>
+          <table>
+            <thead><tr><th scope="col">Time</th><th scope="col">What</th><th scope="col">Stamp</th></tr></thead>
+            <tbody>
+              {shift.map((r) => (
+                <tr>
+                  <td class="t">{r.time}</td>
+                  <td><strong>{r.what}</strong><br />{r.note}</td>
+                  <td class="st">{r.stamp && <span class="stamp">{r.stamp}</span>}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          <p class="timecard-foot">Top row is your XP level. Every 3rd hole gets punched as a <strong>permanent coupon</strong> for the expensive stuff.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="trip" aria-labelledby="trip-h">
+      <div class="roadsign" aria-hidden="true">
+        <span class="roadsign-top">Hackathon</span>
+        <span class="roadsign-main">Germany</span>
+        <span class="roadsign-km">3 Tage</span>
+      </div>
+      <div class="trip-text">
+        <h2 id="trip-h">After the shifts: Germany</h2>
+        <p>LOADOUT ends with a 3-day hackathon in Germany, in real life. Bring your gear, meet the people you've been shipping next to, and build something bigger than you could alone. Details on who goes come before launch.</p>
+      </div>
+    </section>
+
+    <section class="board" id="markenbrett" aria-labelledby="board-h">
+      <h2 id="board-h">The token board</h2>
+      <p class="board-intro">Miners hung a brass token here before every shift. Ours each carry a question. Take one off the board.</p>
+      <div class="board-wrap">
+        <div class="tokens" role="group" aria-label="Questions">
+          {tokens.map((t, i) => (
+            <button class="token" type="button" aria-label={t.q} aria-pressed={i === 0 ? "true" : "false"} data-token={i}>
+              <span class="token-nail" aria-hidden="true"></span>
+              <span class="token-disc"><span class="token-no">{String(i + 1).padStart(2, "0")}</span><span class="token-tag">{t.tag}</span></span>
+            </button>
+          ))}
+        </div>
+        <div class="logbook" aria-live="polite">
+          {tokens.map((t, i) => (
+            <div class="log" data-log={i} hidden={i !== 0}>
+              <p class="log-q">{t.q}</p>
+              <p>{t.a}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="floor">
+    <p>LOADOUT is a Hack Club YSWS. Hack Club is a nonprofit for teenagers who code. <strong>Glück auf!</strong></p>
+    <a class="pushbutton pushbutton--small" href="#haken">Grab a hook</a>
+  </footer>
+</Base>
+
+<style>
+  .defs { position: absolute; }
+  body { font-size: 1.05rem; line-height: 1.55; }
+  h1, h2, h3 { font-family: var(--font-display); font-weight: 800; line-height: 1; margin: 0; }
+  h2 { font-size: clamp(2.2rem, 5vw, 3.4rem); }
+
+  /* glazed tiles everywhere, a dark dado band where the wall meets the floor */
+  .hall, main {
+    background-color: var(--tile);
+    background-image:
+      linear-gradient(var(--grout) 2px, transparent 2px),
+      linear-gradient(90deg, var(--grout) 2px, transparent 2px),
+      radial-gradient(circle at 30% 20%, rgba(255,255,255,.55), transparent 35%);
+    background-size: 44px 44px, 44px 44px, 44px 44px;
+  }
+
+  .chain {
+    display: block; width: 14px; margin: 0 auto;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='22'%3E%3Crect x='3' y='1' width='8' height='14' rx='4' fill='none' stroke='%23555d64' stroke-width='2.4'/%3E%3Crect x='6' y='12' width='2' height='10' fill='%23555d64'/%3E%3C/svg%3E") repeat-y center top;
+  }
+
+  /* ---------- the hall: ceiling beam + hanging rig ---------- */
+  .beam {
+    position: relative; z-index: 3; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px 20px;
+    background: var(--steel); color: #f2f2ee; padding: 12px clamp(16px, 4vw, 40px);
+    border-bottom: 6px solid #3f464c; box-shadow: inset 0 6px 0 #6b747c;
+    font-family: var(--font-display); font-weight: 700; font-size: 1.1rem; letter-spacing: .04em;
+  }
+  .beam-mark { text-decoration: none; color: var(--signal); font-weight: 800; font-size: 1.3rem; }
+  .beam nav { display: flex; flex-wrap: wrap; gap: 6px 22px; }
+  .beam nav a { text-decoration: none; padding: 2px 0; border-bottom: 2px solid transparent; }
+  .beam nav a:hover { border-color: var(--signal); }
+
+  .hero { position: relative; min-height: 640px; padding: 0 16px 120px; text-align: center; overflow: hidden; }
+  .hero::after {
+    content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 84px; background-color: var(--tile-dark);
+    background-image: linear-gradient(90deg, rgba(0,0,0,.25) 2px, transparent 2px); background-size: 44px 100%;
+    border-top: 6px solid #234638;
+  }
+  .hang { position: absolute; top: 0; width: 120px; z-index: 1; }
+  .hang .chain { height: var(--len); }
+  .hookimg { width: 40px; height: 60px; margin: -4px auto 0; }
+  .basketimg { width: 120px; height: 90px; margin: -16px auto 0; }
+  .stuff { width: 90px; height: 54px; margin: -2px auto -46px; position: relative; z-index: 1; }
+  .hang--a { left: 4%; } .hang--b { left: 16%; } .hang--c { right: 22%; } .hang--d { right: 12%; } .hang--e { right: 2%; }
+
+  .sign-rig { position: relative; z-index: 2; display: inline-block; margin-top: 0; transform-origin: 50% 0; animation: sway 2.6s ease-out 1; }
+  .sign-rig .chain { position: absolute; top: 0; height: 64px; }
+  .chain--l { left: 18%; } .chain--r { right: 18%; }
+  .enamel {
+    margin-top: 60px; background: var(--enamel); color: var(--enamel-cream); border-radius: 22px;
+    padding: 18px clamp(22px, 5vw, 56px) 20px; position: relative;
+    box-shadow: inset 0 0 0 6px var(--enamel), inset 0 0 0 10px var(--enamel-cream), 0 10px 0 rgba(23,38,46,.18);
+  }
+  .enamel::before, .enamel::after { /* bolts */
+    content: ""; position: absolute; top: 20px; width: 12px; height: 12px; border-radius: 50%;
+    background: radial-gradient(circle at 35% 35%, #fff, #8a939a 60%); box-shadow: 0 1px 0 #17262e;
+  }
+  .enamel::before { left: 20px; } .enamel::after { right: 20px; }
+  .enamel-greet { margin: 6px 0 0; font-family: var(--font-display); font-weight: 700; font-size: 1.4rem; color: var(--signal); }
+  h1 { font-size: clamp(4rem, 15vw, 10rem); letter-spacing: .02em; margin: -4px 0 -6px; }
+  .enamel-by { margin: 0 0 6px; font-family: var(--font-display); font-weight: 600; font-size: 1.2rem; letter-spacing: .05em; }
+  .plate {
+    position: relative; z-index: 2; max-width: 34em; margin: 26px auto 22px; background: var(--enamel-cream); color: var(--enamel);
+    border: 3px solid var(--enamel); border-radius: 10px; padding: 12px 18px; font-weight: 600; font-size: 1.12rem;
+  }
+  .pushbutton {
+    position: relative; z-index: 2; display: inline-block; text-decoration: none;
+    font-family: var(--font-display); font-weight: 800; font-size: 1.45rem; letter-spacing: .03em;
+    background: var(--signal); color: var(--text); padding: 12px 30px; border-radius: 999px;
+    border: 4px solid var(--text); box-shadow: 0 6px 0 var(--text);
+  }
+  .pushbutton:hover { transform: translateY(3px); box-shadow: 0 3px 0 var(--text); }
+  .pushbutton:active { transform: translateY(6px); box-shadow: none; }
+
+  @keyframes sway {
+    0% { transform: translateY(-240px) rotate(0deg); }
+    45% { transform: translateY(0) rotate(4deg); }
+    65% { transform: rotate(-2.5deg); }
+    82% { transform: rotate(1.2deg); }
+    100% { transform: rotate(0deg); }
+  }
+
+  /* ---------- notice wall ---------- */
+  .wall {
+    display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: 40px; align-items: start;
+    max-width: 1100px; margin: 0 auto; padding: 90px clamp(16px, 4vw, 40px);
+  }
+  .notice {
+    background: #fbf8ef; padding: 30px clamp(20px, 4vw, 40px) 26px; transform: rotate(-1.2deg); position: relative;
+    box-shadow: 2px 3px 0 rgba(23,38,46,.15);
+  }
+  .notice::before, .notice::after {
+    content: ""; position: absolute; top: -12px; width: 90px; height: 26px; background: rgba(243,198,35,.55);
+  }
+  .notice::before { left: 24px; transform: rotate(-6deg); } .notice::after { right: 24px; transform: rotate(5deg); }
+  .notice-head { font-family: var(--font-display); font-weight: 700; font-size: 1.1rem; margin: 0 0 4px; color: var(--rust); }
+  .notice h2 { margin-bottom: 14px; }
+  .notice-sign { font-style: italic; text-align: right; margin-bottom: 0; }
+  .rules { display: grid; gap: 22px; padding-top: 20px; }
+  .minisign {
+    margin: 0; font-family: var(--font-display); font-weight: 800; font-size: 1.6rem; line-height: 1.05; text-align: center;
+    padding: 16px 18px; border-radius: 12px; box-shadow: inset 0 0 0 4px currentColor, 0 4px 0 rgba(23,38,46,.2);
+  }
+  .minisign--white { background: #fbf8ef; color: var(--enamel); transform: rotate(1.5deg); }
+  .minisign--blue { background: var(--enamel); color: var(--enamel-cream); transform: rotate(-1deg); }
+  .minisign--yellow { background: var(--signal); color: var(--text); font-size: 1.3rem; transform: rotate(.8deg); }
+
+  /* ---------- hooks: the signature rig ---------- */
+  .hooks { position: relative; padding: 70px clamp(16px, 4vw, 40px) 90px; background: rgba(47,93,76,.08); }
+  .hooks-intro { max-width: 640px; margin: 0 auto 30px; text-align: center; }
+  .hooks-intro p { margin: 10px 0 0; }
+  .ceiling { height: 26px; max-width: 980px; margin: 0 auto; background: var(--steel); border-radius: 4px; box-shadow: inset 0 5px 0 #6b747c, 0 6px 0 #3f464c; }
+  .rig { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); max-width: 980px; margin: 0 auto; min-height: 380px; }
+  .rig-col { display: flex; flex-direction: column; align-items: center; position: relative; }
+  .rig-chain { height: 40px; }
+  .rig-col.is-down .rig-chain { height: 150px; }
+  .rig-load { position: relative; width: 120px; height: 100px; margin-top: -16px; }
+  .rig-load .basketimg { position: absolute; inset: 0; margin: 0; }
+  .gear { position: absolute; left: 10px; top: -22px; width: 100px; height: 70px; }
+  .hook-plate {
+    margin: 10px 0 0; font-family: var(--font-display); font-weight: 800; font-size: 1.35rem; text-align: center;
+    background: var(--enamel); color: var(--enamel-cream); padding: 4px 12px 6px; border-radius: 6px; line-height: 1.05;
+  }
+  .hook-plate span { display: block; font-size: .85rem; color: var(--signal); letter-spacing: .1em; }
+  .pull {
+    position: absolute; right: 4px; top: 0; background: none; border: 0; padding: 0; cursor: grab;
+    display: flex; flex-direction: column; align-items: center; color: var(--text);
+  }
+  .pull-chain { display: block; width: 4px; height: 110px; background: repeating-linear-gradient(180deg, var(--steel) 0 6px, transparent 6px 9px); transition: height .4s; }
+  .pull-handle {
+    font-family: var(--font-display); font-weight: 700; font-size: .95rem; background: var(--signal); border: 3px solid var(--text);
+    border-radius: 6px; padding: 2px 8px; white-space: nowrap;
+  }
+  .pull[aria-pressed="true"] .pull-chain { height: 200px; }
+  .pull[aria-pressed="true"] .pull-handle { background: var(--rust); color: #fff; }
+  .pull:active { cursor: grabbing; }
+
+  .counter {
+    max-width: 980px; margin: 30px auto 0; background: #7a5a3a; padding: 18px; border-radius: 6px;
+    background-image: repeating-linear-gradient(90deg, rgba(0,0,0,.08) 0 3px, transparent 3px 60px); box-shadow: 0 8px 0 #5a4129;
+  }
+  .counter-slip { background: var(--card); padding: 22px 26px; border-radius: 2px; transform: rotate(-.6deg); }
+  .counter-slip[hidden] { display: none; }
+  .slip-no { margin: 0; font-family: var(--font-display); font-weight: 700; color: var(--rust); letter-spacing: .08em; }
+  .counter-slip h3 { font-size: 2.4rem; }
+  .slip-label { font-weight: 600; margin-bottom: 4px; }
+  .counter-slip ul { margin: 0; padding-left: 20px; columns: 2; }
+  .slip-discount { margin-bottom: 0; font-weight: 600; color: var(--rust); }
+  .counter-request { color: var(--enamel-cream); margin: 14px 0 0; font-weight: 600; text-align: center; }
+
+  /* ---------- time clock ---------- */
+  .clock { padding: 90px clamp(16px, 4vw, 40px); max-width: 1100px; margin: 0 auto; }
+  .clock h2 { text-align: center; margin-bottom: 36px; }
+  .clock-body { display: grid; grid-template-columns: 200px 1fr; gap: 0; align-items: start; }
+  .timeclock {
+    background: #8c2f22; border-radius: 16px 16px 6px 6px; padding: 20px 16px 16px; text-align: center; color: #f6f2e4;
+    border: 4px solid var(--text); margin-top: 40px; font-family: var(--font-display); font-weight: 700; letter-spacing: .05em;
+  }
+  .clockface { width: 130px; height: 130px; border-radius: 50%; margin: 0 auto; background: #fbf8ef; border: 5px solid var(--text); position: relative; }
+  .hand { position: absolute; left: 50%; bottom: 50%; width: 4px; margin-left: -2px; background: var(--text); transform-origin: 50% 100%; border-radius: 2px; }
+  .hand--h { height: 34px; transform: rotate(60deg); } .hand--m { height: 52px; transform: rotate(-30deg); }
+  .slot { height: 12px; margin: 6px 20px 0; background: var(--text); border-radius: 3px; }
+  .timecard {
+    background: var(--card); padding: 22px 24px; margin-left: -12px; border: 2px solid #c8b98c; transform: rotate(1deg);
+    box-shadow: 3px 4px 0 rgba(23,38,46,.15); position: relative; z-index: 1;
+  }
+  .timecard-top p { margin: 0 0 10px; font-family: var(--font-display); font-weight: 700; font-size: 1.2rem; }
+  .levels { display: flex; gap: 6px; list-style: none; padding: 0; margin: 0 0 16px; flex-wrap: wrap; }
+  .levels li { width: 46px; text-align: center; font-family: var(--font-display); font-weight: 700; font-size: .85rem; }
+  .levels li span { display: block; width: 26px; height: 26px; margin: 0 auto 2px; border-radius: 50%; border: 2px dashed #a99a6e; line-height: 22px; }
+  .levels .coupon-hole span { background: var(--tile); border: 3px solid var(--rust); color: var(--rust); }
+  .levels em { font-style: normal; color: var(--rust); display: block; font-size: .75rem; }
+  .timecard table { width: 100%; border-collapse: collapse; }
+  .timecard th { text-align: left; font-family: var(--font-display); font-size: 1rem; border-bottom: 2px solid var(--text); padding: 4px 8px; }
+  .timecard td { border-bottom: 1px solid #c8b98c; padding: 10px 8px; vertical-align: top; }
+  .timecard .t { font-family: var(--font-display); font-weight: 700; font-size: 1.15rem; width: 4.2em; }
+  .timecard .st { width: 8.5em; text-align: center; }
+  .stamp {
+    display: inline-block; font-family: var(--font-display); font-weight: 800; color: var(--rust); border: 3px solid var(--rust);
+    padding: 0 6px; border-radius: 4px; transform: rotate(-7deg); opacity: .9; letter-spacing: .04em;
+  }
+  .timecard-foot { margin: 14px 0 0; font-size: .95rem; }
+
+  /* ---------- trip ---------- */
+  .trip { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 30px 60px; padding: 40px clamp(16px, 4vw, 40px) 90px; }
+  .roadsign {
+    background: var(--signal); color: #111; border: 5px solid #111; outline: 4px solid var(--signal);
+    font-family: var(--font-display); font-weight: 700; padding: 12px 70px 12px 22px; display: grid;
+    clip-path: polygon(0 0, 86% 0, 100% 50%, 86% 100%, 0 100%); min-width: 300px;
+  }
+  .roadsign-top { font-size: 1.1rem; }
+  .roadsign-main { font-size: 3rem; line-height: 1; }
+  .roadsign-km { font-size: 1.3rem; }
+  .trip-text { max-width: 480px; }
+  .trip-text p { margin-bottom: 0; }
+
+  /* ---------- token board FAQ ---------- */
+  .board { padding: 80px clamp(16px, 4vw, 40px) 100px; max-width: 1100px; margin: 0 auto; }
+  .board h2 { text-align: center; }
+  .board-intro { text-align: center; max-width: 36em; margin: 10px auto 30px; }
+  .board-wrap { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 30px; align-items: start; }
+  .tokens {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px 10px; padding: 26px 18px 30px;
+    background: #6b4f33; border: 6px solid #4a3622; border-radius: 6px;
+    background-image: repeating-linear-gradient(0deg, rgba(0,0,0,.1) 0 2px, transparent 2px 28px);
+  }
+  .token { background: none; border: 0; padding: 0; cursor: pointer; display: flex; flex-direction: column; align-items: center; transition: transform .2s; }
+  .token-nail { width: 10px; height: 10px; border-radius: 50%; background: #c9ced2; box-shadow: 0 2px 0 #222; }
+  .token-disc {
+    margin-top: 2px; width: 82px; height: 82px; border-radius: 50%; display: grid; place-content: center; text-align: center;
+    background: radial-gradient(circle at 35% 30%, #f3dc8e, #c79a3a 55%, #8e6a22); color: #2e2208;
+    box-shadow: inset 0 0 0 3px rgba(0,0,0,.25), 0 3px 0 rgba(0,0,0,.35); font-family: var(--font-display); font-weight: 800;
+  }
+  .token-no { font-size: 1.5rem; line-height: 1; }
+  .token-tag { font-size: .85rem; line-height: 1.05; padding: 0 6px; }
+  .token[aria-pressed="true"] { transform: translateY(14px) rotate(-8deg); }
+  .token[aria-pressed="true"] .token-disc { box-shadow: inset 0 0 0 3px rgba(0,0,0,.25), 0 0 0 4px var(--signal); }
+  .logbook { background: var(--card); padding: 26px 28px; border-left: 10px solid var(--rust); min-height: 220px; }
+  .log[hidden] { display: none; }
+  .log-q { font-family: var(--font-display); font-weight: 800; font-size: 1.9rem; line-height: 1.05; margin-top: 0; }
+
+  .floor {
+    background: #3a4146; color: #f2f2ee; padding: 30px 16px 40px; text-align: center;
+    background-image: linear-gradient(45deg, rgba(255,255,255,.04) 25%, transparent 25% 75%, rgba(255,255,255,.04) 75%); background-size: 40px 40px;
+  }
+  .pushbutton--small { font-size: 1.1rem; padding: 8px 20px; }
+
+  @media (max-width: 860px) {
+    .hang--b, .hang--c { display: none; }
+    .hang--a { left: -30px; } .hang--d { right: -40px; } .hang--e { display: none; }
+    .wall, .board-wrap { grid-template-columns: 1fr; }
+    .clock-body { grid-template-columns: 1fr; }
+    .timeclock { display: none; }
+    .timecard { margin: 0; transform: none; padding: 16px; }
+    .timecard thead { display: none; }
+    .timecard tr { display: grid; grid-template-columns: 4em 1fr; }
+    .timecard .st { grid-column: 2; text-align: left; border-bottom: 1px solid #c8b98c; }
+    .timecard td { border: 0; padding: 6px 4px; }
+    .rig { min-height: 330px; }
+    .rig-load { width: 76px; height: 64px; margin-top: -12px; }
+    .gear { left: 6px; top: -14px; width: 64px; height: 45px; }
+    .hook-plate { font-size: 1rem; padding: 3px 6px; }
+    .pull { position: static; margin-top: 10px; }
+    .pull-chain { height: 20px; }
+    .pull[aria-pressed="true"] .pull-chain { height: 40px; }
+    .pull-handle { font-size: .8rem; padding: 2px 4px; }
+    .rig-col.is-down .rig-chain { height: 90px; }
+    .counter-slip ul { columns: 1; }
+    .tokens { grid-template-columns: repeat(4, 1fr); padding: 18px 8px; }
+    .token-disc { width: 68px; height: 68px; }
+    .token-tag { font-size: .72rem; }
+  }
+  @media (max-width: 420px) {
+    .tokens { grid-template-columns: repeat(3, 1fr); }
+  }
+</style>
+
+<script>
+  import { gsap } from "gsap";
+
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const cols = [...document.querySelectorAll<HTMLElement>(".rig-col")];
+
+  function lower(id: string) {
+    cols.forEach((col) => {
+      const down = col.dataset.hook === id;
+      const chain = col.querySelector<HTMLElement>(".rig-chain")!;
+      const target = down ? (window.innerWidth <= 860 ? 90 : 150) : 40;
+      col.classList.toggle("is-down", down);
+      col.querySelector(".pull")!.setAttribute("aria-pressed", String(down));
+      if (reduce) chain.style.height = `${target}px`;
+      else gsap.to(chain, { height: target, duration: down ? 1.1 : 0.5, ease: down ? "elastic.out(1, 0.45)" : "power2.out" });
+    });
+    document.querySelectorAll<HTMLElement>("[data-slip]").forEach((slip) => {
+      slip.hidden = slip.dataset.slip !== id;
+      if (!slip.hidden && !reduce) gsap.from(slip, { y: -30, rotation: -3, opacity: 0, duration: 0.5, ease: "back.out(1.8)" });
+    });
+  }
+
+  document.querySelectorAll<HTMLButtonElement>(".pull").forEach((btn) => {
+    btn.addEventListener("click", () => lower(btn.dataset.hook!));
+    // a real tug works too: drag the handle down past 30px
+    let startY: number | null = null;
+    btn.addEventListener("pointerdown", (e) => { startY = e.clientY; });
+    window.addEventListener("pointerup", (e) => {
+      if (startY !== null && e.clientY - startY > 30) lower(btn.dataset.hook!);
+      startY = null;
+    });
+  });
+
+  // token board: take a token off, the logbook shows its question
+  document.querySelectorAll<HTMLButtonElement>(".token").forEach((tok) => {
+    tok.addEventListener("click", () => {
+      document.querySelectorAll(".token").forEach((t) => t.setAttribute("aria-pressed", String(t === tok)));
+      document.querySelectorAll<HTMLElement>("[data-log]").forEach((log) => { log.hidden = log.dataset.log !== tok.dataset.token; });
+    });
+  });
+</script>

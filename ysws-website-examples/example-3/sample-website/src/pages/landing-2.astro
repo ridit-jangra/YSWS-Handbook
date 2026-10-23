@@ -1,0 +1,1107 @@
+---
+import Base from "../layouts/Base.astro";
+
+const fonts =
+  "family=Archivo:wdth,wght@62..125,400..900&family=Courier+Prime:wght@400;700&family=Permanent+Marker";
+
+const ticketLines = [
+  { code: "01", item: "Drop-off", note: "Bring any site you made. Old YSWS project, portfolio, that one game. It has to be live." },
+  { code: "02", item: "Diagnosis", note: "Open it on your real phone. Write down every crack: pinch-zoom text, tiny buttons, sideways scroll." },
+  { code: "03", item: "Repair", note: "Fix it. Stack the layout, 44px taps, 16px text, nav your thumb can reach. Hackatime logs the hours." },
+  { code: "04", item: "Bench test", note: "Screen-record 30 seconds of you using it on the phone. Scroll, tap, rotate. No emulator." },
+  { code: "05", item: "Pickup", note: "Submit URL + repo + recording. A reviewer tests it on their own phone, then we ship your parts." },
+];
+
+const wall = [
+  { name: "Phone case", tag: "your model", kind: "case" },
+  { name: "USB-C cable", tag: "braided", kind: "cable" },
+  { name: "Fast charger", tag: "20W+", kind: "brick" },
+  { name: "Power bank", tag: "10,000 mAh", kind: "bank" },
+];
+
+const notes = [
+  { q: "who can bring a site in?", a: "Anyone 13 to 18. Zero CSS experience is fine, you'll learn it on the bench." },
+  { q: "my site's already done. does fixing it count?", a: "That's literally the job. Repairs count. Brand new sites count too." },
+  { q: "what's 'mobile friendly' exactly?", a: "At 360px wide: no sideways scroll, no pinch-zoom to read, 44px tap targets, thumb-reachable nav, works rotated." },
+  { q: "frameworks? AI?", a: "Any stack. AI can help, but the hours have to be you, and the reviewer will ask what you changed." },
+  { q: "what do i actually get?", a: "Cases, chargers, cables, power banks. Big ships can go for a phone grant. Tiers lock in once we have a sponsor." },
+  { q: "is this legit?", a: "It's a Hack Club YSWS draft. RSVPs are how we show a sponsor people want it." },
+];
+---
+
+<Base
+  title="Mobile Friendly: The Repair Counter"
+  description="A Hack Club YSWS. Bring in a website that breaks on phones, fix it, and pick up phone accessories."
+  theme="concept-2"
+  fonts={fonts}
+>
+  <header class="sign">
+    <div class="sign-box">
+      <p class="sign-hc">Hack Club authorized</p>
+      <p class="sign-name">Mobile Friendly</p>
+      <p class="sign-sub">website screen repair &amp; accessories</p>
+    </div>
+    <nav class="sign-nav" aria-label="Sections">
+      <a href="#intake"><span class="long">What is this</span><span class="short">What</span></a>
+      <a href="#ticket"><span class="long">How it works</span><span class="short">How</span></a>
+      <a href="#wall"><span class="long">Parts wall</span><span class="short">Parts</span></a>
+      <a href="#notes">FAQ</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="bench" aria-labelledby="hero-line">
+      <div class="tape-strip">
+        <h1 id="hero-line">We fix websites that break on phones. You do the fixing. We pay in cases and chargers.</h1>
+      </div>
+
+      <figure class="phone-wrap" aria-label="A phone on the repair mat with a cracked screen showing a squished desktop website">
+        <!-- ARTIST: replace with an illustrated top-down repair bench: opened phone, spudger,
+             suction cup, a magnetic screw tray, all slightly messy. Keep the cracked screen. -->
+        <svg class="phone" viewBox="0 0 260 520" aria-hidden="true">
+          <rect x="6" y="6" width="248" height="508" rx="38" fill="#1b1d22" stroke="#0a0a0a" stroke-width="4" />
+          <rect x="20" y="22" width="220" height="476" rx="26" fill="#f4f6f8" />
+          <rect x="98" y="30" width="64" height="16" rx="8" fill="#1b1d22" />
+          <!-- the squished desktop site -->
+          <g fill="#161616">
+            <rect x="34" y="62" width="40" height="5" />
+            <rect x="140" y="62" width="14" height="3" /><rect x="158" y="62" width="14" height="3" />
+            <rect x="176" y="62" width="14" height="3" /><rect x="194" y="62" width="14" height="3" />
+            <rect x="212" y="62" width="14" height="3" />
+            <rect x="34" y="82" width="110" height="9" /><rect x="34" y="96" width="80" height="9" />
+            <rect x="34" y="112" width="110" height="3" fill="#777" /><rect x="34" y="118" width="96" height="3" fill="#777" />
+            <rect x="34" y="128" width="26" height="7" fill="#1d4e9e" />
+            <rect x="152" y="80" width="74" height="56" fill="#f59ab8" />
+            <rect x="34" y="148" width="58" height="40" fill="none" stroke="#161616" />
+            <rect x="100" y="148" width="58" height="40" fill="none" stroke="#161616" />
+            <rect x="166" y="148" width="60" height="40" fill="none" stroke="#161616" />
+          </g>
+          <rect x="20" y="200" width="220" height="298" fill="#e3e6ea" />
+          <text x="130" y="236" text-anchor="middle" font-family="Courier Prime, monospace" font-size="13" fill="#4d4d4d">(the rest of the page</text>
+          <text x="130" y="254" text-anchor="middle" font-family="Courier Prime, monospace" font-size="13" fill="#4d4d4d">is off to the right)</text>
+          <!-- crack -->
+          <g fill="none" stroke="#161616" stroke-width="2" stroke-linecap="round" opacity="0.85">
+            <path d="M168 300 L240 252 M168 300 L232 380 M168 300 L118 498 M168 300 L40 262 M168 300 L102 190 M168 300 L210 498 M168 300 L240 318" />
+            <path d="M200 280 L214 300 L236 296 M190 340 L170 360 M140 380 L120 360 M110 280 L96 300 M130 232 L150 220" stroke-width="1.5" />
+            <circle cx="168" cy="300" r="10" fill="#ffffff" fill-opacity="0.6" />
+          </g>
+        </svg>
+        <figcaption class="work-order">
+          <span>Work order #0001</span>
+          <span>Device: your website</span>
+          <span>Complaint: “only works in desktop mode”</span>
+        </figcaption>
+      </figure>
+
+      <!-- Take-a-number dispenser is the CTA. -->
+      <a class="dispenser" href="#ticket">
+        <span class="disp-body">
+          <span class="disp-now">now serving</span>
+          <span class="disp-num">042</span>
+        </span>
+        <span class="disp-ticket">Take a number: RSVP</span>
+      </a>
+
+      <svg class="tools" viewBox="0 0 1100 520" aria-hidden="true" preserveAspectRatio="xMidYMid meet">
+        <!-- spudger -->
+        <g transform="rotate(-24 180 120)">
+          <rect x="60" y="108" width="250" height="20" rx="10" fill="#6b3fa0" stroke="#0f1013" stroke-width="3" />
+          <path d="M310 108 L350 118 L310 128 Z" fill="#6b3fa0" stroke="#0f1013" stroke-width="3" />
+        </g>
+        <!-- suction cup -->
+        <g transform="translate(900 90)">
+          <circle r="56" fill="#3aa0d8" fill-opacity="0.75" stroke="#0f1013" stroke-width="3" />
+          <circle r="30" fill="#2a86bb" stroke="#0f1013" stroke-width="3" />
+          <rect x="-8" y="-110" width="16" height="80" rx="6" fill="#d81e3f" stroke="#0f1013" stroke-width="3" />
+          <circle cy="-112" r="16" fill="#d81e3f" stroke="#0f1013" stroke-width="3" />
+        </g>
+        <!-- screwdriver -->
+        <g transform="translate(-760 30) rotate(-12 930 420)">
+          <rect x="820" y="404" width="120" height="34" rx="12" fill="#ffd23f" stroke="#0f1013" stroke-width="3" />
+          <path d="M836 410 V432 M856 410 V432 M876 410 V432 M896 410 V432" stroke="#0f1013" stroke-width="2" />
+          <rect x="940" y="414" width="120" height="12" fill="#a7b0ba" stroke="#0f1013" stroke-width="3" />
+        </g>
+        <!-- loose screws -->
+        <g fill="#d7dce1" stroke="#0f1013" stroke-width="2">
+          <circle cx="250" cy="380" r="7" /><circle cx="286" cy="404" r="7" /><circle cx="760" cy="200" r="7" />
+        </g>
+      </svg>
+
+      <ul class="tray" aria-hidden="true">
+        <li></li><li></li><li></li><li></li><li></li><li></li>
+      </ul>
+    </section>
+
+    <section id="intake" class="clipboard" aria-labelledby="intake-title">
+      <div class="clip" aria-hidden="true"></div>
+      <h2 id="intake-title">Intake form</h2>
+      <dl class="form-rows">
+        <div><dt>Customer</dt><dd class="filled">a teen with a cool site</dd></div>
+        <div><dt>Device</dt><dd class="filled">website, built on a laptop</dd></div>
+      </dl>
+      <fieldset class="checks">
+        <legend>Problem reported</legend>
+        <p><span class="box checked" aria-hidden="true"></span>have to turn on desktop mode to see it</p>
+        <p><span class="box checked" aria-hidden="true"></span>text is so small I pinch-zoom everything</p>
+        <p><span class="box checked" aria-hidden="true"></span>page slides sideways when I scroll</p>
+        <p><span class="box checked" aria-hidden="true"></span>menu button is somewhere up in the corner, probably</p>
+        <p><span class="box" aria-hidden="true"></span>works great on my phone <span class="lol">(nobody ticks this)</span></p>
+      </fieldset>
+      <div class="tech-notes">
+        <h3>Tech's notes</h3>
+        <p>
+          Mobile Friendly is a Hack Club You Ship, We Ship for websites that actually work on a phone. Most
+          YSWS sites are built on a laptop and tested on a laptop, so on a phone you get desktop mode and
+          thumb cramps.
+        </p>
+        <p>
+          You ship a site, new or one you're fixing, that works great at phone size. We ship you phone
+          accessories: cases, chargers, power banks. Big ships can get a phone grant.
+        </p>
+      </div>
+    </section>
+
+    <section id="ticket" class="ticket-wrap" aria-labelledby="ticket-title">
+      <div class="ticket">
+        <p class="t-head">Mobile Friendly Repair</p>
+        <p class="t-sub">counter #mobile-friendly · Hack Club Slack</p>
+        <h2 id="ticket-title" class="t-title">Repair ticket: how it works</h2>
+        <ol class="t-lines">
+          {
+            ticketLines.map((l) => (
+              <li>
+                <span class="t-code">{l.code}</span>
+                <span class="t-item">{l.item}</span>
+                <span class="t-note">{l.note}</span>
+              </li>
+            ))
+          }
+        </ol>
+        <dl class="t-total">
+          <div><dt>Parts</dt><dd>$0.00</dd></div>
+          <div><dt>Labor</dt><dd>you</dd></div>
+          <div><dt>Paid in</dt><dd>phone stuff</dd></div>
+        </dl>
+        <div class="barcode" aria-hidden="true"></div>
+      </div>
+
+      <!-- Signature moment: drag the claim stub down to tear it off. -->
+      <div class="stub-slot">
+        <div class="revealed" aria-live="polite" inert>
+          <p class="rev-big">You're in the queue.</p>
+          <p>Keep the stub. When fittings open we'll ping you in Slack.</p>
+          <a class="rsvp" href="https://forms.hackclub.com/mobile-friendly">Fill the RSVP form</a>
+        </div>
+        <button class="stub" type="button">
+          <span class="stub-label">Claim stub</span>
+          <span class="stub-num">042</span>
+          <span class="stub-hint">Pull down to tear off and RSVP</span>
+        </button>
+      </div>
+    </section>
+
+    <section id="wall" class="wall" aria-labelledby="wall-title">
+      <h2 id="wall-title">Parts wall</h2>
+      <p class="wall-sub">What we ship back. Bigger repair, more off the wall.</p>
+      <div class="pegboard">
+        <div class="shelf">
+          <div class="grant">
+            <p class="grant-small">top shelf, ask at the counter</p>
+            <p class="grant-big">Phone grant</p>
+            <p class="grant-body">For ships that go way past one site.</p>
+          </div>
+        </div>
+        <ul class="hooks">
+          {
+            wall.map((w, i) => (
+              <li class="hang" style={`--d:${i * 0.15}s`}>
+                <span class="hook" aria-hidden="true" />
+                <span class="blister">
+                  <span class="blister-head" aria-hidden="true" />
+                  <svg viewBox="0 0 100 100" class="part" aria-hidden="true">
+                    {w.kind === "case" && (
+                      <g stroke="#161616" stroke-width="3">
+                        <rect x="28" y="8" width="44" height="84" rx="10" fill="#f59ab8" />
+                        <rect x="34" y="14" width="16" height="20" rx="5" fill="#161616" />
+                      </g>
+                    )}
+                    {w.kind === "cable" && (
+                      <g stroke="#161616" stroke-width="3" fill="none">
+                        <path d="M30 18 C10 40 90 40 70 62 C50 84 20 70 34 90" stroke-width="5" stroke="#1d4e9e" />
+                        <rect x="24" y="8" width="14" height="14" rx="3" fill="#a7b0ba" />
+                        <rect x="28" y="86" width="12" height="10" rx="3" fill="#a7b0ba" />
+                      </g>
+                    )}
+                    {w.kind === "brick" && (
+                      <g stroke="#161616" stroke-width="3">
+                        <rect x="24" y="26" width="52" height="56" rx="8" fill="#ffffff" />
+                        <path d="M40 26 V12 M60 26 V12" />
+                        <path d="M54 40 L44 56 H56 L46 72" fill="none" stroke="#1d4e9e" />
+                      </g>
+                    )}
+                    {w.kind === "bank" && (
+                      <g stroke="#161616" stroke-width="3">
+                        <rect x="14" y="30" width="72" height="42" rx="8" fill="#ffd23f" />
+                        <circle cx="30" cy="51" r="4" fill="#161616" />
+                        <circle cx="42" cy="51" r="4" fill="#161616" />
+                        <circle cx="54" cy="51" r="4" fill="#ffffff" />
+                      </g>
+                    )}
+                  </svg>
+                  <span class="part-name">{w.name}</span>
+                  <span class="part-tag">{w.tag}</span>
+                </span>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </section>
+
+    <section id="notes" class="counter" aria-labelledby="notes-title">
+      <h2 id="notes-title">Notes stuck to the counter</h2>
+      <p class="counter-sub">Stuff people ask at the kiosk, answered in whatever pen was nearby.</p>
+      <ul class="stickies">
+        {
+          notes.map((n) => (
+            <li class="sticky">
+              <p class="s-q">{n.q}</p>
+              <p class="s-a">{n.a}</p>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <p>Mobile Friendly is a Hack Club YSWS draft. Questions go to #mobile-friendly on the Hack Club Slack.</p>
+  </footer>
+</Base>
+
+<script>
+  const stub = document.querySelector<HTMLButtonElement>(".stub")!;
+  const slot = document.querySelector<HTMLElement>(".stub-slot")!;
+  const TEAR = 90;
+  let startY = 0;
+  let pulled = 0;
+  let dragging = false;
+  let moved = false;
+
+  function tear() {
+    slot.classList.add("torn");
+    slot.querySelector(".revealed")!.removeAttribute("inert");
+    stub.style.transform = "";
+    stub.setAttribute("aria-hidden", "true");
+    stub.tabIndex = -1;
+    slot.querySelector<HTMLAnchorElement>(".rsvp")?.focus({ preventScroll: true });
+    // Once it has fallen, take it out of layout so it can't cause sideways scroll.
+    stub.addEventListener("animationend", () => (stub.hidden = true), { once: true });
+  }
+
+  stub.addEventListener("pointerdown", (e) => {
+    dragging = true;
+    moved = false;
+    startY = e.clientY;
+    stub.setPointerCapture(e.pointerId);
+    stub.classList.add("pulling");
+  });
+  stub.addEventListener("pointermove", (e) => {
+    if (!dragging) return;
+    pulled = Math.max(0, e.clientY - startY);
+    if (pulled > 4) moved = true;
+    // The perforation gives on one side first, so the stub swings as it comes away.
+    stub.style.transform = `translateY(${Math.min(pulled, 140) * 0.6}px) rotate(${Math.min(pulled, 140) * 0.06}deg)`;
+    if (pulled > TEAR) {
+      dragging = false;
+      tear();
+    }
+  });
+  const release = () => {
+    if (!dragging) return;
+    dragging = false;
+    stub.classList.remove("pulling");
+    stub.style.transform = "";
+  };
+  stub.addEventListener("pointerup", release);
+  stub.addEventListener("pointercancel", release);
+  // A plain tap or Enter/Space also tears it, so nobody is locked out.
+  stub.addEventListener("click", () => {
+    if (!moved && !slot.classList.contains("torn")) tear();
+  });
+</script>
+
+<style>
+  :global(body) {
+    background-color: var(--bg);
+    background-image:
+      linear-gradient(var(--mat-line) 2px, transparent 2px),
+      linear-gradient(90deg, var(--mat-line) 2px, transparent 2px);
+    background-size: 40px 40px;
+    font-size: 1.0625rem;
+  }
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    font-stretch: 125%;
+    line-height: 1;
+    margin: 0;
+  }
+
+  /* ---------- lightbox sign ---------- */
+  .sign {
+    background: #26282d;
+    padding: 0.9rem 1rem 0;
+    border-bottom: 6px solid #0f1013;
+    text-align: center;
+  }
+  .sign-box {
+    display: inline-block;
+    background: #fff;
+    color: var(--ink);
+    padding: 0.6rem clamp(1rem, 4vw, 3rem) 0.7rem;
+    border: 4px solid #0f1013;
+    box-shadow:
+      0 0 0 4px #a7b0ba,
+      0 0 40px rgba(255, 255, 255, 0.35);
+    max-width: 100%;
+  }
+  .sign-hc {
+    margin: 0;
+    font-family: var(--font-hand);
+    font-weight: 700;
+    font-size: 0.9rem;
+    color: #b0103e;
+  }
+  .sign-name {
+    margin: 0;
+    font-family: var(--font-display);
+    font-stretch: 125%;
+    font-weight: 900;
+    font-size: clamp(2.1rem, 8vw, 4.4rem);
+    line-height: 0.95;
+    color: #d6195a;
+    letter-spacing: -0.01em;
+  }
+  .sign-sub {
+    margin: 0.2rem 0 0;
+    font-stretch: 100%;
+    font-weight: 600;
+  }
+  .sign-nav {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0 0.4rem;
+    margin-top: 0.8rem;
+  }
+  .sign-nav a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: 700;
+    padding: 0.7rem 0.8rem;
+    min-height: 44px;
+    border-radius: 6px 6px 0 0;
+  }
+  .sign-nav a:hover {
+    background: var(--accent);
+    color: var(--on-accent);
+  }
+
+  main {
+    padding: 0 1rem;
+  }
+
+  /* ---------- bench (hero) ---------- */
+  .bench {
+    position: relative;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 1.75rem 0 3rem;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    grid-template-areas:
+      "tape tape tape"
+      "tray phone disp";
+    align-items: center;
+    gap: 1.5rem 2rem;
+  }
+  .tools {
+    position: absolute;
+    inset: 4rem 0 0;
+    width: 100%;
+    height: calc(100% - 4rem);
+    pointer-events: none;
+    z-index: 0;
+    filter: drop-shadow(6px 8px 0 rgba(0, 0, 0, 0.3));
+  }
+  .tape-strip,
+  .phone-wrap,
+  .dispenser,
+  .tray {
+    position: relative;
+    z-index: 1;
+  }
+  .tape-strip {
+    grid-area: tape;
+    justify-self: center;
+    max-width: 42rem;
+    background: rgba(255, 244, 214, 0.94);
+    color: var(--ink);
+    padding: 0.9rem 1.4rem;
+    transform: rotate(-1.5deg);
+    box-shadow: 0 2px 0 rgba(0, 0, 0, 0.2);
+    clip-path: polygon(1% 4%, 99% 0, 100% 93%, 0 100%);
+  }
+  .tape-strip h1 {
+    font-stretch: 100%;
+    font-weight: 800;
+    font-size: clamp(1.4rem, 3.6vw, 2.2rem);
+    line-height: 1.1;
+  }
+  .phone-wrap {
+    grid-area: phone;
+    margin: 0;
+    display: grid;
+    justify-items: center;
+    gap: 1rem;
+  }
+  .phone {
+    width: clamp(200px, 22vw, 290px);
+    transform: rotate(-9deg);
+    filter: drop-shadow(14px 18px 0 rgba(0, 0, 0, 0.35));
+  }
+  .work-order {
+    display: grid;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--font-hand);
+    font-size: 0.95rem;
+    padding: 0.6rem 0.9rem;
+    transform: rotate(2deg);
+    border-left: 8px solid var(--accent);
+  }
+  .dispenser {
+    grid-area: disp;
+    justify-self: start;
+    display: grid;
+    justify-items: center;
+    text-decoration: none;
+    color: var(--ink);
+  }
+  .disp-body {
+    display: grid;
+    justify-items: center;
+    background: #d81e3f;
+    color: #fff;
+    border: 4px solid #0f1013;
+    border-radius: 60px 60px 16px 16px;
+    padding: clamp(1.2rem, 3vw, 2rem) clamp(1.4rem, 3vw, 2.4rem) 1.2rem;
+    box-shadow: 8px 10px 0 rgba(0, 0, 0, 0.35);
+  }
+  .disp-now {
+    font-family: var(--font-hand);
+    font-size: 0.85rem;
+  }
+  .disp-num {
+    font-family: var(--font-hand);
+    font-weight: 700;
+    font-size: clamp(2.6rem, 5vw, 3.6rem);
+    line-height: 1;
+    background: #0f1013;
+    color: #ff5a5f;
+    padding: 0.2rem 0.6rem;
+    border-radius: 6px;
+    margin-top: 0.3rem;
+  }
+  .disp-ticket {
+    background: var(--paper);
+    border: 2px solid #0f1013;
+    padding: 0.9rem 1.3rem;
+    font-weight: 800;
+    font-size: 1.2rem;
+    margin-top: -2px;
+    transform-origin: top center;
+    transform: rotate(-4deg);
+    transition: transform 0.2s;
+    min-height: 44px;
+  }
+  .dispenser:hover .disp-ticket,
+  .dispenser:focus-visible .disp-ticket {
+    transform: rotate(3deg) translateY(4px);
+  }
+  .tray {
+    grid-area: tray;
+    justify-self: end;
+    list-style: none;
+    margin: 0;
+    padding: 10px;
+    display: grid;
+    grid-template-columns: repeat(3, 46px);
+    gap: 8px;
+    background: #12346b;
+    border-radius: 10px;
+    transform: rotate(5deg);
+  }
+  .tray li {
+    height: 46px;
+    border-radius: 6px;
+    background:
+      radial-gradient(circle, #d7dce1 0 3px, #6e7781 3px 5px, transparent 5px) 30% 40% / 100% 100% no-repeat,
+      radial-gradient(circle, #d7dce1 0 3px, #6e7781 3px 5px, transparent 5px) 70% 65% / 100% 100% no-repeat,
+      #1a428a;
+  }
+  .short {
+    display: none;
+  }
+  @media (max-width: 760px) {
+    .tools {
+      display: none;
+    }
+    .long {
+      display: none;
+    }
+    .short {
+      display: inline;
+    }
+    .sign-nav {
+      flex-wrap: nowrap;
+      gap: 0;
+      margin-top: 0.4rem;
+    }
+    .sign-nav a {
+      padding: 0.7rem 0.7rem;
+    }
+    .bench {
+      grid-template-columns: 1.15fr 1fr;
+      grid-template-areas:
+        "tape tape"
+        "phone disp";
+      padding-top: 1.5rem;
+      gap: 1.25rem 0.75rem;
+      align-items: center;
+    }
+    .tray,
+    .work-order {
+      display: none;
+    }
+    .phone {
+      width: 100%;
+      max-width: 200px;
+    }
+    .dispenser {
+      justify-self: center;
+    }
+  }
+
+  /* ---------- intake clipboard ---------- */
+  .clipboard {
+    position: relative;
+    max-width: 680px;
+    margin: 2rem auto 4.5rem;
+    background: var(--paper);
+    color: var(--ink);
+    padding: 3.2rem clamp(1.25rem, 5vw, 2.75rem) 2.25rem;
+    border: 14px solid #b88a52;
+    border-radius: 14px;
+    transform: rotate(1deg);
+    box-shadow: 12px 14px 0 rgba(0, 0, 0, 0.3);
+  }
+  .clip {
+    position: absolute;
+    top: -28px;
+    left: 50%;
+    width: 140px;
+    height: 46px;
+    margin-left: -70px;
+    background: linear-gradient(#e1e5e9, #8d969f);
+    border: 3px solid #0f1013;
+    border-radius: 10px 10px 4px 4px;
+  }
+  .clipboard h2 {
+    font-size: clamp(1.7rem, 5vw, 2.4rem);
+    font-weight: 900;
+    margin-bottom: 1.25rem;
+  }
+  .form-rows {
+    margin: 0 0 1.25rem;
+  }
+  .form-rows div {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 1rem;
+    border-bottom: 1px solid var(--ink);
+    padding: 0.4rem 0;
+  }
+  .form-rows dt {
+    font-weight: 700;
+    min-width: 6rem;
+  }
+  .form-rows dd,
+  .checks p {
+    margin: 0;
+  }
+  .filled {
+    font-family: var(--font-marker);
+    color: var(--bg);
+  }
+  .checks {
+    border: 0;
+    padding: 0;
+    margin: 0 0 1.5rem;
+  }
+  .checks legend {
+    font-weight: 700;
+    padding: 0;
+    margin-bottom: 0.5rem;
+  }
+  .checks p {
+    display: flex;
+    gap: 0.7rem;
+    align-items: baseline;
+    padding: 0.25rem 0;
+  }
+  .box {
+    flex: none;
+    width: 1.1rem;
+    height: 1.1rem;
+    border: 2px solid var(--ink);
+    position: relative;
+    top: 0.15rem;
+  }
+  .box.checked::after {
+    content: "✗";
+    position: absolute;
+    left: -0.1rem;
+    top: -0.75rem;
+    font-family: var(--font-marker);
+    font-size: 1.6rem;
+    color: #d6195a;
+  }
+  .lol {
+    font-family: var(--font-marker);
+    color: var(--muted);
+    font-size: 0.95rem;
+  }
+  .tech-notes {
+    border-top: 3px solid var(--ink);
+    padding-top: 1rem;
+  }
+  .tech-notes h3 {
+    font-size: 1.2rem;
+    margin-bottom: 0.6rem;
+  }
+  .tech-notes p {
+    margin: 0 0 0.9rem;
+    max-width: 60ch;
+  }
+
+  /* ---------- repair ticket ---------- */
+  .ticket-wrap {
+    margin: 0 auto 5rem;
+    max-width: 560px;
+    filter: drop-shadow(10px 12px 0 rgba(0, 0, 0, 0.3));
+    transform: rotate(-1deg);
+  }
+  .ticket {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--font-hand);
+    padding: 2rem clamp(1.1rem, 5vw, 2.25rem) 0.5rem;
+    /* torn thermal-paper edge on top; the stub carries the bottom edge */
+    --zz-top: conic-gradient(from 135deg at top, #0000, #000 1deg 89deg, #0000 90deg) top / 14px 51% repeat-x,
+      linear-gradient(#000 0 0) bottom / 100% 51% no-repeat;
+    -webkit-mask: var(--zz-top);
+    mask: var(--zz-top);
+  }
+  .t-head {
+    margin: 0;
+    text-align: center;
+    font-weight: 700;
+    font-size: 1.3rem;
+  }
+  .t-sub {
+    margin: 0 0 1rem;
+    text-align: center;
+    font-size: 0.9rem;
+    color: var(--muted);
+  }
+  .t-title {
+    font-family: var(--font-hand);
+    font-stretch: 100%;
+    font-weight: 700;
+    font-size: 1.05rem;
+    border-block: 2px dashed var(--ink);
+    padding: 0.5rem 0;
+    margin-bottom: 1rem;
+    text-align: center;
+  }
+  .t-lines {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .t-lines li {
+    display: grid;
+    grid-template-columns: 2.2rem 1fr;
+    gap: 0 0.5rem;
+    padding: 0.65rem 0;
+    border-bottom: 1px dotted var(--ink);
+  }
+  .t-code {
+    font-weight: 700;
+  }
+  .t-item {
+    font-weight: 700;
+    font-size: 1.15rem;
+  }
+  .t-note {
+    grid-column: 2;
+    font-size: 1rem;
+    line-height: 1.45;
+  }
+  .t-total {
+    margin: 1rem 0;
+  }
+  .t-total div {
+    display: flex;
+    justify-content: space-between;
+  }
+  .t-total div:last-child {
+    font-weight: 700;
+    font-size: 1.2rem;
+    border-top: 2px solid var(--ink);
+    margin-top: 0.3rem;
+    padding-top: 0.3rem;
+  }
+  .t-total dd {
+    margin: 0;
+  }
+  .barcode {
+    height: 54px;
+    margin: 0 auto 1.25rem;
+    width: 80%;
+    background: repeating-linear-gradient(
+      90deg,
+      var(--ink) 0 2px,
+      transparent 2px 4px,
+      var(--ink) 4px 7px,
+      transparent 7px 9px,
+      var(--ink) 9px 10px,
+      transparent 10px 14px
+    );
+  }
+  .stub-slot {
+    display: grid;
+    font-family: var(--font-hand);
+    color: var(--ink);
+  }
+  .stub,
+  .revealed {
+    grid-area: 1 / 1;
+    background: var(--paper);
+    --zz-bottom: conic-gradient(from -45deg at bottom, #0000, #000 1deg 89deg, #0000 90deg) bottom / 14px 51% repeat-x,
+      linear-gradient(#000 0 0) top / 100% 51% no-repeat;
+    -webkit-mask: var(--zz-bottom);
+    mask: var(--zz-bottom);
+    padding-bottom: 1.8rem;
+  }
+  .revealed {
+    background: #eef0e8;
+  }
+  .stub[hidden] {
+    display: none;
+  }
+  .stub {
+    all: unset;
+    display: grid;
+    justify-items: center;
+    gap: 0.2rem;
+    padding-top: 1.1rem;
+    /* perforation along the top */
+    background:
+      radial-gradient(circle, var(--bg) 0 3px, transparent 3.5px) 0 0 / 14px 10px repeat-x,
+      var(--paper);
+    cursor: grab;
+    touch-action: none;
+    position: relative;
+    z-index: 3;
+    transform-origin: 0 0;
+    transition: transform 0.25s cubic-bezier(0.3, 1.5, 0.5, 1);
+    user-select: none;
+  }
+  .stub.pulling {
+    transition: none;
+    cursor: grabbing;
+  }
+  .stub:focus-visible {
+    outline: 3px dashed var(--bg);
+    outline-offset: 4px;
+  }
+  .stub-label {
+    font-weight: 700;
+  }
+  .stub-num {
+    font-size: 2.6rem;
+    font-weight: 700;
+    line-height: 1;
+  }
+  .stub-hint {
+    font-size: 0.95rem;
+    background: var(--accent);
+    color: var(--on-accent);
+    padding: 0.35rem 0.8rem;
+    margin-top: 0.3rem;
+  }
+  .stub-hint::after {
+    content: "";
+    display: inline-block;
+    margin-left: 0.5rem;
+    border: 6px solid transparent;
+    border-top: 8px solid currentColor;
+    transform: translateY(4px);
+    animation: nudge 1.4s ease-in-out infinite;
+  }
+  @keyframes nudge {
+    50% {
+      transform: translateY(9px);
+    }
+  }
+  .revealed {
+    text-align: center;
+    padding: 1rem 1rem 1.8rem;
+  }
+  .revealed p {
+    margin: 0 0 0.6rem;
+  }
+  .rev-big {
+    font-weight: 700;
+    font-size: 1.4rem;
+  }
+  .rsvp {
+    display: inline-flex;
+    align-items: center;
+    min-height: 48px;
+    padding: 0.6rem 1.4rem;
+    background: var(--bg);
+    color: var(--on-bg);
+    font-family: var(--font-body);
+    font-weight: 800;
+    text-decoration: none;
+  }
+  .torn .stub {
+    pointer-events: none;
+    animation: fall 0.9s cubic-bezier(0.5, 0, 0.9, 0.5) forwards;
+  }
+  @keyframes fall {
+    to {
+      transform: translate(40px, 120vh) rotate(38deg);
+    }
+  }
+
+  /* ---------- pegboard ---------- */
+  .wall {
+    max-width: 1100px;
+    margin: 0 auto 5rem;
+    color: var(--on-bg);
+  }
+  .wall h2,
+  .counter h2 {
+    font-weight: 900;
+    font-size: clamp(2rem, 6vw, 3.6rem);
+  }
+  .wall-sub,
+  .counter-sub {
+    margin: 0.4rem 0 1.5rem;
+    font-size: 1.1rem;
+  }
+  .pegboard {
+    background-color: var(--pegboard);
+    background-image: radial-gradient(circle, var(--peg-hole) 0 4px, transparent 4.5px);
+    background-size: 32px 32px;
+    border: 10px solid #c9ced4;
+    padding: 1.5rem clamp(0.75rem, 3vw, 2rem) 2.5rem;
+    color: var(--ink);
+  }
+  .shelf {
+    border-bottom: 12px solid #8a6a43;
+    padding-bottom: 0;
+    margin-bottom: 2rem;
+    display: flex;
+    justify-content: flex-end;
+  }
+  .grant {
+    background: #fff;
+    border: 3px solid var(--ink);
+    padding: 1rem 1.25rem;
+    max-width: 19rem;
+    transform: rotate(-2deg) translateY(4px);
+    box-shadow: inset 0 -16px 0 var(--accent);
+  }
+  .grant-small {
+    margin: 0;
+    font-family: var(--font-marker);
+    font-size: 0.9rem;
+    color: var(--muted);
+  }
+  .grant-big {
+    margin: 0.2rem 0;
+    font-family: var(--font-display);
+    font-stretch: 125%;
+    font-weight: 900;
+    font-size: 2rem;
+    line-height: 1;
+  }
+  .grant-body {
+    margin: 0 0 1rem;
+  }
+  .hooks {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    gap: 2rem 1rem;
+  }
+  .hang {
+    position: relative;
+    display: grid;
+    justify-items: center;
+    padding-top: 1.8rem;
+  }
+  .hook {
+    position: absolute;
+    top: 0;
+    width: 8px;
+    height: 34px;
+    background: linear-gradient(90deg, #6e7781, #d7dce1, #6e7781);
+    border-radius: 4px;
+    z-index: 2;
+  }
+  .blister {
+    display: grid;
+    justify-items: center;
+    width: 10.5rem;
+    background: #fff;
+    border: 3px solid var(--ink);
+    border-radius: 10px;
+    padding: 1.6rem 0.75rem 0.9rem;
+    position: relative;
+    transform-origin: 50% -1.5rem;
+    animation: settle 2.4s ease-out var(--d) 1 both;
+  }
+  .blister-head {
+    position: absolute;
+    top: 0.5rem;
+    width: 2.2rem;
+    height: 0.8rem;
+    border-radius: 0.4rem;
+    border: 3px solid var(--ink);
+    background: var(--pegboard);
+  }
+  .hang:hover .blister,
+  .hang:active .blister {
+    animation: swing 1.2s ease-out;
+  }
+  @keyframes swing {
+    15% { transform: rotate(9deg); }
+    40% { transform: rotate(-6deg); }
+    65% { transform: rotate(3deg); }
+    85% { transform: rotate(-1deg); }
+  }
+  @keyframes settle {
+    0% { transform: rotate(6deg); }
+    30% { transform: rotate(-4deg); }
+    60% { transform: rotate(2deg); }
+    100% { transform: rotate(0); }
+  }
+  .part {
+    width: 90px;
+    height: 90px;
+    margin-bottom: 0.5rem;
+  }
+  .part-name {
+    font-weight: 800;
+    font-size: 1.1rem;
+  }
+  .part-tag {
+    font-family: var(--font-hand);
+    background: var(--accent-2);
+    padding: 0 0.5rem;
+    margin-top: 0.3rem;
+  }
+
+  /* ---------- sticky notes on the counter ---------- */
+  .counter {
+    max-width: 1100px;
+    margin: 0 auto 4rem;
+    color: var(--on-bg);
+  }
+  .stickies {
+    list-style: none;
+    margin: 0;
+    padding: 2rem clamp(0.75rem, 3vw, 2rem);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1.75rem;
+    background: linear-gradient(160deg, rgba(255, 255, 255, 0.22), rgba(255, 255, 255, 0.08) 40%, rgba(255, 255, 255, 0.16));
+    border: 3px solid rgba(255, 255, 255, 0.5);
+    border-radius: 6px;
+  }
+  .sticky {
+    width: min(100%, 15rem);
+    background: var(--accent-2);
+    color: var(--ink);
+    padding: 1.1rem 1rem 1.3rem;
+    box-shadow: 0 10px 14px -8px rgba(0, 0, 0, 0.5);
+    position: relative;
+  }
+  .sticky::before {
+    /* a bit of tape */
+    content: "";
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    width: 70px;
+    height: 22px;
+    margin-left: -35px;
+    background: rgba(255, 255, 255, 0.55);
+    transform: rotate(-4deg);
+  }
+  .sticky:nth-child(3n + 2) {
+    background: var(--accent);
+    transform: rotate(2.5deg);
+  }
+  .sticky:nth-child(3n + 1) {
+    transform: rotate(-2deg);
+  }
+  .sticky:nth-child(3n) {
+    background: #bfe9ff;
+    transform: rotate(1deg) translateY(10px);
+  }
+  .s-q {
+    margin: 0 0 0.6rem;
+    font-family: var(--font-marker);
+    font-size: 1.25rem;
+    line-height: 1.2;
+  }
+  .s-a {
+    margin: 0;
+    font-size: 1rem;
+    line-height: 1.45;
+  }
+
+  .foot {
+    text-align: center;
+    padding: 1.5rem 1rem 2.5rem;
+    border-top: 6px solid #0f1013;
+    background: #26282d;
+    color: #fff;
+  }
+  .foot p {
+    margin: 0;
+  }
+</style>

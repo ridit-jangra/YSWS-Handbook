@@ -1,0 +1,579 @@
+---
+import Base from "../layouts/Base.astro";
+
+const seams = [
+  { id: "tools", name: "Tools", fill: "url(#hatch-tools)", note: "CLIs, editor plugins, debuggers, the dev tool you wished existed at 2am." },
+  { id: "systems", name: "Systems", fill: "url(#hatch-systems)", note: "Servers, networking, homelabs, OS bits. Anything with uptime." },
+  { id: "compute", name: "Compute", fill: "url(#hatch-compute)", note: "GPUs, ML, simulations, making big numbers go fast." },
+  { id: "hardware", name: "Hardware", fill: "url(#hatch-hardware)", note: "PCBs, keyboards, robots. If it needs solder, it lives here." },
+];
+
+const xpLevels = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+
+const legend = [
+  { seam: "tools", name: "Tools", items: "Mechanical keyboard, second monitor, IDE licences" },
+  { seam: "systems", name: "Systems", items: "Mini PC for a homelab, managed switch, Raspberry Pi 5" },
+  { seam: "compute", name: "Compute", items: "GPU, cloud GPU hours, more RAM than you need" },
+  { seam: "hardware", name: "Hardware", items: "Soldering station, oscilloscope, 3D printer" },
+];
+
+const fieldBook = [
+  ["Who can come down?", "Anyone 18 or under. You'll need a Hack Club Slack account to submit."],
+  ["Do I have to stick to one track?", "You pick one track. That's the one your XP discount grows in, so pick the seam you'll actually keep digging."],
+  ["Can I buy from another track's shop?", "Yep, with ores, at full price. No XP discount. Works fine, just a bit boring."],
+  ["XP and ores, what's the difference?", "Ores are money: spend them and they're gone. XP never gets spent. It's your depth, and depth is what makes stuff cheaper and strikes coupons."],
+  ["Do the coupons run out?", "No. Every 3 levels you strike one and it's yours for good. Save it for the expensive thing."],
+  ["The shop doesn't have what I need.", "Request it right in the shop. If it helps you build bigger, we'll try to stock it."],
+  ["How do I get to the hackathon in Germany?", "It's 3 days, in person. Who goes and how travel works gets announced before launch. Keep shipping in the meantime."],
+  ["Does any of this cost money?", "No. Like every Hack Club YSWS, it's free."],
+];
+---
+
+<Base
+  title="LOADOUT, a cross-section"
+  description="LOADOUT is a Hack Club YSWS: ship Tools, Systems, Compute or Hardware projects, earn XP and ores, dig deeper for permanent discounts."
+  theme="concept-1"
+  fonts="family=Old+Standard+TT:ital,wght@0,400;0,700;1,400&family=Literata:opsz,wght@7..72,400;7..72,600&family=Reenie+Beanie"
+>
+  <svg class="defs" aria-hidden="true" width="0" height="0">
+    <defs>
+      <filter id="wobble">
+        <feTurbulence type="fractalNoise" baseFrequency="0.018" numOctaves="2" seed="4" />
+        <feDisplacementMap in="SourceGraphic" scale="3.5" />
+      </filter>
+      <pattern id="hatch-tools" width="10" height="10" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+        <rect width="10" height="10" fill="#c79a4f" /><line x1="0" y1="0" x2="0" y2="10" stroke="#26244a" stroke-width="1.4" />
+      </pattern>
+      <pattern id="hatch-systems" width="12" height="12" patternUnits="userSpaceOnUse">
+        <rect width="12" height="12" fill="#8f9a82" /><circle cx="6" cy="6" r="1.6" fill="#26244a" />
+      </pattern>
+      <pattern id="hatch-compute" width="12" height="12" patternUnits="userSpaceOnUse">
+        <rect width="12" height="12" fill="#2f6b63" /><path d="M0 6h12M6 0v12" stroke="#e9e0c7" stroke-width="1" />
+      </pattern>
+      <pattern id="hatch-hardware" width="14" height="8" patternUnits="userSpaceOnUse">
+        <rect width="14" height="8" fill="#a8321f" /><path d="M0 4 q3.5-4 7 0 t7 0" fill="none" stroke="#e9e0c7" stroke-width="1.2" />
+      </pattern>
+    </defs>
+  </svg>
+
+  <header class="surface">
+    <nav class="legend-nav" aria-label="Sections">
+      <a class="stamp" href="#top">Glück auf!</a>
+      <ul>
+        <li><a href="#what">What's down here</a></li>
+        <li><a href="#levels">How the levels work</a></li>
+        <li><a href="#fuellort">Shop</a></li>
+        <li><a href="#fieldbook">Field book</a></li>
+      </ul>
+    </nav>
+
+    <div class="title-block" id="top">
+      <p class="title-kicker">Vertical section through</p>
+      <h1>LOADOUT</h1>
+      <p class="title-sub">a Hack Club You Ship, We Ship</p>
+      <p class="punch">Want better tools for bigger builds? Ship a project, haul up XP and ores, and the deeper you go the cheaper the gear gets.</p>
+    </div>
+
+    <figure class="headframe">
+      <svg viewBox="0 0 1200 430" role="img" aria-labelledby="hf-title">
+        <title id="hf-title">Ink drawing of a pit headframe with two winding wheels, a winding-engine house with a chimney, and a spoil heap, standing over the shaft.</title>
+        <g filter="url(#wobble)" fill="none" stroke="var(--ink)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <!-- spoil heap -->
+          <path d="M760 372 C820 300 880 250 960 238 C1030 250 1090 310 1160 372" />
+          <path d="M800 340 l14 -10 M850 300 l12 -8 M930 262 l10 -4 M1010 268 l12 6 M1080 310 l12 10" stroke-width="1.4" />
+          <!-- engine house -->
+          <path d="M240 372 V262 L325 212 L410 262 V372" />
+          <path d="M240 262 H410" />
+          <path d="M270 300 h30 v40 h-30 z M350 300 h30 v40 h-30 z" stroke-width="1.6" />
+          <path d="M286 300 v40 M366 300 v40" stroke-width="1" />
+          <path d="M262 236 V120 h22 V224" />
+          <path d="M273 110 c-10 -20 18 -26 8 -44 c-8 -14 16 -22 10 -40" stroke-width="1.4" stroke-dasharray="4 6" />
+          <!-- headframe legs -->
+          <path d="M548 372 L586 112 M652 372 L614 112" />
+          <path d="M558 304 L642 304 M566 248 L634 248 M574 190 L626 190 M581 140 L619 140" stroke-width="1.6" />
+          <path d="M558 304 L634 248 M642 304 L566 248 M566 248 L626 190 M634 248 L574 190" stroke-width="1" />
+          <!-- strut to engine side -->
+          <path d="M586 112 L436 372 M600 160 L470 372" />
+          <path d="M520 240 L556 250 M488 300 L540 316" stroke-width="1.2" />
+          <!-- platform and wheels -->
+          <path d="M560 106 H640" stroke-width="3" />
+          <circle cx="574" cy="74" r="32" />
+          <circle cx="628" cy="74" r="32" />
+          <circle cx="574" cy="74" r="4" fill="var(--ink)" />
+          <circle cx="628" cy="74" r="4" fill="var(--ink)" />
+          <path d="M574 42 V106 M542 74 H606 M551 51 L597 97 M597 51 L551 97" stroke-width="1" />
+          <path d="M628 42 V106 M596 74 H660 M605 51 L651 97 M651 51 L605 97" stroke-width="1" />
+          <!-- ropes -->
+          <path d="M594 98 V372 M608 98 V372" stroke="var(--cinnabar)" stroke-width="1.4" />
+          <path d="M546 66 L410 268 M600 46 L404 262" stroke="var(--cinnabar)" stroke-width="1.2" />
+          <!-- ground -->
+          <path d="M0 372 H572 M628 372 H1200" stroke-width="2.6" />
+          <path d="M572 372 V430 M628 372 V430" stroke-width="2.6" />
+          <path d="M20 384 l14 14 M80 384 l14 14 M140 384 l14 14 M200 384 l14 14 M260 384 l14 14 M320 384 l14 14 M380 384 l14 14 M440 384 l14 14 M500 384 l14 14 M660 384 l14 14 M720 384 l14 14 M780 384 l14 14 M840 384 l14 14 M900 384 l14 14 M960 384 l14 14 M1020 384 l14 14 M1080 384 l14 14 M1140 384 l14 14" stroke-width="1.2" />
+        </g>
+        <g class="hand" fill="var(--ink-soft)">
+          <text x="680" y="58">headframe, 52 m</text>
+          <path d="M676 52 q-14 0 -24 10" fill="none" stroke="var(--ink-soft)" stroke-width="1.2" />
+          <text x="150" y="196">winding engine</text>
+          <text x="820" y="214">spoil heap (abandoned side projects)</text>
+        </g>
+      </svg>
+      <a class="cage-cta" href="#signup">Get in the cage</a>
+      <figcaption class="sr-only">The shaft starts here. Scroll to ride down through the levels.</figcaption>
+    </figure>
+  </header>
+
+  <main class="mine">
+    <div class="shaft" aria-hidden="true">
+      <div class="cage">
+        <svg viewBox="0 0 60 84"><g fill="none" stroke="var(--ink)" stroke-width="2" filter="url(#wobble)"><path d="M30 0 V10" stroke="var(--cinnabar)" /><rect x="6" y="10" width="48" height="66" fill="var(--linen)" /><path d="M6 32 H54 M6 54 H54 M18 10 V76 M30 10 V76 M42 10 V76" stroke-width="1" /></g></svg>
+        <span class="depth"><span data-depth>0</span> m</span>
+      </div>
+    </div>
+
+    <section class="level seam-sandstone" id="what" aria-labelledby="what-h">
+      <p class="station">1st level <span>−120 m</span></p>
+      <figure class="art art--left">
+        <svg viewBox="0 0 260 300" role="img" aria-labelledby="miner-t">
+          <title id="miner-t">A miner with a headlamp and a pick over one shoulder walks into the drift, lamp beam ahead.</title>
+          <path d="M150 70 L260 40 L260 120 Z" fill="var(--vein)" opacity=".35" />
+          <g filter="url(#wobble)" fill="none" stroke="var(--ink)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M104 70 C104 44 150 40 152 68 Z" fill="var(--linen)" />
+            <path d="M96 72 H160" stroke-width="3" />
+            <circle cx="150" cy="62" r="6" fill="var(--vein)" />
+            <circle cx="128" cy="90" r="18" fill="var(--linen)" />
+            <path d="M136 92 h6" />
+            <path d="M126 108 C120 140 118 170 122 200" stroke-width="3" />
+            <path d="M122 200 L102 264 L86 268 M122 200 L146 262 L162 266" stroke-width="3" />
+            <path d="M124 128 L156 150 L170 136 M124 132 L100 160 L118 172" />
+            <path d="M100 116 L178 190" stroke-width="3.5" />
+            <path d="M78 96 C86 112 100 120 114 120 M78 96 C78 112 84 126 92 132" stroke-width="3" />
+            <path d="M20 280 H250" stroke-width="2" />
+            <path d="M30 288 H240" stroke-width="1" stroke-dasharray="10 8" />
+          </g>
+          <text x="10" y="40" class="hand-svg">you, roughly</text>
+          <path d="M60 46 q20 16 44 24" fill="none" stroke="var(--ink-soft)" stroke-width="1.2" />
+        </svg>
+      </figure>
+      <div class="gallery gallery--right">
+        <h2 id="what-h">What's down here</h2>
+        <p>LOADOUT is a Hack Club YSWS for people who build with real tools. You ship a project in <em>one</em> track, and we pay you twice: XP that never gets spent, and ores you spend in the shop.</p>
+        <p>XP is how deep you are. Going deeper makes your track's shop items permanently cheaper, and every 3 levels you hit a vein and strike a permanent coupon for the expensive stuff. At the end we all meet for a 3-day hackathon in Germany.</p>
+        <p class="hand-note">Pick a seam. You only work one.</p>
+        <svg class="seams" viewBox="0 0 520 250" role="img" aria-labelledby="seams-title">
+          <title id="seams-title">Four rock seams stacked like strata, one per track: Tools, Systems, Compute and Hardware.</title>
+          {seams.map((s, i) => (
+            <g>
+              <path
+                d={`M0 ${14 + i * 58} C120 ${4 + i * 58} 260 ${26 + i * 58} 520 ${10 + i * 58} V${58 + i * 58} C340 ${70 + i * 58} 160 ${48 + i * 58} 0 ${62 + i * 58} Z`}
+                fill={s.fill}
+                stroke="var(--ink)"
+                stroke-width="1.6"
+                filter="url(#wobble)"
+              />
+              <rect x="14" y={22 + i * 58} width={s.name.length * 15 + 22} height="30" fill="var(--linen)" stroke="var(--ink)" stroke-width="1.2" />
+              <text x="25" y={43 + i * 58} class="seam-name">{s.name}</text>
+            </g>
+          ))}
+        </svg>
+        <dl class="seam-notes">
+          {seams.map((s) => (<div><dt>{s.name}</dt><dd>{s.note}</dd></div>))}
+        </dl>
+      </div>
+    </section>
+
+    <section class="level seam-shale" id="levels" aria-labelledby="levels-h">
+      <p class="station">2nd level <span>−260 m</span></p>
+      <figure class="art art--right">
+        <svg viewBox="0 0 320 220" role="img" aria-labelledby="cart-t">
+          <title id="cart-t">A mine tub on rails, heaped with ore lumps, labelled XP plus ores.</title>
+          <g filter="url(#wobble)" stroke="var(--ink)" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round">
+            <circle cx="120" cy="88" r="16" fill="var(--sandstone)" />
+            <circle cx="150" cy="76" r="20" fill="var(--patina)" />
+            <circle cx="184" cy="84" r="17" fill="var(--vein)" />
+            <circle cx="210" cy="94" r="12" fill="var(--coal)" />
+            <circle cx="98" cy="98" r="11" fill="var(--coal)" />
+            <path d="M70 96 H250 L232 170 H88 Z" fill="var(--linen)" />
+            <path d="M80 120 H240 M84 146 H236" fill="none" stroke-width="1.2" />
+            <circle cx="112" cy="180" r="16" fill="var(--linen)" />
+            <circle cx="208" cy="180" r="16" fill="var(--linen)" />
+            <path d="M10 198 H310 M10 206 H310" fill="none" />
+            <path d="M30 206 v8 M80 206 v8 M130 206 v8 M180 206 v8 M230 206 v8 M280 206 v8" fill="none" stroke-width="3" />
+          </g>
+          <text x="196" y="40" class="hand-svg">XP + ores</text>
+          <path d="M200 46 q-10 14 -16 22" fill="none" stroke="var(--ink-soft)" stroke-width="1.2" />
+        </svg>
+      </figure>
+      <div class="gallery gallery--left">
+        <h2 id="levels-h">How the levels work</h2>
+        <ol class="workings">
+          <li><strong>Pick your track.</strong> Tools, Systems, Compute or Hardware. That's your seam for the season.</li>
+          <li><strong>Ship a project in it.</strong> Something real that works for someone who isn't you. Put it online, submit it.</li>
+          <li><strong>Haul it up.</strong> A reviewer checks it and you get paid in XP and ores. Ores go in your pocket. XP takes you deeper.</li>
+          <li><strong>Spend at the shop.</strong> Your track's items are discounted by your XP, forever. Everything else costs full price.</li>
+        </ol>
+        <p class="hand-note">every project = more metres down</p>
+      </div>
+    </section>
+
+    <section class="level seam-coal" id="veins" aria-labelledby="veins-h">
+      <p class="station">3rd level <span>−400 m</span></p>
+      <figure class="art art--left">
+        <svg viewBox="0 0 300 300" role="img" aria-labelledby="ore-t">
+          <title id="ore-t">Cross-section of rock with three gold veins cutting through it at equal depths.</title>
+          <g filter="url(#wobble)" stroke="var(--linen)" stroke-width="2" fill="none" stroke-linecap="round">
+            <path d="M20 40 C80 20 200 30 280 50 C292 120 288 220 270 270 C190 290 90 286 30 268 C12 200 10 110 20 40 Z" fill="#2c2621" />
+            <path d="M24 100 C100 84 180 116 286 96" stroke="var(--vein)" stroke-width="6" />
+            <path d="M18 170 C100 154 190 186 288 164" stroke="var(--vein)" stroke-width="6" />
+            <path d="M22 236 C110 222 180 252 280 232" stroke="var(--vein)" stroke-width="6" />
+            <path d="M60 60 l10 6 M200 70 l-8 8 M120 136 l12 2 M240 140 l-6 10 M80 206 l10 -4 M180 210 l8 8 M140 260 l10 0" />
+          </g>
+          <g class="hand-svg" fill="var(--vein)">
+            <text x="200" y="90">lvl 3</text><text x="200" y="158">lvl 6</text><text x="200" y="226">lvl 9</text>
+          </g>
+        </svg>
+      </figure>
+      <div class="gallery gallery--right">
+        <h2 id="veins-h">Every 3 levels, a vein</h2>
+        <p>Your XP level is your depth. Levels 3, 6, 9 and onward each cut through a gold vein, and each vein holds a permanent coupon for the expensive shop items. Try it: hit the veins.</p>
+        <div class="xp-shaft">
+          {xpLevels.map((n) => (
+            n % 3 === 0 ? (
+              <div class="xp-rung xp-rung--vein">
+                <span class="xp-n">Lvl {n}</span>
+                <button class="vein" type="button" data-level={n} aria-label={`Strike the level ${n} vein`}>
+                  <svg viewBox="0 0 300 60" aria-hidden="true">
+                    <path class="vein-line" d="M0 34 L40 22 L70 38 L110 18 L150 36 L190 20 L230 40 L270 24 L300 32" fill="none" stroke="var(--vein)" stroke-width="7" stroke-linejoin="round" />
+                    <g class="shards" fill="var(--vein)">
+                      <path d="M100 20 l10 -8 l6 12 z" /><path d="M160 34 l12 -4 l-2 12 z" /><path d="M220 22 l8 8 l-10 4 z" /><path d="M60 36 l-8 8 l12 2 z" />
+                    </g>
+                  </svg>
+                  <span class="vein-hint">strike</span>
+                </button>
+                <p class="coupon" hidden>
+                  <span class="coupon-title">Permanent coupon</span>
+                  <span>Struck at level {n}. Good on the expensive stuff, never expires.</span>
+                </p>
+              </div>
+            ) : (
+              <div class="xp-rung"><span class="xp-n">Lvl {n}</span></div>
+            )
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="level seam-deep" id="fuellort" aria-labelledby="shop-h">
+      <p class="station">Pit bottom <span>−560 m</span></p>
+      <figure class="art art--right">
+        <svg viewBox="0 0 300 260" role="img" aria-labelledby="rack-t">
+          <title id="rack-t">A tool rack at pit bottom: a pick, a shovel, a lamp and a soldering iron hanging from pegs, one peg empty with a question mark.</title>
+          <g filter="url(#wobble)" stroke="var(--ink)" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M10 30 H290" stroke-width="5" />
+            <circle cx="50" cy="30" r="4" fill="var(--ink)" /><circle cx="110" cy="30" r="4" fill="var(--ink)" /><circle cx="170" cy="30" r="4" fill="var(--ink)" /><circle cx="240" cy="30" r="4" fill="var(--ink)" />
+            <path d="M50 30 V200 M22 52 C40 36 62 36 80 52" stroke-width="3.5" />
+            <path d="M110 30 V170 M92 170 H128 L122 230 C116 240 104 240 98 230 Z" fill="var(--sandstone)" />
+            <path d="M170 30 V60 M156 60 H184 L190 110 H150 Z" fill="var(--linen)" /><circle cx="170" cy="86" r="10" fill="var(--vein)" />
+            <path d="M150 140 L196 210 M190 200 L206 230" stroke-width="5" stroke="var(--cinnabar)" />
+          </g>
+          <text x="226" y="80" class="hand-svg">?</text>
+          <text x="196" y="122" class="hand-svg">request it</text>
+        </svg>
+      </figure>
+      <div class="gallery gallery--left">
+        <h2 id="shop-h">The shop, at pit bottom</h2>
+        <p>Ores buy gear. Your track's column gets cheaper the deeper you are. Example stock below. Real stock lands at launch.</p>
+        <table class="key">
+          <caption>Key to the shop</caption>
+          <thead><tr><th scope="col">Seam</th><th scope="col">Track</th><th scope="col">Example gear</th></tr></thead>
+          <tbody>
+            {legend.map((row) => (
+              <tr>
+                <td><svg class="swatch" viewBox="0 0 40 24" aria-hidden="true"><rect width="40" height="24" fill={`url(#hatch-${row.seam})`} stroke="var(--ink)" /></svg></td>
+                <th scope="row">{row.name}</th>
+                <td>{row.items}</td>
+              </tr>
+            ))}
+            <tr class="key-request">
+              <td><svg class="swatch" viewBox="0 0 40 24" aria-hidden="true"><rect x="1" y="1" width="38" height="22" fill="none" stroke="var(--ink)" stroke-dasharray="4 3" /></svg></td>
+              <th scope="row">Not mapped yet</th>
+              <td>Want something we don't stock? Request it in the shop and we'll survey it.</td>
+            </tr>
+          </tbody>
+        </table>
+        <p class="hand-note">buying outside your track is allowed. it's just boring.</p>
+      </div>
+    </section>
+
+    <section class="level seam-out" id="ausfahrt" aria-labelledby="out-h">
+      <p class="station">Ride up <span>0 m</span></p>
+      <figure class="art art--left art-placeholder">
+        <p><strong>Artist placeholder.</strong> A cutaway of a converted colliery hall at night: the headframe lit up outside, inside about 60 teens at long tables with laptops, soldering irons and a stack of mine tubs used as a snack bar. Drawn in the same indigo ink and cinnabar as this page, on linen. Venue TBA, so keep the building generic.</p>
+      </figure>
+      <div class="gallery gallery--right">
+        <h2 id="out-h">Then everyone comes up in Germany</h2>
+        <p>The season ends above ground: a 3-day, in-person hackathon in Germany, in the country where miners still say <span lang="de">Glück auf</span> to each other. Bring the gear you earned and build something bigger with it.</p>
+        <a class="cage-cta cage-cta--inline" id="signup" href="#top">Sign up for the first shift</a>
+      </div>
+    </section>
+
+    <section class="level seam-paper" id="fieldbook" aria-labelledby="fb-h">
+      <p class="station">Survey notes</p>
+      <div class="gallery gallery--wide">
+        <h2 id="fb-h">The surveyor's field book</h2>
+        <p>Questions people shouted down the shaft, written up properly.</p>
+        <table class="fieldbook">
+          <thead><tr><th scope="col">Stn.</th><th scope="col">Asked</th><th scope="col">Noted</th></tr></thead>
+          <tbody>
+            {fieldBook.map(([q, a], i) => (
+              <tr><td class="stn">▲{i + 1}</td><th scope="row">{q}</th><td>{a}</td></tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <footer class="cartouche">
+    <p class="scale"><span class="scalebar" aria-hidden="true"></span>Drawn 1 : 1000. Projects not to scale.</p>
+    <p>LOADOUT is a Hack Club YSWS. Hack Club is a 501(c)(3) nonprofit for teenagers who code.</p>
+    <p class="stamp">Glück auf!</p>
+  </footer>
+</Base>
+
+<style>
+  .defs { position: absolute; }
+
+  /* ---------- surface ---------- */
+  .surface { padding: 20px clamp(16px, 4vw, 48px) 0; }
+  .legend-nav {
+    display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px;
+    font-family: var(--font-display);
+  }
+  .legend-nav ul { display: flex; flex-wrap: wrap; gap: 4px 22px; list-style: none; margin: 0; padding: 0; }
+  .legend-nav ul a { text-decoration: none; font-style: italic; font-size: 1.05rem; border-bottom: 1px solid currentColor; }
+  .stamp {
+    display: inline-block; font-family: var(--font-display); font-weight: 700; text-decoration: none;
+    color: var(--cinnabar); border: 2px solid var(--cinnabar); padding: 4px 10px; transform: rotate(-4deg);
+    letter-spacing: 0.04em;
+  }
+
+  .title-block {
+    margin: 36px auto 0; max-width: 760px; text-align: center;
+    border: 3px double var(--ink); padding: 18px 20px 22px; background: var(--linen);
+    position: relative; z-index: 1;
+  }
+  .title-kicker, .title-sub { font-family: var(--font-display); font-style: italic; margin: 0; font-size: 1.15rem; color: var(--ink-soft); }
+  h1 {
+    font-family: var(--font-display); font-weight: 700; margin: 0; line-height: 0.95;
+    font-size: clamp(3.4rem, 13vw, 8.5rem); letter-spacing: 0.06em;
+  }
+  .punch { font-size: 1.1rem; line-height: 1.55; max-width: 34em; margin: 14px auto 0; }
+
+  .headframe { margin: -6px auto 0; max-width: 1200px; position: relative; }
+  .hand, .hand-svg { font-family: var(--font-hand); font-size: 26px; }
+  .cage-cta {
+    position: absolute; left: 50%; bottom: 2%; transform: translateX(-50%);
+    font-family: var(--font-display); font-weight: 700; font-size: 1.15rem; text-decoration: none;
+    background: var(--cinnabar); color: var(--linen); padding: 12px 22px; border: 2px solid var(--ink);
+    box-shadow: 4px 4px 0 var(--ink); white-space: nowrap;
+  }
+  .cage-cta:hover { transform: translate(calc(-50% + 2px), 2px); box-shadow: 2px 2px 0 var(--ink); }
+  .cage-cta--inline { position: static; transform: none; display: inline-block; margin-top: 20px; }
+  .cage-cta--inline:hover { transform: translate(2px, 2px); }
+
+  /* ---------- the mine ---------- */
+  .mine { position: relative; --shaft: 96px; }
+  .shaft {
+    position: absolute; top: 0; bottom: 0; left: calc(50% - var(--shaft) / 2); width: var(--shaft);
+    border-left: 2.6px solid var(--ink); border-right: 2.6px solid var(--ink); z-index: 2; pointer-events: none;
+    background: repeating-linear-gradient(180deg, transparent 0 46px, rgba(38,36,74,.25) 46px 48px);
+  }
+  .cage { position: sticky; top: 42vh; width: 60px; margin: 0 auto; text-align: center; }
+  .depth {
+    display: inline-block; margin-top: 4px; font-family: var(--font-display); font-weight: 700; font-size: .95rem;
+    background: var(--linen); color: var(--cinnabar); padding: 0 4px; white-space: nowrap; font-variant-numeric: tabular-nums;
+  }
+
+  .level {
+    display: grid; grid-template-columns: 1fr var(--shaft) 1fr; position: relative;
+    padding: 72px clamp(16px, 4vw, 48px) 88px;
+  }
+  .level::before {
+    content: ""; position: absolute; left: 0; right: 0; top: -18px; height: 36px;
+    background: inherit; z-index: 0;
+    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 36' preserveAspectRatio='none'%3E%3Cpath d='M0 18 C200 0 380 30 600 16 S1000 2 1200 20 V36 H0Z'/%3E%3C/svg%3E") 0 0/100% 100%;
+  }
+  .seam-sandstone { background: #e2cd9c; }
+  .seam-shale { background: #cdd0bc; }
+  .seam-coal { background: var(--coal); color: var(--linen); --ink-line: var(--linen); }
+  .seam-deep { background: #d6c9a6; }
+  .seam-out { background: #e6dcc0; }
+  .seam-paper { background: var(--linen); }
+
+  .station {
+    position: absolute; left: calc(50% + var(--shaft) / 2 + 10px); top: 22px; margin: 0; z-index: 3;
+    font-family: var(--font-display); font-style: italic; font-size: 1rem;
+  }
+  .station span { font-style: normal; font-weight: 700; color: var(--cinnabar); margin-left: 6px; }
+  .seam-coal .station span { color: var(--vein); }
+
+  .gallery { position: relative; z-index: 1; max-width: 560px; line-height: 1.6; font-size: 1.04rem; }
+  .gallery--right { grid-column: 3; padding-left: 28px; }
+  .gallery--left { grid-column: 1; justify-self: end; padding-right: 28px; }
+  .gallery--wide { grid-column: 1 / -1; max-width: 980px; justify-self: center; background: var(--linen); padding: 24px; border: 2px solid var(--ink); z-index: 3; }
+  /* the drift: a pair of ink lines from the shaft into each gallery */
+  .gallery--right::before, .gallery--left::before {
+    content: ""; position: absolute; top: 18px; height: 22px; width: calc(var(--shaft) / 2 + 40px);
+    border-top: 2px solid currentColor; border-bottom: 2px solid currentColor;
+  }
+  .gallery--right::before { right: 100%; margin-right: -12px; }
+  .gallery--left::before { left: 100%; margin-left: -12px; }
+
+  h2 { font-family: var(--font-display); font-weight: 700; font-size: clamp(1.9rem, 4vw, 2.6rem); line-height: 1.05; margin: 0 0 14px; }
+  .hand-note { font-family: var(--font-hand); font-size: 1.9rem; line-height: 1; color: var(--cinnabar); transform: rotate(-2deg); margin: 18px 0 8px; }
+  .seam-coal .hand-note { color: var(--vein); }
+
+  .seams { margin-top: 8px; }
+  .seam-name { font-family: var(--font-display); font-weight: 700; font-size: 20px; fill: var(--ink); }
+  .seam-notes { margin: 14px 0 0; display: grid; gap: 8px; }
+  .seam-notes div { display: grid; grid-template-columns: 6.2em 1fr; gap: 10px; }
+  .seam-notes dt { font-family: var(--font-display); font-weight: 700; }
+  .seam-notes dd { margin: 0; }
+
+  .workings { padding: 0; margin: 0; list-style: none; counter-reset: w; }
+  .workings li { counter-increment: w; position: relative; padding: 0 0 18px 52px; border-left: 2px dashed var(--ink-soft); margin-left: 16px; }
+  .workings li:last-child { border-left-color: transparent; }
+  .workings li::before {
+    content: counter(w); position: absolute; left: -17px; top: -2px; width: 32px; height: 32px; border-radius: 50%;
+    background: var(--linen); border: 2px solid var(--ink); display: grid; place-items: center;
+    font-family: var(--font-display); font-weight: 700;
+  }
+
+  /* ---------- XP sub-shaft with veins ---------- */
+  .xp-shaft { margin-top: 22px; border-left: 3px solid var(--linen); border-right: 3px solid var(--linen); }
+  .xp-rung { display: flex; align-items: center; gap: 12px; min-height: 40px; border-bottom: 1px dashed rgba(233,224,199,.35); padding: 4px 12px; flex-wrap: wrap; }
+  .xp-n { font-family: var(--font-display); font-weight: 700; width: 3.4em; flex: none; }
+  .xp-rung--vein { min-height: 74px; }
+  .vein {
+    flex: 1; min-width: 180px; background: none; border: 0; padding: 0; cursor: crosshair; position: relative; color: var(--vein);
+    filter: drop-shadow(0 0 6px rgba(228,179,58,.55));
+  }
+  .vein svg { width: 100%; height: 56px; overflow: visible; }
+  .vein .shards { opacity: 0; }
+  .vein-hint { position: absolute; right: 6px; top: -6px; font-family: var(--font-hand); font-size: 1.5rem; color: var(--vein); }
+  .vein:hover .vein-line { stroke-width: 9; }
+  .vein[disabled] { cursor: default; filter: none; }
+  .vein[disabled] .vein-hint { display: none; }
+  .coupon {
+    flex-basis: 100%; margin: 4px 0 8px; background: var(--vein); color: var(--ink); padding: 10px 14px;
+    display: grid; gap: 2px; clip-path: polygon(0 0, 100% 0, 98% 20%, 100% 40%, 98% 60%, 100% 80%, 98% 100%, 0 100%, 2% 80%, 0 60%, 2% 40%, 0 20%);
+  }
+  .coupon[hidden] { display: none; }
+  .coupon-title { font-family: var(--font-display); font-weight: 700; font-size: 1.2rem; }
+
+  /* ---------- shop key ---------- */
+  .key { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: .98rem; }
+  .key caption { text-align: left; font-family: var(--font-display); font-style: italic; font-size: 1.1rem; padding-bottom: 6px; }
+  .key th, .key td { text-align: left; padding: 8px 8px; border-bottom: 1px solid var(--ink-soft); vertical-align: top; }
+  .key thead th { font-family: var(--font-display); font-style: italic; font-weight: 400; border-bottom: 2px solid var(--ink); }
+  .key tbody th { font-family: var(--font-display); font-weight: 700; }
+  .swatch { width: 40px; height: 24px; }
+  .key-request td, .key-request th { font-style: italic; }
+
+
+  /* ---------- field book ---------- */
+  .fieldbook { width: 100%; border-collapse: collapse; font-size: 1rem; }
+  .fieldbook th, .fieldbook td { padding: 10px 10px; vertical-align: top; text-align: left; border-bottom: 1px solid rgba(38,36,74,.35); }
+  .fieldbook thead th { font-family: var(--font-display); font-style: italic; font-weight: 400; border-bottom: 2px solid var(--ink); }
+  .fieldbook tbody th { font-family: var(--font-display); font-weight: 700; width: 34%; }
+  .fieldbook td + th, .fieldbook th + td { border-left: 1px solid rgba(38,36,74,.35); }
+  .stn { color: var(--cinnabar); font-family: var(--font-display); font-weight: 700; width: 3.4em; white-space: nowrap; }
+
+  .cartouche {
+    margin: 0 auto; max-width: 980px; padding: 28px 16px 44px; text-align: center; font-size: .95rem; line-height: 1.5;
+    border-top: 3px double var(--ink);
+  }
+  .scale { font-family: var(--font-display); font-style: italic; display: flex; justify-content: center; align-items: center; gap: 12px; }
+  .scalebar { width: 120px; height: 8px; border: 1.5px solid var(--ink); background: linear-gradient(90deg, var(--ink) 0 25%, transparent 25% 50%, var(--ink) 50% 75%, transparent 75%); }
+
+  /* drawings on the far side of the shaft */
+  .art { margin: 40px 0 0; position: relative; z-index: 1; width: min(320px, 100%); }
+  .art--left { grid-column: 1; grid-row: 1; justify-self: end; margin-right: 48px; }
+  .art--right { grid-column: 3; grid-row: 1; justify-self: start; margin-left: 48px; }
+  .gallery { grid-row: 1; }
+  .art-placeholder {
+    align-self: start;
+    border: 2px dashed var(--cinnabar); padding: 18px; font-size: .95rem; line-height: 1.5; color: var(--ink);
+    background: repeating-linear-gradient(-45deg, transparent 0 14px, rgba(168,50,31,.06) 14px 16px);
+  }
+  .level { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='140'%3E%3Cg fill='none' stroke='%2326244a' stroke-opacity='.16' stroke-width='1.2'%3E%3Cpath d='M20 30c6-4 12-2 14 4M120 20c4 3 6 8 2 12M70 90c-6 2-8 8-4 12M150 100c5 1 7 6 3 9M40 120h16M100 60h10'/%3E%3C/g%3E%3C/svg%3E"); }
+  .seam-coal { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='140'%3E%3Cg fill='none' stroke='%23e9e0c7' stroke-opacity='.12' stroke-width='1.2'%3E%3Cpath d='M20 30c6-4 12-2 14 4M120 20c4 3 6 8 2 12M70 90c-6 2-8 8-4 12M150 100c5 1 7 6 3 9M40 120h16M100 60h10'/%3E%3C/g%3E%3C/svg%3E"); }
+
+  /* ---------- small screens: shaft runs down the left edge ---------- */
+  @media (max-width: 820px) {
+    .mine { --shaft: 40px; }
+    .shaft { left: 10px; }
+    .cage { width: 32px; }
+    .depth { font-size: .7rem; writing-mode: vertical-rl; margin-top: 6px; }
+    .level { grid-template-columns: var(--shaft) 1fr; padding: 64px 16px 72px 10px; }
+    .station { left: calc(var(--shaft) + 24px); }
+    .gallery--right, .gallery--left { grid-column: 2; justify-self: start; padding: 0 0 0 16px; }
+    .gallery--left::before { left: auto; right: 100%; margin: 0 -12px 0 0; }
+    .gallery--right::before, .gallery--left::before { width: 28px; }
+    .gallery--wide { grid-column: 2; padding: 16px; }
+    .fieldbook thead { display: none; }
+    .fieldbook tr { display: grid; grid-template-columns: 3em 1fr; padding: 10px 0; border-bottom: 1px solid rgba(38,36,74,.35); }
+    .fieldbook th, .fieldbook td { border: 0 !important; padding: 2px 4px; width: auto; }
+    .fieldbook tbody th { width: auto; }
+    .headframe { margin: 0 -40px; }
+    .headframe svg { width: 100%; }
+    .cage-cta { position: static; transform: none; display: table; margin: 8px auto 0; }
+    .cage-cta:hover { transform: translate(2px, 2px); }
+    .fieldbook tbody td:last-child { grid-column: 2; }
+    .key thead { display: none; }
+    .art { grid-column: 2 !important; grid-row: 2; justify-self: start; margin: 28px 0 0 16px; width: min(240px, 80%); }
+    .art-placeholder { width: auto; }
+    .hand { font-size: 34px; }
+  }
+</style>
+
+<script>
+  import { gsap } from "gsap";
+
+  // depth gauge: the cage reads out how far down the page you've ridden
+  const depthEl = document.querySelector<HTMLElement>("[data-depth]");
+  const mine = document.querySelector<HTMLElement>(".mine");
+  const MAX_DEPTH = 560;
+  function updateDepth() {
+    if (!depthEl || !mine) return;
+    const rect = mine.getBoundingClientRect();
+    const travelled = Math.min(Math.max(window.innerHeight * 0.42 - rect.top, 0), rect.height);
+    depthEl.textContent = String(-Math.round((travelled / rect.height) * MAX_DEPTH));
+  }
+  updateDepth();
+  window.addEventListener("scroll", updateDepth, { passive: true });
+
+  // strike a vein: the rock cracks, shards fly, a coupon drops out
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  document.querySelectorAll<HTMLButtonElement>(".vein").forEach((vein) => {
+    vein.addEventListener("click", () => {
+      const rung = vein.closest(".xp-rung")!;
+      const coupon = rung.querySelector<HTMLElement>(".coupon")!;
+      vein.disabled = true;
+      vein.setAttribute("aria-label", `Level ${vein.dataset.level} vein struck`);
+      coupon.hidden = false;
+      if (reduce) return;
+      const shards = vein.querySelectorAll(".shards path");
+      gsap.timeline()
+        .to(vein, { x: -4, duration: 0.05, repeat: 5, yoyo: true })
+        .set(vein.querySelector(".shards"), { opacity: 1 })
+        .to(shards, {
+          x: () => gsap.utils.random(-60, 60), y: () => gsap.utils.random(-50, 20),
+          rotation: () => gsap.utils.random(-180, 180), opacity: 0, duration: 0.7, ease: "power2.out",
+        }, "<")
+        .to(vein.querySelector(".vein-line"), { strokeDasharray: "12 10", opacity: 0.45, duration: 0.3 }, "<")
+        .from(coupon, { y: -24, rotation: -4, opacity: 0, duration: 0.5, ease: "back.out(2)" }, "-=0.4");
+    });
+  });
+</script>

@@ -1,0 +1,579 @@
+---
+import { ChevronDown } from "@lucide/astro";
+import Base from "../layouts/Base.astro";
+import { site, nav, what, steps, faq } from "../data/shooz";
+
+// Footprints walking up toward the headline: alternating left/right feet
+const prints = Array.from({ length: 8 }, (_, i) => ({
+  x: 6 + i * 11,
+  y: 78 - i * 7 + (i % 2 === 0 ? 4 : -4),
+  flip: i % 2 === 1,
+  delay: 0.25 + i * 0.18,
+}));
+---
+
+<Base
+  title="Shooz · Cloud Step"
+  theme="theme-4"
+  fonts="Fraunces:ital,opsz,wght,SOFT@0,9..144,300..700,100;1,9..144,300..700,100&family=Nunito+Sans:wght@400;600;800"
+>
+  <div class="sky" aria-hidden="true">
+    <span class="blob b1"></span>
+    <span class="blob b2"></span>
+    <span class="blob b3"></span>
+  </div>
+
+  <header class="top">
+    <a class="logo" href="#">Shooz</a>
+    <nav aria-label="Main">
+      <ul>
+        {nav.map((item) => <li><a href={item.href}>{item.label}</a></li>)}
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="trail" aria-hidden="true">
+        {
+          prints.map((p) => (
+            <svg
+              class:list={["print", { flip: p.flip }]}
+              style={`left:${p.x}%;top:${p.y}%;animation-delay:${p.delay}s`}
+              viewBox="0 0 24 40"
+            >
+              <ellipse cx="12" cy="24" rx="7" ry="11" />
+              <circle cx="7" cy="8" r="2.6" />
+              <circle cx="12" cy="6" r="2.8" />
+              <circle cx="17" cy="8" r="2.4" />
+            </svg>
+          ))
+        }
+      </div>
+
+      <p class="hc">A Hack Club You Ship, We Ship</p>
+      <h1 class="wordmark">Shooz</h1>
+      <p class="punch">{site.punchline}</p>
+      <div class="cta-row">
+        <a class="btn" href={site.signupUrl}>Start building</a>
+        <a class="btn-ghost" href="#how">See how it works</a>
+      </div>
+    </section>
+
+    <section id="what" class="what">
+      <div class="glass what-card">
+        <h2>{what.title}</h2>
+        {what.body.map((p) => <p>{p}</p>)}
+      </div>
+      <div class="ideas">
+        <h3>A few ideas to start from</h3>
+        <ul>
+          {
+            what.ideas.map((idea) => (
+              <li>
+                <span class:list={["kind", idea.kind === "CAD" ? "kind-cad" : "kind-sw"]}>{idea.kind}</span>
+                <strong>{idea.title}</strong>
+                <span class="idea-text">{idea.text}</span>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </section>
+
+    <section id="how" class="how">
+      <h2>How it works</h2>
+      <ol class="path">
+        {
+          steps.map((step, i) => (
+            <li class="glass stop">
+              <span class="stop-num">{i + 1}</span>
+              <h3>{step.title}</h3>
+              <p>{step.text}</p>
+            </li>
+          ))
+        }
+      </ol>
+    </section>
+
+    <section id="faq" class="faq">
+      <h2>Questions, answered</h2>
+      <div class="faq-list">
+        {
+          faq.map((item) => (
+            <details class="glass">
+              <summary>
+                {item.q}
+                <ChevronDown class="faq-icon" size={22} aria-hidden="true" />
+              </summary>
+              <p>{item.a}</p>
+            </details>
+          ))
+        }
+      </div>
+    </section>
+
+    <section class="closer">
+      <p>Twenty hours, then new shoes.</p>
+      <a class="btn" href={site.signupUrl}>Start building</a>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <p>Shooz is a <a href="https://hackclub.com">Hack Club</a> You Ship, We Ship. Say hi in <a href={site.slackUrl}>#shooz</a>.</p>
+  </footer>
+</Base>
+
+<style>
+  /* drifting background blobs */
+  .sky {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    overflow: hidden;
+    pointer-events: none;
+  }
+
+  .blob {
+    position: absolute;
+    width: 55vmax;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    filter: blur(70px);
+    opacity: 0.85;
+    animation: drift 26s ease-in-out infinite alternate;
+  }
+
+  .b1 { background: var(--blob-1); top: -20vmax; left: -15vmax; }
+  .b2 { background: var(--blob-2); top: 10vmax; right: -25vmax; animation-delay: -9s; }
+  .b3 { background: var(--blob-3); bottom: -25vmax; left: 15vmax; animation-delay: -17s; }
+
+  @keyframes drift {
+    to { translate: 8vmax 6vmax; scale: 1.15; }
+  }
+
+  .top,
+  main > section,
+  .foot {
+    width: min(1080px, 100% - 2rem);
+    margin-inline: auto;
+  }
+
+  /* glass surfaces */
+  .glass {
+    background: var(--glass);
+    border: 1px solid var(--surface);
+    border-radius: 28px;
+    box-shadow: 0 20px 50px -20px var(--shadow);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+  }
+
+  /* nav */
+  .top {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem 1.5rem;
+    margin-top: 1rem;
+    padding: 0.6rem 0.75rem 0.6rem 1.5rem;
+    background: var(--glass);
+    border: 1px solid var(--surface);
+    border-radius: 999px;
+    box-shadow: 0 10px 30px -15px var(--shadow);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+  }
+
+  .logo {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 600;
+    font-size: 1.6rem;
+    font-variation-settings: "SOFT" 100, "opsz" 72;
+    text-decoration: none;
+  }
+
+  .top ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .top nav a {
+    display: block;
+    padding: 0.45rem 1rem;
+    border-radius: 999px;
+    font-weight: 600;
+    text-decoration: none;
+    color: var(--muted);
+  }
+
+  .top nav a:hover {
+    background: var(--surface);
+    color: var(--text);
+  }
+
+  /* hero */
+  .hero {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding-block: 6rem 7rem;
+  }
+
+  .trail {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+
+  .print {
+    position: absolute;
+    width: clamp(18px, 2.8vw, 30px);
+    fill: var(--accent);
+    opacity: 0;
+    rotate: 35deg;
+    animation: step-in 0.5s ease-out both;
+  }
+
+  .print.flip {
+    scale: -1 1;
+  }
+
+  @keyframes step-in {
+    from { opacity: 0; translate: 0 6px; }
+    to { opacity: 0.4; translate: 0 0; }
+  }
+
+  .hc {
+    position: relative;
+    font-weight: 800;
+    color: var(--muted);
+  }
+
+  .wordmark {
+    position: relative;
+    margin-top: 0.5rem;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 500;
+    font-size: clamp(5rem, 17vw, 12rem);
+    line-height: 0.95;
+    letter-spacing: -0.03em;
+    font-variation-settings: "SOFT" 100, "opsz" 144;
+    animation: float 6s ease-in-out 1.8s infinite;
+  }
+
+  @keyframes float {
+    50% { translate: 0 -10px; }
+  }
+
+  .punch {
+    position: relative;
+    margin-top: 1.25rem;
+    max-width: 28ch;
+    font-size: clamp(1.25rem, 2.6vw, 1.6rem);
+    line-height: 1.4;
+    color: var(--text);
+  }
+
+  .cta-row {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.75rem 1.25rem;
+    margin-top: 2.25rem;
+  }
+
+  .btn,
+  .btn-ghost {
+    display: inline-block;
+    padding: 0.95rem 1.9rem;
+    border-radius: 999px;
+    font-weight: 800;
+    font-size: 1.05rem;
+    text-decoration: none;
+    transition: translate 0.2s, box-shadow 0.2s;
+  }
+
+  .btn {
+    background: var(--accent);
+    color: var(--on-accent);
+    box-shadow: 0 12px 30px -10px var(--accent);
+  }
+
+  .btn:hover {
+    translate: 0 -2px;
+    box-shadow: 0 18px 36px -12px var(--accent);
+  }
+
+  .btn-ghost {
+    background: var(--glass);
+    color: var(--text);
+  }
+
+  .btn-ghost:hover {
+    background: var(--surface);
+  }
+
+  /* section type */
+  main > section {
+    padding-block: 4.5rem;
+  }
+
+  h2 {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: clamp(2.3rem, 5.5vw, 3.5rem);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    font-variation-settings: "SOFT" 100, "opsz" 144;
+    margin-bottom: 1.25rem;
+  }
+
+  /* what */
+  .what {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 2.5rem;
+    align-items: start;
+  }
+
+  .what-card {
+    padding: 2.25rem;
+  }
+
+  .what-card p {
+    font-size: 1.12rem;
+    max-width: 46ch;
+  }
+
+  .what-card p + p {
+    margin-top: 1rem;
+  }
+
+  .ideas h3 {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 400;
+    font-size: 1.5rem;
+    margin: 0.5rem 0 1rem;
+  }
+
+  .ideas ul {
+    display: grid;
+    gap: 0.75rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .ideas li {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 0.1rem 0.85rem;
+    align-items: baseline;
+    padding: 0.85rem 1.1rem;
+    background: var(--glass);
+    border-radius: 20px;
+  }
+
+  .kind {
+    grid-row: span 2;
+    padding: 0.15rem 0.7rem;
+    border-radius: 999px;
+    font-size: 0.78rem;
+    font-weight: 800;
+  }
+
+  .kind-sw { background: var(--blob-3); color: var(--text); }
+  .kind-cad { background: var(--accent-2); color: var(--on-accent-2); }
+
+  .ideas strong {
+    font-weight: 800;
+  }
+
+  .idea-text {
+    color: var(--muted);
+    font-size: 0.97rem;
+  }
+
+  /* how: a winding path of stops */
+  .how h2 {
+    text-align: center;
+  }
+
+  .path {
+    position: relative;
+    display: grid;
+    gap: 2rem;
+    margin: 2rem 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .path::before {
+    content: "";
+    position: absolute;
+    top: 2rem;
+    bottom: 2rem;
+    left: 50%;
+    border-left: 4px dotted var(--accent);
+    opacity: 0.45;
+  }
+
+  .stop {
+    position: relative;
+    width: min(460px, 100%);
+    padding: 1.75rem 2rem 2rem;
+  }
+
+  .stop:nth-child(odd) { justify-self: start; margin-left: 4%; }
+  .stop:nth-child(even) { justify-self: end; margin-right: 4%; }
+
+  .stop-num {
+    display: grid;
+    place-items: center;
+    width: 3rem;
+    height: 3rem;
+    margin-bottom: 0.75rem;
+    border-radius: 50%;
+    background: var(--accent);
+    color: var(--on-accent);
+    font-family: var(--font-display);
+    font-size: 1.4rem;
+    font-weight: 600;
+  }
+
+  .stop:nth-child(2) .stop-num { background: var(--accent-2); color: var(--on-accent-2); }
+  .stop:nth-child(3) .stop-num { background: var(--blob-3); color: var(--text); }
+
+  .stop h3 {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: 1.8rem;
+    line-height: 1.1;
+    font-variation-settings: "SOFT" 100;
+  }
+
+  .stop p {
+    margin-top: 0.5rem;
+  }
+
+  /* faq */
+  .faq h2 {
+    text-align: center;
+  }
+
+  .faq-list {
+    display: grid;
+    gap: 0.75rem;
+    max-width: 46rem;
+    margin-inline: auto;
+  }
+
+  details {
+    border-radius: 22px;
+  }
+
+  summary {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.1rem 1.5rem;
+    font-weight: 800;
+    font-size: 1.08rem;
+    cursor: pointer;
+    list-style: none;
+  }
+
+  summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq-icon {
+    flex: none;
+    color: var(--accent);
+    transition: rotate 0.25s;
+  }
+
+  details[open] .faq-icon {
+    rotate: 180deg;
+  }
+
+  details p {
+    padding: 0 1.5rem 1.3rem;
+    color: var(--muted);
+    max-width: 60ch;
+  }
+
+  /* closer + footer */
+  .closer {
+    text-align: center;
+  }
+
+  .closer p {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    line-height: 1.1;
+    font-variation-settings: "SOFT" 100;
+    margin-bottom: 1.75rem;
+  }
+
+  .foot {
+    padding-block: 2rem 3rem;
+    text-align: center;
+    color: var(--muted);
+  }
+
+  .foot a {
+    color: var(--accent);
+    font-weight: 800;
+  }
+
+  @media (max-width: 860px) {
+    .what {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .path::before {
+      left: 1.5rem;
+    }
+
+    .stop:nth-child(n) {
+      justify-self: stretch;
+      width: auto;
+      margin: 0;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .top {
+      border-radius: 24px;
+      padding: 0.75rem 1rem;
+    }
+
+    .top nav a {
+      padding: 0.35rem 0.6rem;
+    }
+
+    .hero {
+      padding-block: 4rem 5rem;
+    }
+
+    .what-card,
+    .stop {
+      padding: 1.5rem;
+    }
+  }
+</style>

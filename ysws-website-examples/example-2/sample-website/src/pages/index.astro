@@ -1,0 +1,232 @@
+---
+import { ArrowRight } from "@lucide/astro";
+import Base from "../layouts/Base.astro";
+import { site } from "../data/shark";
+
+const themes = [
+  {
+    href: "/landing-1",
+    theme: "theme-1",
+    name: "Plush Lagoon",
+    vibe: "Playful and illustrated. A bobbing Blåhaj, chunky outlines, sticker cards.",
+    fonts: "Fredoka + Nunito",
+  },
+  {
+    href: "/landing-2",
+    theme: "theme-2",
+    name: "Deep Sea Arcade",
+    vibe: "Retro pixel. Neon abyss, a sprite shark, scanlines, levels instead of steps.",
+    fonts: "Pixelify Sans + IBM Plex Mono",
+  },
+  {
+    href: "/landing-3",
+    theme: "theme-3",
+    name: "Shark Week",
+    vibe: "Bold editorial. Newsprint, giant headlines, a fin cutting through the sea, a ticker.",
+    fonts: "Anton + Archivo + JetBrains Mono",
+  },
+  {
+    href: "/landing-4",
+    theme: "theme-4",
+    name: "Moon Tide",
+    vibe: "Dreamy and soft. Glowing water, drifting plankton, a ghostly shark, glass cards.",
+    fonts: "Fraunces + DM Sans",
+  },
+];
+
+const swatches = ["--bg", "--surface", "--text", "--muted", "--accent", "--accent-2", "--border"];
+---
+
+<Base
+  title="You Shark, We Shark · Theme prototypes"
+  theme="index"
+  fonts="Space+Grotesk:wght@400;500;700&family=Fredoka:wght@700&family=Pixelify+Sans:wght@700&family=Anton&family=Fraunces:ital,wght@1,400&family=Nunito:wght@400&family=IBM+Plex+Mono:wght@400&family=Archivo:wght@400&family=DM+Sans:wght@400"
+>
+  <main class="wrap">
+    <header>
+      <p class="eyebrow">{site.name} · Hack Club YSWS</p>
+      <h1>Four theme prototypes</h1>
+      <p class="lede">
+        Same copy, same sections, four moods. Open each one, resize it down to a phone, and pick the one
+        that feels most like the sharks you want to send.
+      </p>
+    </header>
+
+    <ul class="grid">
+      {
+        themes.map((t, i) => (
+          <li>
+            <a class="card" href={t.href} data-theme={t.theme}>
+              <span class="num">Landing {i + 1}</span>
+              <span class="preview">
+                <span class="preview-title">You Shark, We Shark</span>
+                <span class="preview-btn">Start building</span>
+              </span>
+              <span class="meta">
+                <span class="name">{t.name}</span>
+                <span class="vibe">{t.vibe}</span>
+                <span class="fonts">{t.fonts}</span>
+                <span class="swatches" aria-hidden="true">
+                  {swatches.map((s) => <span style={`background: var(${s})`} title={s} />)}
+                </span>
+                <span class="open">
+                  Open landing-{i + 1} <ArrowRight size={18} aria-hidden="true" />
+                </span>
+              </span>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </main>
+</Base>
+
+<style>
+  .wrap {
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: clamp(2.5rem, 6vw, 4.5rem) 1rem 4rem;
+  }
+
+  .eyebrow {
+    font-weight: 700;
+    font-size: 0.85rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+
+  h1 {
+    margin-top: 0.5rem;
+    font-size: clamp(2.2rem, 6vw, 3.5rem);
+    line-height: 1.05;
+  }
+
+  .lede {
+    max-width: 40rem;
+    margin-top: 1rem;
+    color: var(--muted);
+    font-size: 1.1rem;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 440px), 1fr));
+    gap: 1.5rem;
+    margin: 2.5rem 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .card {
+    display: grid;
+    height: 100%;
+    overflow: hidden;
+    color: var(--text);
+    background: var(--surface);
+    border: 2px solid var(--border);
+    border-radius: 16px;
+    text-decoration: none;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+
+  .card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 40px var(--shadow);
+  }
+
+  .num {
+    padding: 0.6rem 1rem;
+    font-family: var(--font-body);
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    border-bottom: 2px solid var(--border);
+  }
+
+  .preview {
+    display: grid;
+    justify-items: start;
+    gap: 1rem;
+    padding: 2rem 1.25rem;
+    background: var(--bg);
+  }
+
+  .preview-title {
+    font-family: var(--font-display);
+    font-size: clamp(1.8rem, 5vw, 2.6rem);
+    line-height: 1;
+    color: var(--accent-2);
+  }
+
+  [data-theme="theme-1"] .preview-title,
+  [data-theme="theme-3"] .preview-title {
+    color: var(--text);
+  }
+
+  [data-theme="theme-4"] .preview-title {
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  [data-theme="theme-3"] .preview-title {
+    text-transform: uppercase;
+  }
+
+  .preview-btn {
+    padding: 0.5rem 1.1rem;
+    font-family: var(--font-body);
+    font-weight: 700;
+    color: var(--on-accent);
+    background: var(--accent);
+    border: 2px solid var(--border);
+    border-radius: var(--radius);
+  }
+
+  .meta {
+    display: grid;
+    gap: 0.5rem;
+    padding: 1.25rem;
+    font-family: var(--font-body);
+  }
+
+  .name {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+  }
+
+  .vibe {
+    color: var(--text);
+  }
+
+  .fonts {
+    font-size: 0.9rem;
+    color: var(--muted);
+  }
+
+  .swatches {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-top: 0.25rem;
+  }
+
+  .swatches span {
+    width: 28px;
+    height: 28px;
+    border: 2px solid var(--text);
+    border-radius: 50%;
+  }
+
+  .open {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    margin-top: 0.5rem;
+    font-weight: 700;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+</style>

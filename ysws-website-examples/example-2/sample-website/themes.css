@@ -1,0 +1,134 @@
+/*
+ * You Shark, We Shark themes. Every color on every page comes from these variables.
+ * Each theme is scoped to [data-theme="..."] on <html> or any element.
+ *
+ * Core tokens (every theme defines all of them):
+ *   --bg          page background
+ *   --surface     cards, panels, FAQ items
+ *   --text        body text (AA against --bg and --surface)
+ *   --muted       secondary text (AA against --bg and --surface)
+ *   --accent      primary accent: CTA fills, key highlights
+ *   --on-accent   text/icons placed on --accent
+ *   --accent-2    secondary accent
+ *   --on-accent-2 text/icons placed on --accent-2
+ *   --border      outlines and rules
+ *   --shadow      color for hard or soft shadows
+ * Extra tokens are theme-specific decoration (illustration fills, glows).
+ */
+
+/* 1. Plush Lagoon: playful, illustrated, soft-toy */
+[data-theme="theme-1"] {
+  --bg: #e4f3ff;
+  --surface: #ffffff;
+  --text: #102a4c;
+  --muted: #3f5b7d;
+  --accent: #ff86b0;
+  --on-accent: #102a4c;
+  --accent-2: #2462b8;
+  --on-accent-2: #ffffff;
+  --border: #102a4c;
+  --shadow: #102a4c;
+
+  --water: #a9d8ff;
+  --water-deep: #6cb6f2;
+  --shark-body: #7aa9db;
+  --shark-belly: #ffffff;
+  --blush: #ff86b0;
+  --sand: #ffe9bd;
+
+  --font-display: "Fredoka", system-ui, sans-serif;
+  --font-body: "Nunito", system-ui, sans-serif;
+  --radius: 22px;
+}
+
+/* 2. Deep Sea Arcade: retro, pixel, neon abyss */
+[data-theme="theme-2"] {
+  --bg: #070b24;
+  --surface: #111a42;
+  --text: #e9f6ff;
+  --muted: #a3b6dc;
+  --accent: #3cf2d0;
+  --on-accent: #070b24;
+  --accent-2: #ff5aa8;
+  --on-accent-2: #070b24;
+  --border: #2d3c80;
+  --shadow: #000000;
+
+  --pixel-shark: #8ea7cc;
+  --pixel-shade: #5f78a3;
+  --pixel-belly: #e9f6ff;
+  --pixel-eye: #070b24;
+  --abyss: #03051a;
+  --bubble: #3cf2d0;
+  --scanline: rgba(0, 0, 0, 0.28);
+
+  --font-display: "Pixelify Sans", ui-monospace, monospace;
+  --font-body: "IBM Plex Mono", ui-monospace, monospace;
+  --radius: 0;
+}
+
+/* 3. Shark Week: bold, editorial, tabloid */
+[data-theme="theme-3"] {
+  --bg: #f3efe4;
+  --surface: #ffffff;
+  --text: #111111;
+  --muted: #4a4741;
+  --accent: #d9221a;
+  --on-accent: #ffffff;
+  --accent-2: #ffd21f;
+  --on-accent-2: #111111;
+  --border: #111111;
+  --shadow: #111111;
+
+  --sea: #1d4a73;
+  --on-sea: #f3efe4;
+  --fin: #111111;
+
+  --font-display: "Anton", Impact, sans-serif;
+  --font-body: "Archivo", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+  --radius: 0;
+}
+
+/* 4. Moon Tide: dreamy, soft, bioluminescent */
+[data-theme="theme-4"] {
+  --bg: #0d1532;
+  --surface: #18234c;
+  --text: #f4effe;
+  --muted: #bdb7de;
+  --accent: #ffb6d3;
+  --on-accent: #2a1340;
+  --accent-2: #86e6e2;
+  --on-accent-2: #0d1532;
+  --border: #36427c;
+  --shadow: #050a1c;
+
+  --glow-1: #6f5fe0;
+  --glow-2: #1f8fa3;
+  --glow-3: #ff8fc2;
+  --tide-top: #1b1850;
+  --tide-bottom: #082f45;
+  --shark-glow: rgba(134, 230, 226, 0.55);
+
+  --font-display: "Fraunces", Georgia, serif;
+  --font-body: "DM Sans", system-ui, sans-serif;
+  --radius: 28px;
+}
+
+/* Index: neutral chrome for the comparison page */
+[data-theme="index"] {
+  --bg: #f5f7fa;
+  --surface: #ffffff;
+  --text: #14181f;
+  --muted: #4e5868;
+  --accent: #c8233c;
+  --on-accent: #ffffff;
+  --accent-2: #1f6bb3;
+  --on-accent-2: #ffffff;
+  --border: #d5dbe4;
+  --shadow: rgba(20, 24, 31, 0.08);
+
+  --font-display: "Space Grotesk", system-ui, sans-serif;
+  --font-body: "Space Grotesk", system-ui, sans-serif;
+  --radius: 14px;
+}

@@ -1,0 +1,607 @@
+---
+import { Plus, Hammer, Send, Gift } from "@lucide/astro";
+import Base from "../layouts/Base.astro";
+import PlushShark from "../components/PlushShark.astro";
+import { site, nav, what, steps, shop, faq } from "../data/shark";
+
+const stepIcons = [Hammer, Send, Gift];
+---
+
+<Base
+  title="You Shark, We Shark · Plush Lagoon"
+  theme="theme-1"
+  fonts="Fredoka:wght@500;600;700&family=Nunito:wght@400;600;800"
+>
+  <header class="hero">
+    <nav class="topnav" aria-label="Main">
+      <a class="brand" href="#top">
+        <span class="brand-fin" aria-hidden="true"></span>YSWS
+      </a>
+      <ul>
+        {nav.map((n) => <li><a href={n.href}>{n.label}</a></li>)}
+      </ul>
+      <a class="btn btn-small" href={site.signupUrl}>Join</a>
+    </nav>
+
+    <div class="hero-inner" id="top">
+      <p class="sticker">A Hack Club You Ship, We Ship</p>
+      <h1 class="wordmark">
+        <span>You Shark,</span>
+        <span class="wm-2">We Shark!</span>
+      </h1>
+      <p class="punchline">{site.punchline}</p>
+      <div class="cta-row">
+        <a class="btn" href={site.signupUrl}>Start building</a>
+        <a class="btn btn-ghost" href="#how">How it works</a>
+      </div>
+    </div>
+
+    <div class="lagoon" aria-hidden="true">
+      <div class="bubbles">
+        <span></span><span></span><span></span><span></span><span></span>
+      </div>
+      <PlushShark class="hero-shark" />
+      <svg class="wave wave-back" viewBox="0 0 1200 120" preserveAspectRatio="none">
+        <path d="M0 60 C150 20 300 100 450 60 S750 20 900 60 S1150 100 1200 60 V120 H0 Z" />
+      </svg>
+      <svg class="wave wave-front" viewBox="0 0 1200 120" preserveAspectRatio="none">
+        <path d="M0 70 C200 110 400 30 600 70 S1000 110 1200 70 V120 H0 Z" />
+      </svg>
+    </div>
+  </header>
+
+  <main>
+    <section id="what" class="section what">
+      <div class="what-text">
+        <h2>{what.title}</h2>
+        {what.body.map((p) => <p>{p}</p>)}
+      </div>
+      <ul class="ideas">
+        {
+          what.ideas.map((idea, i) => (
+            <li class="idea" style={`--tilt: ${i % 2 ? 1.5 : -1.5}deg`}>
+              <span class="idea-kind">{idea.kind}</span>
+              <h3>{idea.title}</h3>
+              <p>{idea.text}</p>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+
+    <section id="how" class="section how">
+      <h2>How it works</h2>
+      <p class="section-lede">Three steps. No judges, no winners. Every approved hour counts.</p>
+      <ol class="steps">
+        {
+          steps.map((s, i) => {
+            const Icon = stepIcons[i];
+            return (
+              <li class="step">
+                <span class="step-num">{i + 1}</span>
+                <Icon class="step-icon" size={36} stroke-width={2.4} aria-hidden="true" />
+                <h3>{s.title}</h3>
+                <p>{s.text}</p>
+              </li>
+            );
+          })
+        }
+      </ol>
+    </section>
+
+    <section id="shop" class="section shop">
+      <h2>The Shark Shop</h2>
+      <p class="section-lede">1 approved hour = 1 shark tooth. Draft prices, final ones land with the sponsor.</p>
+      <ul class="shop-grid">
+        {
+          shop.map((s) => (
+            <li class="shop-item">
+              <span class="teeth">{s.teeth}<small> teeth</small></span>
+              <span>{s.item}</span>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+
+    <section id="faq" class="section faq">
+      <h2>FAQ</h2>
+      <div class="faq-list">
+        {
+          faq.map((f) => (
+            <details>
+              <summary>
+                <span>{f.q}</span>
+                <Plus class="faq-icon" size={22} stroke-width={3} aria-hidden="true" />
+              </summary>
+              <p>{f.a}</p>
+            </details>
+          ))
+        }
+      </div>
+    </section>
+
+    <section id="signup" class="section signup">
+      <h2>Ready to get your fins wet?</h2>
+      <a class="btn" href={site.signupUrl}>Start building</a>
+      <a class="text-link" href={site.slackUrl}>Or say hi in the Hack Club Slack</a>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>
+      You Shark, We Shark is a <a href={site.hackClubUrl}>Hack Club</a> You Ship, We Ship program.
+    </p>
+  </footer>
+</Base>
+
+<style>
+  .hero {
+    position: relative;
+    background: var(--water);
+    border-bottom: 5px solid var(--border);
+    overflow: hidden;
+  }
+
+  .topnav {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem 1.5rem;
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 1.25rem 1rem;
+  }
+
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.5rem;
+    text-decoration: none;
+  }
+
+  .brand-fin {
+    width: 26px;
+    height: 22px;
+    background: var(--accent-2);
+    clip-path: polygon(0 100%, 60% 0, 100% 100%);
+  }
+
+  .topnav ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem 1.25rem;
+    margin: 0 auto 0 0;
+    padding: 0;
+    list-style: none;
+    font-weight: 800;
+  }
+
+  .topnav ul a {
+    text-decoration: none;
+  }
+
+  .topnav ul a:hover {
+    text-decoration: underline wavy;
+  }
+
+  .btn {
+    display: inline-block;
+    padding: 0.8rem 1.6rem;
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 1.2rem;
+    color: var(--on-accent);
+    background: var(--accent);
+    border: 4px solid var(--border);
+    border-radius: 999px;
+    box-shadow: 4px 5px 0 var(--shadow);
+    text-decoration: none;
+    transition: transform 0.15s, box-shadow 0.15s;
+  }
+
+  .btn:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 6px 7px 0 var(--shadow);
+  }
+
+  .btn:active {
+    transform: translate(3px, 4px);
+    box-shadow: 1px 1px 0 var(--shadow);
+  }
+
+  .btn-small {
+    padding: 0.4rem 1.1rem;
+    font-size: 1rem;
+    box-shadow: 3px 3px 0 var(--shadow);
+  }
+
+  .btn-ghost {
+    background: var(--surface);
+    color: var(--text);
+  }
+
+  .hero-inner {
+    position: relative;
+    z-index: 2;
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 2rem 1rem 0;
+    text-align: center;
+  }
+
+  .sticker {
+    display: inline-block;
+    padding: 0.35rem 1rem;
+    font-weight: 800;
+    background: var(--sand);
+    border: 3px solid var(--border);
+    border-radius: 999px;
+    transform: rotate(-2deg);
+  }
+
+  .wordmark {
+    margin-top: 1rem;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(3rem, 11vw, 7.5rem);
+    line-height: 0.95;
+    color: var(--surface);
+    -webkit-text-stroke: clamp(3px, 0.6vw, 7px) var(--border);
+    paint-order: stroke fill;
+    text-shadow: 0.05em 0.06em 0 var(--border);
+  }
+
+  .wordmark span {
+    display: block;
+  }
+
+  .wm-2 {
+    color: var(--accent);
+    transform: rotate(-2deg);
+  }
+
+  .punchline {
+    max-width: 34rem;
+    margin: 1.25rem auto 0;
+    font-size: clamp(1.1rem, 2.4vw, 1.35rem);
+    font-weight: 700;
+  }
+
+  .cta-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 1.75rem;
+  }
+
+  .lagoon {
+    position: relative;
+    height: clamp(200px, 30vw, 300px);
+    margin-top: 1rem;
+  }
+
+  .lagoon :global(.hero-shark) {
+    position: absolute;
+    z-index: 1;
+    left: 50%;
+    bottom: 40px;
+    width: clamp(220px, 40vw, 420px);
+    translate: -50% 0;
+    animation: bob 4s ease-in-out infinite;
+  }
+
+  .wave {
+    position: absolute;
+    left: 0;
+    width: 200%;
+    max-width: none;
+    height: 100px;
+  }
+
+  .wave path {
+    stroke: var(--border);
+    stroke-width: 4;
+  }
+
+  .wave-back {
+    bottom: 30px;
+    animation: drift 14s linear infinite;
+  }
+
+  .wave-back path {
+    fill: var(--water-deep);
+  }
+
+  .wave-front {
+    z-index: 1;
+    bottom: -10px;
+    animation: drift 9s linear infinite reverse;
+  }
+
+  .wave-front path {
+    fill: var(--accent-2);
+  }
+
+  .bubbles span {
+    position: absolute;
+    bottom: 60px;
+    width: 16px;
+    height: 16px;
+    border: 3px solid var(--border);
+    border-radius: 50%;
+    background: var(--surface);
+    animation: rise 6s ease-in infinite;
+  }
+
+  .bubbles span:nth-child(1) { left: 12%; animation-delay: 0s; }
+  .bubbles span:nth-child(2) { left: 26%; animation-delay: 2s; width: 10px; height: 10px; }
+  .bubbles span:nth-child(3) { left: 70%; animation-delay: 1s; }
+  .bubbles span:nth-child(4) { left: 84%; animation-delay: 3.5s; width: 12px; height: 12px; }
+  .bubbles span:nth-child(5) { left: 92%; animation-delay: 4.5s; }
+
+  @keyframes bob {
+    0%, 100% { transform: translateY(0) rotate(-3deg); }
+    50% { transform: translateY(-14px) rotate(2deg); }
+  }
+
+  @keyframes drift {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  @keyframes rise {
+    0% { transform: translateY(0); opacity: 0; }
+    15% { opacity: 1; }
+    100% { transform: translateY(-260px); opacity: 0; }
+  }
+
+  .section {
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: clamp(3.5rem, 8vw, 6rem) 1rem 0;
+  }
+
+  .section h2 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(2.1rem, 5vw, 3.2rem);
+    line-height: 1.1;
+  }
+
+  .section-lede {
+    margin-top: 0.5rem;
+    color: var(--muted);
+    font-weight: 600;
+  }
+
+  .what {
+    display: grid;
+    gap: 2.5rem;
+  }
+
+  .what-text {
+    display: grid;
+    gap: 1rem;
+    max-width: 44rem;
+  }
+
+  .what-text p {
+    font-size: 1.15rem;
+  }
+
+  .ideas {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+    gap: 1.25rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .idea {
+    padding: 1.25rem;
+    background: var(--surface);
+    border: 4px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: 5px 6px 0 var(--shadow);
+    transform: rotate(var(--tilt));
+    transition: transform 0.2s;
+  }
+
+  .idea:hover {
+    transform: rotate(0deg) scale(1.02);
+  }
+
+  .idea-kind {
+    display: inline-block;
+    padding: 0.1rem 0.7rem;
+    font-size: 0.85rem;
+    font-weight: 800;
+    color: var(--on-accent-2);
+    background: var(--accent-2);
+    border-radius: 999px;
+  }
+
+  .idea h3 {
+    margin-top: 0.6rem;
+    font-family: var(--font-display);
+    font-size: 1.35rem;
+  }
+
+  .idea p {
+    margin-top: 0.25rem;
+    color: var(--muted);
+  }
+
+  .steps {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+    gap: 2.5rem;
+    margin: 2rem 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .step {
+    position: relative;
+    padding: 2rem 1.5rem 1.5rem;
+    background: var(--surface);
+    border: 4px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: 5px 6px 0 var(--shadow);
+  }
+
+  .step:nth-child(2) {
+    background: var(--sand);
+  }
+
+  .step:nth-child(3) {
+    background: var(--water);
+  }
+
+  .step-num {
+    position: absolute;
+    top: -22px;
+    left: 1.25rem;
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.4rem;
+    color: var(--on-accent);
+    background: var(--accent);
+    border: 4px solid var(--border);
+    border-radius: 50%;
+  }
+
+  .step-icon {
+    color: var(--accent-2);
+  }
+
+  .step h3 {
+    margin-top: 0.75rem;
+    font-family: var(--font-display);
+    font-size: 1.6rem;
+  }
+
+  .step p {
+    margin-top: 0.4rem;
+  }
+
+  .shop-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 200px), 1fr));
+    gap: 1rem;
+    margin: 2rem 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .shop-item {
+    display: grid;
+    gap: 0.25rem;
+    padding: 1rem 1.25rem;
+    font-weight: 700;
+    background: var(--surface);
+    border: 3px dashed var(--border);
+    border-radius: var(--radius);
+  }
+
+  .teeth {
+    font-family: var(--font-display);
+    font-size: 2rem;
+    line-height: 1;
+    color: var(--accent-2);
+  }
+
+  .teeth small {
+    font-size: 1rem;
+    color: var(--muted);
+  }
+
+  .faq-list {
+    display: grid;
+    gap: 1rem;
+    max-width: 52rem;
+    margin-top: 2rem;
+  }
+
+  details {
+    background: var(--surface);
+    border: 4px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: 4px 5px 0 var(--shadow);
+  }
+
+  summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1rem 1.25rem;
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 1.2rem;
+    cursor: pointer;
+    list-style: none;
+  }
+
+  summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq-icon {
+    flex-shrink: 0;
+    color: var(--accent-2);
+    transition: transform 0.2s;
+  }
+
+  details[open] .faq-icon {
+    transform: rotate(45deg);
+  }
+
+  details p {
+    padding: 0 1.25rem 1.25rem;
+  }
+
+  .signup {
+    display: grid;
+    justify-items: center;
+    gap: 1.25rem;
+    padding-bottom: 5rem;
+    text-align: center;
+  }
+
+  .text-link {
+    font-weight: 800;
+  }
+
+  .footer {
+    padding: 1.5rem 1rem;
+    text-align: center;
+    color: var(--on-accent-2);
+    background: var(--accent-2);
+    border-top: 5px solid var(--border);
+  }
+
+  @media (max-width: 640px) {
+    .topnav ul {
+      order: 3;
+      width: 100%;
+      font-size: 0.95rem;
+    }
+
+    .brand {
+      margin-right: auto;
+    }
+  }
+</style>

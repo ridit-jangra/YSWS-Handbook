@@ -1,0 +1,608 @@
+---
+import { ChevronRight } from "@lucide/astro";
+import Base from "../layouts/Base.astro";
+import PixelShark from "../components/PixelShark.astro";
+import { site, nav, what, steps, shop, faq } from "../data/shark";
+---
+
+<Base
+  title="You Shark, We Shark · Deep Sea Arcade"
+  theme="theme-2"
+  fonts="Pixelify+Sans:wght@400;600;700&family=IBM+Plex+Mono:wght@400;600"
+>
+  <header class="hero">
+    <nav class="topnav" aria-label="Main">
+      <a class="brand" href="#top">YSWS<span class="blink">_</span></a>
+      <ul>
+        {nav.map((n) => <li><a href={n.href}>{n.label}</a></li>)}
+      </ul>
+    </nav>
+
+    <div class="hud" aria-hidden="true">
+      <span>1UP</span>
+      <span>TEETH 000</span>
+      <span>DEPTH 200M</span>
+    </div>
+
+    <div class="hero-inner" id="top">
+      <p class="kicker">Hack Club presents</p>
+      <h1 class="wordmark">
+        <span>You Shark</span>
+        <span class="wm-2">We Shark</span>
+      </h1>
+      <p class="punchline">{site.punchline}</p>
+      <a class="btn" href={site.signupUrl}>
+        <span class="btn-arrow" aria-hidden="true">▶</span> Press start
+      </a>
+      <p class="insert-coin">Free to play · ages 13 to 18</p>
+    </div>
+
+    <div class="abyss" aria-hidden="true">
+      <div class="bubbles">
+        <span></span><span></span><span></span><span></span><span></span><span></span>
+      </div>
+      <PixelShark class="hero-shark" />
+      <div class="seabed"></div>
+    </div>
+  </header>
+
+  <main>
+    <section id="what" class="section">
+      <h2><span class="prompt">&gt;</span> {what.title}</h2>
+      <div class="what-text">
+        {what.body.map((p) => <p>{p}</p>)}
+      </div>
+      <h3 class="sub">Select your build</h3>
+      <ul class="ideas">
+        {
+          what.ideas.map((idea) => (
+            <li class="idea">
+              <span class="idea-kind">[{idea.kind}]</span>
+              <h4>{idea.title}</h4>
+              <p>{idea.text}</p>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+
+    <section id="how" class="section">
+      <h2><span class="prompt">&gt;</span> How it works</h2>
+      <ol class="levels">
+        {
+          steps.map((s, i) => (
+            <li class="level">
+              <span class="level-tag">Level {i + 1}</span>
+              <h3>{s.title}</h3>
+              <p>{s.text}</p>
+            </li>
+          ))
+        }
+      </ol>
+    </section>
+
+    <section id="shop" class="section">
+      <h2><span class="prompt">&gt;</span> Shark Shop</h2>
+      <p class="lede">1 approved hour = 1 tooth. Prices are drafts until the sponsor locks them in.</p>
+      <ul class="shop">
+        {
+          shop.map((s) => (
+            <li>
+              <span class="item">{s.item}</span>
+              <span class="leader" aria-hidden="true"></span>
+              <span class="cost">{s.teeth} teeth</span>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+
+    <section id="faq" class="section">
+      <h2><span class="prompt">&gt;</span> FAQ</h2>
+      <div class="faq-list">
+        {
+          faq.map((f) => (
+            <details>
+              <summary>
+                <ChevronRight class="faq-icon" size={20} stroke-width={3} aria-hidden="true" />
+                <span>{f.q}</span>
+              </summary>
+              <p>{f.a}</p>
+            </details>
+          ))
+        }
+      </div>
+    </section>
+
+    <section id="signup" class="section signup">
+      <p class="game-over">Ready, player one?</p>
+      <a class="btn" href={site.signupUrl}>
+        <span class="btn-arrow" aria-hidden="true">▶</span> Press start
+      </a>
+      <a class="text-link" href={site.slackUrl}>or join the party in the Hack Club Slack</a>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>A <a href={site.hackClubUrl}>Hack Club</a> You Ship, We Ship · insert hours to continue</p>
+  </footer>
+</Base>
+
+<style>
+  :global(body) {
+    font-size: 1rem;
+  }
+
+  .hero {
+    position: relative;
+    min-height: min(100svh, 860px);
+    display: flex;
+    flex-direction: column;
+    background: linear-gradient(var(--bg), var(--abyss));
+    border-bottom: 4px solid var(--accent);
+    overflow: hidden;
+  }
+
+  .hero::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    pointer-events: none;
+    background: repeating-linear-gradient(to bottom, transparent 0 2px, var(--scanline) 2px 4px);
+  }
+
+  .topnav {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem 1.5rem;
+    width: 100%;
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 1.25rem 1rem;
+  }
+
+  .brand {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.6rem;
+    color: var(--accent);
+    text-decoration: none;
+  }
+
+  .blink {
+    animation: blink 1s steps(1) infinite;
+  }
+
+  .topnav ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem 1.5rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+  }
+
+  .topnav ul a {
+    text-decoration: none;
+  }
+
+  .topnav ul a:hover {
+    color: var(--accent);
+  }
+
+  .topnav ul a:hover::before {
+    content: "▶ ";
+  }
+
+  .hud {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    width: 100%;
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 0 1rem;
+    font-family: var(--font-display);
+    font-size: 0.95rem;
+    color: var(--accent-2);
+  }
+
+  .hero-inner {
+    position: relative;
+    z-index: 2;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 3rem 1rem 1rem;
+    text-align: center;
+  }
+
+  .kicker {
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .wordmark {
+    margin-top: 0.75rem;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(2.8rem, 10vw, 6.5rem);
+    line-height: 0.95;
+    text-transform: uppercase;
+    color: var(--accent);
+    text-shadow: 0.06em 0.06em 0 var(--accent-2), 0 0 28px var(--accent);
+  }
+
+  .wordmark span {
+    display: block;
+  }
+
+  .wm-2 {
+    color: var(--text);
+    text-shadow: 0.06em 0.06em 0 var(--accent), 0 0 28px var(--accent-2);
+  }
+
+  .punchline {
+    max-width: 36rem;
+    margin: 1.5rem auto 0;
+    font-size: 1.05rem;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-top: 2rem;
+    padding: 0.9rem 1.6rem;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.35rem;
+    text-transform: uppercase;
+    color: var(--on-accent);
+    background: var(--accent);
+    border: 0;
+    box-shadow: 0 0 0 4px var(--bg), 0 0 0 8px var(--accent), 8px 8px 0 8px var(--shadow);
+    text-decoration: none;
+  }
+
+  .btn:hover .btn-arrow {
+    animation: blink 0.5s steps(1) infinite;
+  }
+
+  .btn:active {
+    transform: translate(4px, 4px);
+  }
+
+  .insert-coin {
+    margin-top: 1.5rem;
+    font-family: var(--font-display);
+    text-transform: uppercase;
+    color: var(--accent-2);
+    animation: blink 1.2s steps(1) infinite;
+  }
+
+  .abyss {
+    position: relative;
+    flex: 1;
+    min-height: 200px;
+  }
+
+  .abyss :global(.hero-shark) {
+    position: absolute;
+    bottom: 70px;
+    left: 0;
+    width: clamp(160px, 26vw, 288px);
+    filter: drop-shadow(0 0 18px var(--accent));
+    animation: swim 16s steps(64) -7s infinite;
+  }
+
+  .seabed {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 32px;
+    background:
+      linear-gradient(90deg, var(--border) 50%, transparent 50%) 0 0 / 32px 8px repeat-x,
+      var(--surface);
+  }
+
+  .bubbles span {
+    position: absolute;
+    bottom: 40px;
+    width: 8px;
+    height: 8px;
+    background: var(--bubble);
+    animation: rise 7s steps(28) infinite;
+  }
+
+  .bubbles span:nth-child(1) { left: 8%; }
+  .bubbles span:nth-child(2) { left: 22%; animation-delay: 2.5s; width: 6px; height: 6px; }
+  .bubbles span:nth-child(3) { left: 41%; animation-delay: 4s; }
+  .bubbles span:nth-child(4) { left: 63%; animation-delay: 1s; width: 12px; height: 12px; }
+  .bubbles span:nth-child(5) { left: 79%; animation-delay: 5s; }
+  .bubbles span:nth-child(6) { left: 93%; animation-delay: 3s; width: 6px; height: 6px; }
+
+  @keyframes swim {
+    from { transform: translateX(-110%); }
+    to { transform: translateX(100vw); }
+  }
+
+  @keyframes rise {
+    from { transform: translateY(0); opacity: 1; }
+    to { transform: translateY(-420px); opacity: 0; }
+  }
+
+  @keyframes blink {
+    50% { opacity: 0; }
+  }
+
+  .section {
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: clamp(3.5rem, 8vw, 6rem) 1rem 0;
+  }
+
+  .section h2 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(1.9rem, 5vw, 3rem);
+    line-height: 1.1;
+    text-transform: uppercase;
+  }
+
+  .prompt {
+    color: var(--accent);
+  }
+
+  .what-text {
+    display: grid;
+    gap: 1rem;
+    max-width: 46rem;
+    margin-top: 1.25rem;
+  }
+
+  .lede {
+    margin-top: 0.75rem;
+    color: var(--muted);
+  }
+
+  .sub {
+    margin-top: 2.5rem;
+    font-family: var(--font-display);
+    font-size: 1.3rem;
+    text-transform: uppercase;
+    color: var(--accent-2);
+  }
+
+  .ideas {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+    gap: 1rem;
+    margin: 1rem 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .idea {
+    padding: 1.25rem;
+    background: var(--surface);
+    border: 4px solid var(--border);
+    box-shadow: 6px 6px 0 var(--shadow);
+  }
+
+  .idea:hover {
+    border-color: var(--accent);
+  }
+
+  .idea-kind {
+    font-family: var(--font-display);
+    color: var(--accent);
+  }
+
+  .idea h4 {
+    margin: 0.4rem 0 0;
+    font-family: var(--font-display);
+    font-size: 1.35rem;
+    font-weight: 600;
+  }
+
+  .idea p {
+    margin-top: 0.4rem;
+    color: var(--muted);
+  }
+
+  .levels {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2.5rem;
+    margin: 2rem 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .level {
+    position: relative;
+    padding: 1.5rem;
+    background: var(--surface);
+    border: 4px solid var(--accent);
+    box-shadow: 8px 8px 0 var(--shadow);
+  }
+
+  .level:not(:last-child)::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    right: -2.5rem;
+    width: 2.5rem;
+    border-top: 6px dotted var(--accent-2);
+  }
+
+  .level-tag {
+    display: inline-block;
+    padding: 0.2rem 0.6rem;
+    font-family: var(--font-display);
+    text-transform: uppercase;
+    color: var(--on-accent-2);
+    background: var(--accent-2);
+  }
+
+  .level h3 {
+    margin-top: 0.75rem;
+    font-family: var(--font-display);
+    font-size: 2rem;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+
+  .level p {
+    margin-top: 0.5rem;
+  }
+
+  .shop {
+    display: grid;
+    gap: 0.75rem;
+    max-width: 44rem;
+    margin: 1.5rem 0 0;
+    padding: 1.5rem;
+    list-style: none;
+    background: var(--surface);
+    border: 4px solid var(--border);
+  }
+
+  .shop li {
+    display: flex;
+    align-items: baseline;
+    gap: 0.75rem;
+  }
+
+  .leader {
+    flex: 1;
+    min-width: 1rem;
+    border-bottom: 3px dotted var(--border);
+  }
+
+  .cost {
+    font-family: var(--font-display);
+    font-size: 1.2rem;
+    color: var(--accent);
+    white-space: nowrap;
+  }
+
+  .faq-list {
+    display: grid;
+    gap: 0.75rem;
+    max-width: 52rem;
+    margin-top: 1.5rem;
+  }
+
+  details {
+    background: var(--surface);
+    border: 3px solid var(--border);
+  }
+
+  details[open] {
+    border-color: var(--accent);
+  }
+
+  summary {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem 1.25rem;
+    font-weight: 600;
+    cursor: pointer;
+    list-style: none;
+  }
+
+  summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq-icon {
+    flex-shrink: 0;
+    color: var(--accent);
+    transition: transform 0.15s steps(2);
+  }
+
+  details[open] .faq-icon {
+    transform: rotate(90deg);
+  }
+
+  details p {
+    padding: 0 1.25rem 1.25rem 3.25rem;
+    color: var(--muted);
+  }
+
+  .signup {
+    display: grid;
+    justify-items: center;
+    gap: 0.5rem;
+    padding-bottom: 5rem;
+    text-align: center;
+  }
+
+  .game-over {
+    font-family: var(--font-display);
+    font-size: clamp(1.8rem, 5vw, 2.8rem);
+    text-transform: uppercase;
+    color: var(--accent-2);
+  }
+
+  .text-link {
+    margin-top: 1.5rem;
+    color: var(--accent);
+  }
+
+  .footer {
+    padding: 1.5rem 1rem;
+    text-align: center;
+    font-size: 0.9rem;
+    color: var(--muted);
+    border-top: 4px solid var(--border);
+  }
+
+  @media (max-width: 900px) {
+    .levels {
+      grid-template-columns: 1fr;
+    }
+
+    .level:not(:last-child)::after {
+      top: auto;
+      right: auto;
+      bottom: -2.5rem;
+      left: 50%;
+      width: 0;
+      height: 2.5rem;
+      border-top: 0;
+      border-left: 6px dotted var(--accent-2);
+    }
+  }
+
+  @media (max-width: 640px) {
+    .topnav ul {
+      width: 100%;
+      font-size: 0.8rem;
+      gap: 0.25rem 1rem;
+    }
+
+    .hud {
+      font-size: 0.8rem;
+    }
+
+    details p {
+      padding-left: 1.25rem;
+    }
+  }
+</style>

@@ -1,0 +1,607 @@
+---
+import { Plus } from "@lucide/astro";
+import Base from "../layouts/Base.astro";
+import { site, nav, what, steps, faq } from "../data/shooz";
+---
+
+<Base
+  title="Shooz · Doodle Lace"
+  theme="theme-1"
+  fonts="Chewy&family=Nunito:wght@400;600;800"
+>
+  <header class="top">
+    <a class="logo" href="#">Shooz</a>
+    <nav aria-label="Main">
+      <ul>
+        {nav.map((item) => <li><a href={item.href}>{item.label}</a></li>)}
+      </ul>
+    </nav>
+    <a class="hc-tag" href="https://hackclub.com">a Hack Club YSWS</a>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-copy">
+        <h1 class="wordmark">Shooz</h1>
+        <p class="punch">{site.punchline}</p>
+        <p class="sub">Software or CAD. Sneakers, trainers, or Crocs. Your call.</p>
+        <a class="btn" href={site.signupUrl}>Start building</a>
+      </div>
+
+      <div class="hero-art" aria-hidden="true">
+        <svg class="sneaker" viewBox="0 0 420 260">
+          <defs>
+            <filter id="wobble">
+              <feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="2" seed="3" />
+              <feDisplacementMap in="SourceGraphic" scale="5" />
+            </filter>
+          </defs>
+          <g filter="url(#wobble)" stroke-linejoin="round" stroke-linecap="round">
+            <!-- sole -->
+            <path class="ink sole" d="M28 186 L392 186 L392 200 Q392 224 364 224 L56 224 Q28 224 28 200 Z" />
+            <path class="ink-line" d="M40 206 H380" />
+            <!-- upper -->
+            <path class="ink upper" d="M40 186 L44 110 Q46 80 78 80 Q118 98 168 74 L176 42 Q204 34 210 60 L262 112 Q306 130 352 140 Q392 150 392 186 Z" />
+            <!-- toe cap -->
+            <path class="ink toe" d="M336 138 Q392 148 392 186 L326 186 Q318 158 336 138 Z" />
+            <!-- heel tab -->
+            <path class="ink heel" d="M42 112 Q44 84 72 80 L76 150 L41 156 Z" />
+            <!-- side stripe -->
+            <path class="stripe" d="M96 168 Q150 112 228 140 Q268 154 300 128" />
+            <!-- eyelets and laces -->
+            <g class="laces">
+              <path d="M184 68 L222 88 M196 82 L232 100 M208 96 L244 112" />
+              <path d="M222 70 L186 92 M232 86 L198 106 M244 100 L212 118" />
+            </g>
+            <circle class="ink eyelet" cx="184" cy="68" r="5" />
+            <circle class="ink eyelet" cx="196" cy="82" r="5" />
+            <circle class="ink eyelet" cx="208" cy="96" r="5" />
+            <!-- loose lace -->
+            <path class="lace-loose" d="M222 70 Q260 30 290 52 Q310 70 284 84" />
+          </g>
+          <!-- doodle bits -->
+          <g class="ink-line doodle">
+            <path d="M18 120 h-12 M22 140 h-16 M18 160 h-10" />
+            <path d="M360 40 l6 16 l16 6 l-16 6 l-6 16 l-6 -16 l-16 -6 l16 -6 z" class="spark" />
+          </g>
+        </svg>
+        <div class="price-sticker"><span>$100</span> for shoes</div>
+      </div>
+    </section>
+
+    <section id="what" class="what">
+      <div class="what-intro">
+        <h2>{what.title}</h2>
+        {what.body.map((p) => <p>{p}</p>)}
+      </div>
+      <ul class="ideas">
+        {
+          what.ideas.map((idea) => (
+            <li class="idea">
+              <span class:list={["kind", idea.kind === "CAD" ? "kind-cad" : "kind-sw"]}>{idea.kind}</span>
+              <h3>{idea.title}</h3>
+              <p>{idea.text}</p>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+
+    <section id="how" class="how">
+      <h2>How it works</h2>
+      <svg class="lace-path" viewBox="0 0 1000 80" preserveAspectRatio="none" aria-hidden="true">
+        <path d="M60 60 C 220 -10, 340 90, 500 40 S 800 -10, 940 50" />
+      </svg>
+      <ol class="steps">
+        {
+          steps.map((step, i) => (
+            <li class="step">
+              <span class="step-num">{i + 1}</span>
+              <h3>{step.title}</h3>
+              <p>{step.text}</p>
+            </li>
+          ))
+        }
+      </ol>
+    </section>
+
+    <section id="faq" class="faq">
+      <h2>Questions people ask</h2>
+      <div class="faq-list">
+        {
+          faq.map((item) => (
+            <details>
+              <summary>
+                {item.q}
+                <Plus class="faq-icon" size={22} stroke-width={3} aria-hidden="true" />
+              </summary>
+              <p>{item.a}</p>
+            </details>
+          ))
+        }
+      </div>
+    </section>
+
+    <section class="closer">
+      <p>Your next pair is 20 hours away.</p>
+      <a class="btn" href={site.signupUrl}>Start building</a>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <p>Shooz is a <a href="https://hackclub.com">Hack Club</a> You Ship, We Ship. Questions? <a href={site.slackUrl}>Find us in #shooz</a>.</p>
+  </footer>
+</Base>
+
+<style>
+  :global(body) {
+    background-color: var(--bg);
+    background-image:
+      linear-gradient(var(--doodle-grid) 2px, transparent 2px),
+      linear-gradient(90deg, var(--doodle-grid) 2px, transparent 2px);
+    background-size: 36px 36px;
+  }
+
+  .top,
+  main > section,
+  .foot {
+    width: min(1120px, 100% - 2rem);
+    margin-inline: auto;
+  }
+
+  /* nav */
+  .top {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem 1.5rem;
+    padding-block: 1.25rem;
+  }
+
+  .logo {
+    font-family: var(--font-display);
+    font-size: 2rem;
+    text-decoration: none;
+    rotate: -4deg;
+  }
+
+  .top nav {
+    margin-left: auto;
+  }
+
+  .top ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .top nav a {
+    display: block;
+    padding: 0.35rem 0.9rem;
+    border: 2px solid var(--border);
+    border-radius: 999px;
+    background: var(--surface);
+    font-weight: 800;
+    text-decoration: none;
+  }
+
+  .top nav a:hover {
+    background: var(--accent-2);
+    color: var(--on-accent-2);
+  }
+
+  .hc-tag {
+    padding: 0.3rem 0.8rem;
+    background: var(--accent);
+    color: var(--on-accent);
+    border: 2px solid var(--border);
+    font-weight: 800;
+    font-size: 0.875rem;
+    text-decoration: none;
+    rotate: 3deg;
+  }
+
+  /* hero */
+  .hero {
+    display: grid;
+    grid-template-columns: 1.05fr 1fr;
+    align-items: center;
+    gap: 2rem;
+    padding-block: 3rem 5rem;
+  }
+
+  .wordmark {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: clamp(5rem, 16vw, 11rem);
+    line-height: 0.85;
+    letter-spacing: 0.01em;
+    color: var(--surface);
+    -webkit-text-stroke: 4px var(--border);
+    paint-order: stroke fill;
+    text-shadow:
+      6px 6px 0 var(--accent),
+      10px 10px 0 var(--border);
+    rotate: -3deg;
+    margin-bottom: 2rem;
+  }
+
+  .punch {
+    font-size: clamp(1.35rem, 2.6vw, 1.75rem);
+    font-weight: 800;
+    line-height: 1.3;
+    max-width: 24ch;
+  }
+
+  .sub {
+    margin-top: 0.75rem;
+    color: var(--muted);
+    font-weight: 600;
+  }
+
+  .btn {
+    display: inline-block;
+    margin-top: 1.75rem;
+    padding: 0.85rem 1.75rem;
+    background: var(--accent);
+    color: var(--on-accent);
+    border: 3px solid var(--border);
+    border-radius: 16px;
+    box-shadow: 5px 5px 0 var(--shadow);
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    text-decoration: none;
+    transition: translate 0.12s, box-shadow 0.12s;
+  }
+
+  .btn:hover {
+    translate: 2px 2px;
+    box-shadow: 3px 3px 0 var(--shadow);
+  }
+
+  .btn:active {
+    translate: 5px 5px;
+    box-shadow: 0 0 0 var(--shadow);
+  }
+
+  .hero-art {
+    position: relative;
+  }
+
+  .sneaker {
+    width: 100%;
+    animation: hop 1.1s cubic-bezier(0.3, 0.7, 0.4, 1) 0.2s both;
+  }
+
+  @keyframes hop {
+    0% { translate: 0 -60px; rotate: -10deg; opacity: 0; }
+    45% { translate: 0 0; rotate: 0deg; opacity: 1; }
+    60% { translate: 0 -18px; rotate: 3deg; }
+    80% { translate: 0 0; rotate: 0deg; }
+    90% { translate: 0 -4px; }
+    100% { translate: 0 0; }
+  }
+
+  .ink {
+    stroke: var(--border);
+    stroke-width: 5;
+  }
+
+  .ink-line {
+    fill: none;
+    stroke: var(--border);
+    stroke-width: 4;
+  }
+
+  .sole { fill: var(--doodle-sole); }
+  .upper { fill: var(--accent); }
+  .toe { fill: var(--accent-2); }
+  .heel { fill: var(--doodle-mint); }
+  .eyelet { fill: var(--surface); stroke-width: 3; }
+  .spark { fill: var(--accent-2); }
+
+  .stripe {
+    fill: none;
+    stroke: var(--surface);
+    stroke-width: 14;
+  }
+
+  .laces path,
+  .lace-loose {
+    fill: none;
+    stroke: var(--surface);
+    stroke-width: 6;
+  }
+
+  .lace-loose {
+    stroke: var(--border);
+    stroke-width: 4;
+  }
+
+  .price-sticker {
+    position: absolute;
+    right: 4%;
+    bottom: -8%;
+    display: grid;
+    place-items: center;
+    width: clamp(6.5rem, 14vw, 8.5rem);
+    aspect-ratio: 1;
+    padding: 0.5rem;
+    border: 3px solid var(--border);
+    border-radius: 50%;
+    background: var(--accent-2);
+    color: var(--on-accent-2);
+    font-weight: 800;
+    line-height: 1.05;
+    text-align: center;
+    rotate: 12deg;
+  }
+
+  .price-sticker span {
+    display: block;
+    font-family: var(--font-display);
+    font-size: clamp(1.8rem, 4vw, 2.4rem);
+    font-weight: 400;
+  }
+
+  /* section headings */
+  h2 {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: clamp(2.4rem, 6vw, 3.75rem);
+    line-height: 1;
+    margin-bottom: 1.25rem;
+  }
+
+  main > section {
+    padding-block: 4rem;
+  }
+
+  /* what */
+  .what {
+    display: grid;
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+    gap: 2.5rem;
+    align-items: start;
+  }
+
+  .what-intro p {
+    max-width: 44ch;
+    font-size: 1.15rem;
+  }
+
+  .what-intro p + p {
+    margin-top: 1rem;
+  }
+
+  .ideas {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.25rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .idea {
+    padding: 1.1rem 1.2rem 1.3rem;
+    background: var(--surface);
+    border: 3px solid var(--border);
+    border-radius: 14px 22px 12px 26px;
+    box-shadow: 4px 4px 0 var(--shadow);
+  }
+
+  .idea:nth-child(odd) { rotate: -1.2deg; }
+  .idea:nth-child(even) { rotate: 1deg; }
+
+  .idea h3 {
+    margin-top: 0.6rem;
+    font-size: 1.15rem;
+    font-weight: 800;
+    line-height: 1.25;
+  }
+
+  .idea p {
+    margin-top: 0.35rem;
+    color: var(--muted);
+    font-size: 0.98rem;
+  }
+
+  .kind {
+    display: inline-block;
+    padding: 0.1rem 0.6rem;
+    border: 2px solid var(--border);
+    border-radius: 999px;
+    font-size: 0.8rem;
+    font-weight: 800;
+  }
+
+  .kind-sw { background: var(--accent-2); color: var(--on-accent-2); }
+  .kind-cad { background: var(--doodle-mint); color: var(--text); }
+
+  /* how */
+  .how {
+    position: relative;
+  }
+
+  .lace-path {
+    width: 100%;
+    height: 80px;
+    margin-bottom: -1.5rem;
+  }
+
+  .lace-path path {
+    fill: none;
+    stroke: var(--accent);
+    stroke-width: 8;
+    stroke-dasharray: 22 14;
+    stroke-linecap: round;
+    vector-effect: non-scaling-stroke;
+  }
+
+  .steps {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.5rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .step {
+    position: relative;
+    padding: 2.5rem 1.4rem 1.5rem;
+    background: var(--surface);
+    border: 3px solid var(--border);
+    border-radius: 24px;
+    box-shadow: 6px 6px 0 var(--shadow);
+  }
+
+  .step-num {
+    position: absolute;
+    top: -1.6rem;
+    left: 1.2rem;
+    display: grid;
+    place-items: center;
+    width: 3.2rem;
+    height: 3.2rem;
+    border: 3px solid var(--border);
+    border-radius: 50%;
+    background: var(--accent);
+    color: var(--on-accent);
+    font-family: var(--font-display);
+    font-size: 1.7rem;
+  }
+
+  .step:nth-child(2) .step-num { background: var(--accent-2); color: var(--on-accent-2); }
+  .step:nth-child(3) .step-num { background: var(--doodle-mint); color: var(--text); }
+
+  .step h3 {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: 1.9rem;
+    line-height: 1.1;
+  }
+
+  .step p {
+    margin-top: 0.5rem;
+  }
+
+  /* faq */
+  .faq-list {
+    display: grid;
+    gap: 0.9rem;
+    max-width: 52rem;
+  }
+
+  details {
+    background: var(--surface);
+    border: 3px solid var(--border);
+    border-radius: 16px;
+    box-shadow: 4px 4px 0 var(--shadow);
+  }
+
+  summary {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 1.25rem;
+    font-weight: 800;
+    font-size: 1.1rem;
+    cursor: pointer;
+    list-style: none;
+  }
+
+  summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq-icon {
+    flex: none;
+    color: var(--accent);
+    transition: rotate 0.2s;
+  }
+
+  details[open] .faq-icon {
+    rotate: 45deg;
+  }
+
+  details p {
+    padding: 0 1.25rem 1.2rem;
+    max-width: 62ch;
+  }
+
+  /* closer + footer */
+  .closer {
+    text-align: center;
+  }
+
+  .closer p {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 5vw, 3rem);
+    line-height: 1.1;
+  }
+
+  .foot {
+    padding-block: 2rem 3rem;
+    border-top: 3px dashed var(--border);
+    color: var(--muted);
+    font-weight: 600;
+  }
+
+  .foot a {
+    color: var(--text);
+    font-weight: 800;
+  }
+
+  @media (max-width: 860px) {
+    .hero,
+    .what {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .hero {
+      padding-block: 1.5rem 4rem;
+    }
+
+    .steps {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 2.5rem;
+    }
+
+    .lace-path {
+      display: none;
+    }
+
+    .how h2 {
+      margin-bottom: 2.5rem;
+    }
+  }
+
+  @media (max-width: 520px) {
+    .top nav {
+      order: 3;
+      width: 100%;
+      margin-left: 0;
+    }
+
+    .hc-tag {
+      margin-left: auto;
+    }
+
+    .ideas {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .wordmark {
+      -webkit-text-stroke-width: 3px;
+      text-shadow:
+        4px 4px 0 var(--accent),
+        7px 7px 0 var(--border);
+    }
+  }
+</style>

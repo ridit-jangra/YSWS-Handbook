@@ -1,0 +1,608 @@
+---
+import { Plus } from "@lucide/astro";
+import Base from "../layouts/Base.astro";
+import { site, nav, what, steps, faq } from "../data/shooz";
+
+const ticker = [
+  "You ship 20 hours",
+  "We ship $100 for shoes",
+  "Software or CAD",
+  "Sneakers, trainers, Crocs",
+];
+// Barcode bar widths, repeated to fill the label
+const bars = [3, 1, 2, 1, 1, 3, 2, 1, 1, 2, 3, 1, 2, 2, 1, 1, 3, 1, 2, 1, 1, 2, 3, 1, 1, 2, 1, 3];
+---
+
+<Base
+  title="Shooz · Drop Day"
+  theme="theme-3"
+  fonts="Anton&family=Archivo:wght@400;600;800"
+>
+  <div class="ticker" aria-hidden="true">
+    <div class="ticker-track">
+      {[0, 1].map(() => ticker.map((t) => <span>{t}<b>★</b></span>))}
+    </div>
+  </div>
+
+  <header class="top">
+    <a class="logo" href="#">Shooz</a>
+    <nav aria-label="Main">
+      <ul>
+        {nav.map((item) => <li><a href={item.href}>{item.label}</a></li>)}
+      </ul>
+    </nav>
+    <a class="hc" href="https://hackclub.com">by Hack Club</a>
+  </header>
+
+  <main>
+    <section class="hero">
+      <h1 class="giant">Shooz</h1>
+
+      <div class="label">
+        <div class="label-grid">
+          <div><span class="k">Style</span><span class="v">Shooz 001</span></div>
+          <div><span class="k">Size</span><span class="v">20 hrs</span></div>
+          <div><span class="k">Value</span><span class="v">$100</span></div>
+        </div>
+        <p class="punch">{site.punchline}</p>
+        <div class="label-foot">
+          <a class="btn" href={site.signupUrl}>Start building</a>
+          <div class="barcode" aria-hidden="true">
+            <div class="bars">
+              {bars.map((w) => <span style={`--w:${w}`} />)}
+            </div>
+            <span class="code">0 20 HRS 100 USD 7</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="what" class="what">
+      <h2 class="statement">{site.short}</h2>
+      <div class="what-body">
+        {what.body.map((p) => <p>{p}</p>)}
+      </div>
+
+      <h3 class="lineup-title">The lineup: things you could build</h3>
+      <ul class="lineup">
+        {
+          what.ideas.map((idea) => (
+            <li>
+              <span class="kind">{idea.kind}</span>
+              <h4>{idea.title}</h4>
+              <p>{idea.text}</p>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+
+    <section id="how" class="how">
+      <h2>How it works</h2>
+      <ol class="steps">
+        {
+          steps.map((step, i) => (
+            <li>
+              <span class="num" aria-hidden="true">{i + 1}</span>
+              <h3>{step.title}</h3>
+              <p>{step.text}</p>
+            </li>
+          ))
+        }
+      </ol>
+    </section>
+  </main>
+
+  <section id="faq" class="faq">
+    <div class="faq-inner">
+      <h2>FAQ</h2>
+      <div class="faq-list">
+        {
+          faq.map((item) => (
+            <details>
+              <summary>
+                {item.q}
+                <Plus class="faq-icon" size={26} stroke-width={2.5} aria-hidden="true" />
+              </summary>
+              <p>{item.a}</p>
+            </details>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="closer">
+    <p class="closer-big">Lace up.</p>
+    <a class="btn" href={site.signupUrl}>Start building</a>
+  </section>
+
+  <footer class="foot">
+    <p>Shooz is a <a href="https://hackclub.com">Hack Club</a> You Ship, We Ship. Questions go in <a href={site.slackUrl}>#shooz</a>.</p>
+  </footer>
+</Base>
+
+<style>
+  :global(body) {
+    background-image: radial-gradient(var(--tissue) 1px, transparent 1.5px);
+    background-size: 6px 6px;
+  }
+
+  .top,
+  main > section,
+  .faq-inner,
+  .closer,
+  .foot {
+    width: min(1200px, 100% - 2rem);
+    margin-inline: auto;
+  }
+
+  /* ticker */
+  .ticker {
+    overflow: hidden;
+    background: var(--accent);
+    color: var(--on-accent);
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .ticker-track {
+    display: flex;
+    width: max-content;
+    padding-block: 0.5rem;
+    animation: tick 28s linear infinite;
+  }
+
+  .ticker span {
+    padding-inline: 1.25rem;
+    white-space: nowrap;
+  }
+
+  .ticker b {
+    padding-left: 2.5rem;
+    font-weight: 400;
+  }
+
+  @keyframes tick {
+    to { translate: -50% 0; }
+  }
+
+  /* nav */
+  .top {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem 2rem;
+    padding-block: 1.25rem;
+    border-bottom: 4px solid var(--border);
+  }
+
+  .logo {
+    font-family: var(--font-display);
+    font-size: 1.9rem;
+    text-transform: uppercase;
+    text-decoration: none;
+  }
+
+  .top nav {
+    margin-left: auto;
+  }
+
+  .top ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem 1.75rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .top nav a,
+  .hc {
+    font-weight: 800;
+    text-decoration: none;
+  }
+
+  .top nav a:hover,
+  .hc:hover {
+    text-decoration: underline;
+    text-decoration-thickness: 3px;
+    text-underline-offset: 4px;
+  }
+
+  .hc {
+    padding: 0.3rem 0.75rem;
+    background: var(--accent);
+    color: var(--on-accent);
+  }
+
+  /* hero */
+  .hero {
+    position: relative;
+    padding-block: 1rem 5rem;
+  }
+
+  .giant {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: clamp(7rem, 30vw, 24rem);
+    line-height: 0.82;
+    text-transform: uppercase;
+    letter-spacing: -0.01em;
+    margin-left: -0.04em;
+  }
+
+  .label {
+    position: relative;
+    width: min(560px, 100%);
+    margin: -3.5rem 0 0 auto;
+    padding: 1.5rem;
+    background: var(--surface);
+    border: 4px solid var(--border);
+    box-shadow: 12px 12px 0 var(--shadow);
+    rotate: -2deg;
+  }
+
+  .label-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    border: 2px solid var(--border);
+  }
+
+  .label-grid > div {
+    display: flex;
+    flex-direction: column;
+    padding: 0.5rem 0.75rem;
+  }
+
+  .label-grid > div + div {
+    border-left: 2px solid var(--border);
+  }
+
+  .k {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--muted);
+  }
+
+  .v {
+    font-family: var(--font-display);
+    font-size: clamp(1.3rem, 3.5vw, 1.9rem);
+    line-height: 1.1;
+  }
+
+  .punch {
+    margin-top: 1.25rem;
+    font-size: clamp(1.25rem, 2.4vw, 1.55rem);
+    font-weight: 800;
+    line-height: 1.25;
+  }
+
+  .label-foot {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: end;
+    justify-content: space-between;
+    gap: 1.25rem;
+    margin-top: 1.5rem;
+  }
+
+  .btn {
+    display: inline-block;
+    padding: 0.9rem 1.6rem;
+    background: var(--accent);
+    color: var(--on-accent);
+    border: 4px solid var(--border);
+    font-family: var(--font-display);
+    font-size: 1.35rem;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    text-decoration: none;
+  }
+
+  .btn:hover {
+    background: var(--bg);
+    color: var(--text);
+  }
+
+  .barcode {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .bars {
+    display: flex;
+    gap: 2px;
+    height: 48px;
+  }
+
+  .bars span {
+    width: calc(var(--w) * 1.5px);
+    background: var(--text);
+  }
+
+  .code {
+    margin-top: 0.2rem;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+  }
+
+  /* what */
+  main > section {
+    padding-block: 4rem;
+  }
+
+  .what {
+    display: grid;
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+    gap: 2rem 3rem;
+    border-top: 4px solid var(--border);
+  }
+
+  .statement {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: clamp(3rem, 8vw, 6.5rem);
+    line-height: 0.92;
+    text-transform: uppercase;
+  }
+
+  .what-body {
+    align-self: end;
+  }
+
+  .what-body p {
+    font-size: 1.15rem;
+    font-weight: 600;
+    max-width: 46ch;
+  }
+
+  .what-body p + p {
+    margin-top: 1rem;
+  }
+
+  .lineup-title {
+    grid-column: 1 / -1;
+    margin-top: 2rem;
+    font-size: 1.1rem;
+    font-weight: 800;
+  }
+
+  .lineup {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    border-top: 4px solid var(--border);
+  }
+
+  .lineup li {
+    padding: 1.25rem 1.25rem 1.5rem 0;
+    border-bottom: 2px solid var(--border);
+  }
+
+  .lineup li:not(:nth-child(3n + 1)) {
+    padding-left: 1.25rem;
+    border-left: 2px solid var(--border);
+  }
+
+  .kind {
+    display: inline-block;
+    padding: 0.1rem 0.5rem;
+    border: 2px solid var(--border);
+    font-size: 0.8rem;
+    font-weight: 800;
+  }
+
+  .lineup h4 {
+    margin: 0.75rem 0 0.25rem;
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: 1.6rem;
+    line-height: 1.1;
+    text-transform: uppercase;
+  }
+
+  .lineup p {
+    color: var(--muted);
+    font-weight: 600;
+  }
+
+  /* how */
+  .how h2,
+  .faq h2 {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: clamp(3rem, 8vw, 6rem);
+    line-height: 0.95;
+    text-transform: uppercase;
+    margin-bottom: 2rem;
+  }
+
+  .steps {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.5rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .steps li {
+    position: relative;
+    padding: 1.5rem;
+    background: var(--surface);
+    border: 4px solid var(--border);
+  }
+
+  .steps li:not(:last-child)::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    right: calc(-1.5rem - 4px);
+    width: 1.5rem;
+    height: 4px;
+    background: var(--border);
+  }
+
+  .num {
+    display: block;
+    font-family: var(--font-display);
+    font-size: 7rem;
+    line-height: 0.85;
+    color: var(--surface);
+    -webkit-text-stroke: 3px var(--text);
+  }
+
+  .steps h3 {
+    margin-top: 1rem;
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: 2rem;
+    line-height: 1;
+    text-transform: uppercase;
+  }
+
+  .steps p {
+    margin-top: 0.6rem;
+    font-weight: 600;
+  }
+
+  /* faq: inverted band */
+  .faq {
+    background: var(--accent);
+    color: var(--on-accent);
+    padding-block: 4.5rem;
+  }
+
+  .faq-list {
+    border-top: 3px solid var(--on-accent);
+  }
+
+  details {
+    border-bottom: 3px solid var(--on-accent);
+  }
+
+  summary {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.1rem 0;
+    font-size: clamp(1.15rem, 2.5vw, 1.45rem);
+    font-weight: 800;
+    cursor: pointer;
+    list-style: none;
+  }
+
+  summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq-icon {
+    flex: none;
+    transition: rotate 0.2s;
+  }
+
+  details[open] .faq-icon {
+    rotate: 45deg;
+  }
+
+  details p {
+    padding-bottom: 1.25rem;
+    max-width: 62ch;
+    font-size: 1.1rem;
+  }
+
+  .faq :focus-visible {
+    outline-color: var(--on-accent);
+  }
+
+  /* closer + footer */
+  .closer {
+    padding-block: 4rem 3rem;
+    text-align: center;
+  }
+
+  .closer-big {
+    font-family: var(--font-display);
+    font-size: clamp(5rem, 20vw, 15rem);
+    line-height: 0.9;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+  }
+
+  .foot {
+    padding-block: 1.5rem 2.5rem;
+    border-top: 4px solid var(--border);
+    font-weight: 600;
+  }
+
+  .foot a {
+    font-weight: 800;
+  }
+
+  @media (max-width: 900px) {
+    .what {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .lineup {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .lineup li:not(:nth-child(3n + 1)) {
+      padding-left: 0;
+      border-left: 0;
+    }
+
+    .steps {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .steps li:not(:last-child)::after {
+      top: auto;
+      bottom: calc(-1.5rem - 4px);
+      left: 50%;
+      right: auto;
+      width: 4px;
+      height: 1.5rem;
+    }
+
+    .label {
+      margin-top: 1.5rem;
+      rotate: -1deg;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .top nav {
+      order: 3;
+      width: 100%;
+      margin-left: 0;
+    }
+
+    .hc {
+      margin-left: auto;
+    }
+
+    .label {
+      padding: 1rem;
+      box-shadow: 6px 6px 0 var(--shadow);
+    }
+
+    .label-grid > div {
+      padding: 0.4rem 0.5rem;
+    }
+
+    .num {
+      font-size: 5rem;
+    }
+  }
+</style>

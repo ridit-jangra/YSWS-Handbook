@@ -1,0 +1,47 @@
+---
+import "../../themes.css";
+
+interface Props {
+  title: string;
+  description: string;
+  theme: string;
+  fonts: string;
+}
+
+const { title, description, theme, fonts } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en" data-theme={theme}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href={`https://fonts.googleapis.com/css2?${fonts}&display=swap`} />
+    <style is:global>
+      *, *::before, *::after { box-sizing: border-box; }
+      html, body { margin: 0; }
+      body {
+        font-family: var(--font-body);
+        overflow-x: clip;
+        -webkit-font-smoothing: antialiased;
+      }
+      img, svg { display: block; max-width: 100%; }
+      a { color: inherit; }
+      :focus-visible { outline: 3px solid currentColor; outline-offset: 3px; }
+      .sr-only {
+        position: absolute; width: 1px; height: 1px; overflow: hidden;
+        clip: rect(0 0 0 0); white-space: nowrap;
+      }
+      @media (prefers-reduced-motion: reduce) {
+        *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+      }
+    </style>
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>

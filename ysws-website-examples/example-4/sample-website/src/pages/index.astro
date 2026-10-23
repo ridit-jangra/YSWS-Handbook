@@ -1,0 +1,68 @@
+---
+import Base from "../layouts/Base.astro";
+
+const concepts = [
+  {
+    href: "/landing-1",
+    name: "The cross-section",
+    world: "A mine surveyor's ink drawing on linen. You ride the cage down the shaft and every section is a level.",
+    signature: "The cage rides the shaft with a live depth gauge, and you strike coupon veins with a click.",
+    swatch: ["#e9e0c7", "#26244a", "#a8321f", "#e4b33a"],
+  },
+  {
+    href: "/landing-2",
+    name: "The chain hall",
+    world: "The Kaue, where miners hoist their clothes to the ceiling on chains. Each track is a hook and each basket is a shop.",
+    signature: "Pull a chain and that track's basket drops onto the counter with its gear.",
+    swatch: ["#d9e6dc", "#1d4b87", "#f3c623", "#9c4a26"],
+  },
+  {
+    href: "/landing-3",
+    name: "Lamp on",
+    world: "A dark drift behind a stone tunnel mouth. Chalk on rock, a rail line and a canary.",
+    signature: "Your cursor is a headlamp. Ore glints in the walls give demo XP, and you hit a coupon at level 3.",
+    swatch: ["#1d1a16", "#ece5d4", "#ffd27a", "#f4d03f"],
+  },
+];
+---
+
+<Base
+  title="LOADOUT concepts"
+  description="Three landing page concepts for LOADOUT, a Hack Club YSWS."
+  theme="index"
+  fonts="family=Old+Standard+TT:wght@400;700&family=Literata:opsz,wght@7..72,400;7..72,600"
+>
+  <main>
+    <h1>LOADOUT</h1>
+    <p class="lead">Three landing page concepts for a Hack Club YSWS. Same pitch, three different mines. Pick one to build out.</p>
+    <ol>
+      {concepts.map((c, i) => (
+        <li>
+          <a href={c.href}>
+            <span class="no">Concept {i + 1}</span>
+            <span class="name">{c.name}</span>
+          </a>
+          <span class="swatch" aria-hidden="true">{c.swatch.map((hex) => <i style={`background:${hex}`} />)}</span>
+          <p>{c.world}</p>
+          <p class="sig"><strong>Signature moment:</strong> {c.signature}</p>
+        </li>
+      ))}
+    </ol>
+  </main>
+</Base>
+
+<style>
+  main { max-width: 760px; margin: 0 auto; padding: 56px 16px 80px; line-height: 1.6; }
+  h1 { font-family: var(--font-display); font-size: clamp(3rem, 12vw, 6rem); margin: 0; letter-spacing: .05em; line-height: 1; }
+  .lead { font-size: 1.15rem; margin: 10px 0 40px; }
+  ol { list-style: none; padding: 0; margin: 0; display: grid; gap: 34px; }
+  li { border-top: 2px solid var(--text); padding-top: 16px; }
+  a { text-decoration: none; display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 16px; }
+  .no { font-family: var(--font-display); font-style: italic; }
+  .name { font-family: var(--font-display); font-weight: 700; font-size: 2rem; text-decoration: underline; text-underline-offset: 5px; }
+  a:hover .name { text-decoration-thickness: 3px; }
+  .swatch { display: flex; gap: 4px; margin-top: 10px; }
+  .swatch i { width: 34px; height: 18px; border: 1px solid var(--text); }
+  li p { margin: 8px 0 0; }
+  .sig { font-size: .95rem; }
+</style>
