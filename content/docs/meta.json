@@ -1,1 +1,2 @@
-{ "pages": ["index", "before-you-start", "from-idea-to-pitch", "rsvp", "create-your-website", "vibecoding-your-website", "ads", "sponsor", "after-sponsor", "tldr"] }
+{ "pages": ["index", "before-you-start", "from-idea-to-pitch", "rsvp", "create-your-website",
+            "vibecoding-your-website", "ads", "sponsor", "after-sponsor", "user-dashboard", "tldr"] }
